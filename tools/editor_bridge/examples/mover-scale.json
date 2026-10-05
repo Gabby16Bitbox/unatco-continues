@@ -1,0 +1,8 @@
+[
+  {
+    "actor": "UCWallSoffitto0",
+    "operation": "scale",
+    "expected_bounds": [[-92, -128, -4], [92, 128, 4]],
+    "factors": [0.75, 1, 1]
+  }
+]
