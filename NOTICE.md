@@ -14,9 +14,10 @@ mod.
 - **Deus Ex and Deus Ex: Revision.** No game file is distributed here. You need your own
   copy of both to build or play the mod. Names, characters and setting belong to their
   owners.
-- **`maps/patches/*.ucpatch`.** These are difference files between a map of Revision and
-  the mod's version of it. They are useless without the original map, which they do not
-  contain; rebuilding a map requires your own copy (`tools/map_patch.py`).
+- **`maps/*.dx`.** A map of Deus Ex: Revision as modified by this mod. It is distributed,
+  as mods for this game usually are, for use with your own copy of the game and of
+  Revision, and it does nothing without them. It is not offered under the MIT licence;
+  only the changes made for the mod are ours.
 - **`src/UnatcoContinues/Textures/UCSignElevators.*`.** A small sign redrawn in the style
   of the Revision texture it replaces. It is included so the mod builds; it is not offered
   under the MIT licence.

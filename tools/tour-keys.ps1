@@ -4,6 +4,9 @@
 #   uchide = togli la scritta (anche tasto PagGiu'), ucagain = ripeti il passo, ucstop = ferma.
 # Il gioco deve essere chiuso (quando esce riscrive il file). Copia di sicurezza:
 # RevisionUser.ini.bak_tour (solo la prima volta).
+#   -MenuOnly : solo il comando uc e il tasto Home (lo usa install.ps1: chi gioca non ha
+#               bisogno dei tasti della presentazione, e PagGiu' resta "guarda in basso")
+param([switch]$MenuOnly)
 . "$PSScriptRoot\..\config.ps1"
 $ErrorActionPreference = 'Stop'
 if (Get-Process Revision -ErrorAction SilentlyContinue) { throw "Revision e' aperto: chiudilo prima." }
@@ -14,12 +17,14 @@ $text = Get-Content -LiteralPath $ini -Raw
 
 $aliases = [ordered]@{
   uc      = 'UCDbgMenu'
+  ucstart = 'UCMod'
   uctour  = 'UCDbgTour'
   ucnext  = 'UCDbgTourNext'
   ucagain = 'UCDbgTourAgain'
   ucstop  = 'UCDbgTourStop'
   uchide  = 'UCDbgTourHide'
 }
+if ($MenuOnly) { $aliases = [ordered]@{ uc = 'UCDbgMenu'; ucstart = 'UCMod' } }
 foreach ($name in $aliases.Keys) {
   $line = '(Command="summon UnatcoContinues.' + $aliases[$name] + '",Alias=' + $name + ')'
   if ($text.Contains($line)) { continue }
@@ -34,6 +39,11 @@ $m = [regex]::Match($text, '(?m)^Home=([^\r\n]*)')
 if ($m.Success -and $m.Groups[1].Value -eq '') {
   $text = $text.Substring(0, $m.Index) + 'Home=uc' + $text.Substring($m.Index + $m.Length)
   Write-Host 'tasto Home = uc'
+}
+if ($MenuOnly) {
+  Set-Content -LiteralPath $ini -Value $text -NoNewline -Encoding Default
+  Write-Host 'Fatto.'
+  return
 }
 # PagSu: solo se non e' gia' usato per altro
 $m = [regex]::Match($text, '(?m)^PageUp=([^\r\n]*)')

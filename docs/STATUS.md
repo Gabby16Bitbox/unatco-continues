@@ -24,7 +24,7 @@ photos. Everything also passes the checks that run without the game.
 | Market: the messenger | The messenger is in place (seen in game); the exchange itself was not looked at again in the latest passes. |
 | Lucky Money: agents, the Red Arrow, Max Chen | The greeting, the run through the club doors and Max's opening seen in game. The last stretch to the office doors was fixed after the test and not seen again. |
 | Queen's Tower, the truce, Tong's laboratory | Implemented; need a full playthrough. The checklist is [PLAYTEST_HK.md](PLAYTEST_HK.md) (Italian). |
-| Presentation mode | All steps up to Max Chen seen in game. The Tracer Tong step was added last and not yet tried. |
+| Presentation mode | All steps up to Max Chen seen in game. The Tracer Tong step was seen starting; the scene itself was not played through in this mode. |
 
 ## Known gaps
 
@@ -32,8 +32,8 @@ photos. Everything also passes the checks that run without the game.
 - **The end is open.** The story stops with the objective to report to VersaLife.
 - **Gunther's report on JC** is recorded in a flag and never used yet: it is meant for a
   later debriefing with Manderley.
-- **The build was only ever run on one machine.** The setup scripts encode what that
-  machine needed; expect to adjust `config.ps1`.
+- **The build was run from a fresh clone, but only on the author's machine.** Expect to
+  adjust `config.ps1`, and keep the project in a short folder path.
 - The source comments and the working notes are in Italian.
 
 ## Ideas for whoever continues

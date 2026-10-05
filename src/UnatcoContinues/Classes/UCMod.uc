@@ -207,7 +207,7 @@ function Timer()
 	if (!bHello)
 	{
 		bHello = True;
-		Dbg("UNATCO Continues: mod caricata.");
+		Dbg("UNATCO Continues: mod loaded.");
 	}
 	if (flags.GetBool('UC_Tour'))
 		EnsureTour();

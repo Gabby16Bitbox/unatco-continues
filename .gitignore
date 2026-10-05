@@ -6,6 +6,7 @@
 /*
 !/.gitignore
 !/README.md
+!/PLAY.md
 !/LICENSE
 !/NOTICE.md
 !/CONTRIBUTING.md
@@ -59,12 +60,12 @@
 !/tools/editor_bridge/editor_src/
 !/tools/editor_bridge/engine_src/
 
-# mappe: gli script delle modifiche e le PATCH (differenze rispetto alla mappa originale,
-# vedi tools/map_patch.py). Le mappe .dx no: sono copie modificate di quelle del gioco.
+# mappe: gli script delle modifiche e le mappe MODIFICATE dalla mod (deciso da Gabby il 5 ott
+# 2026: servono a chi gioca, e funzionano solo con il gioco). Le copie identiche
+# all'originale no: non c'e' niente di nostro dentro.
 !/maps/
 /maps/*
 !/maps/editing/
-!/maps/patches/
 
 # voci: solo gli script e i piani di regia in uso. Niente audio, campioni, ricevute dei
 # cloni, id delle voci (voices.json) e soprattutto niente chiave: al loro posto i due
@@ -94,6 +95,13 @@ __pycache__/
 *.dll
 *.7z
 *key*.txt
+
+# le eccezioni alle regole qui sopra: la mappa modificata dalla mod e il pacchetto pronto
+# per chi vuole solo giocare
+!/maps/06_HongKong_Helibase.dx
+!/release/
+/release/*
+!/release/UnatcoContinues.u
 
 # segnaposto della chiave (dopo la regola qui sopra, che altrimenti lo escluderebbe)
 !/tools/voices/elevenlabs_key.example.txt

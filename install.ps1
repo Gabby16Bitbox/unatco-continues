@@ -1,5 +1,7 @@
 # Installa la mod nel gioco: codice (UnatcoContinues.u), voci (UnatcoVoices.u) e le
 # mappe modificate (maps\*.dx -> Revision\UnatcoMaps\). Il gioco deve essere chiuso.
+# Il pacchetto viene da dist\ (l'ultima compilazione); se non hai compilato niente, da
+# release\ (la versione pronta pubblicata nel repository: per chi vuole solo giocare).
 # La prima volta aggiunge a Revision.ini la riga che fa leggere UnatcoMaps per prima
 # (backup: Revision.ini.bak_maps).
 . "$PSScriptRoot\config.ps1"
@@ -7,10 +9,13 @@ if (Get-Process Revision -ErrorAction SilentlyContinue) { throw "Chiudi Revision
 if (Get-Process UnrealEd -ErrorAction SilentlyContinue) { "Attenzione: UnrealEd e' aperto, ricordati di aver salvato la mappa." }
 
 $sys = Join-Path $RevSrc 'System'
+if (-not (Test-Path $sys)) { throw "Revision non trovato in $RevSrc (cambia i percorsi in config.ps1)" }
 foreach ($p in 'UnatcoContinues', 'UnatcoVoices') {
   $f = Join-Path $Root "dist\$p.u"
-  if (Test-Path $f) { Copy-Item $f $sys -Force; "installato $p.u" }
+  if (-not (Test-Path $f)) { $f = Join-Path $Root "release\$p.u" }
+  if (Test-Path $f) { Copy-Item $f $sys -Force; "installato $p.u (da $(Split-Path (Split-Path $f) -Leaf)\)" }
 }
+if (-not (Test-Path (Join-Path $sys 'UnatcoContinues.u'))) { throw "UnatcoContinues.u non trovato ne' in dist\ ne' in release\" }
 
 $dest = Join-Path $RevSrc 'UnatcoMaps'
 New-Item -ItemType Directory -Force $dest | Out-Null
@@ -37,4 +42,6 @@ if ($changed) {
   Copy-Item $ini "$ini.bak_maps2" -Force
   Set-Content $ini $text -NoNewline -Encoding Default
 }
+# comando 'uc' / 'ucstart' e tasto Home (solo se liberi): servono per avviare la mod in gioco
+& "$PSScriptRoot\tools\tour-keys.ps1" -MenuOnly
 "Fatto."

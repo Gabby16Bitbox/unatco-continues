@@ -1,7 +1,13 @@
 # 1. Setup, build, install
 
-Windows, PowerShell. Everything below was done on one machine; the paths are in
-`config.ps1`, change them there if your game is installed somewhere else.
+Windows, PowerShell. The steps below were tested from a fresh clone on the author's
+machine; the paths are in `config.ps1`, change them there if your game is installed
+somewhere else.
+
+**Put the project in a short folder path**, for example `C:\Dev\unatco-continues`. The
+SDK compiler is from 2000 and crashes without a useful message when the path is long
+(in the test it worked at 103 characters for its `System` folder and crashed at 125).
+`build.ps1` checks this and stops with an explanation.
 
 ## What you need
 
@@ -27,20 +33,7 @@ configuration files the compiler looks for.
 .\setup.ps1
 ```
 
-## 2. The maps
-
-The mod changes one of Revision's maps (the Hong Kong helibase). The repository holds the
-difference, not the map. Rebuild it from your own copy:
-
-```powershell
-python tools\map_patch.py apply-all
-```
-
-It checks your original map and the result by SHA-256, and refuses to write anything if
-your Revision version is not the one the patch was made from. In that case the mod still
-runs; the helibase simply keeps its original look.
-
-## 3. Build
+## 2. Build
 
 ```powershell
 .\build.ps1 -Isolated
@@ -53,7 +46,7 @@ runs; the helibase simply keeps its original look.
 - The voice package is optional: it is compiled only if `src\UnatcoVoices` exists, and it
   is not in this repository. Without it every line plays as a subtitle.
 
-## 4. Checks without the game
+## 3. Checks without the game
 
 ```powershell
 .\tools\check-hongkong.ps1 -BuildSystem <the Build folder>\System
@@ -68,7 +61,7 @@ From the build's `System` folder you can also run the commandlets:
 
 Each prints `N checked, 0 failed`.
 
-## 5. Install
+## 4. Install
 
 Close the game first.
 
@@ -80,20 +73,15 @@ It copies the package into Revision's `System` folder and the maps from `maps\` 
 separate `UnatcoMaps` folder, which it registers in `Revision.ini` *before* Revision's own
 maps (a backup of the ini is made). The original maps are never touched.
 
-Then, once, still with the game closed:
+It also adds two console commands to `RevisionUser.ini` (a backup is made): `ucstart`,
+which starts the mod, and `uc` (also the **Home** key, if free), which opens the debug
+menu. For the keys of the presentation mode run `.\tools\tour-keys.ps1` once.
 
-```powershell
-.\tools\tour-keys.ps1
-```
+## 5. In the game
 
-It adds the mod's console commands and keys to `RevisionUser.ini` (a backup is made):
-`uc` and the **Home** key for the debug menu, and the keys of the presentation mode.
-
-## 6. In the game
-
-- **Start the mod once**: open the console and type `uc` (or
-  `summon UnatcoContinues.UCDbgMenu`). This starts the mod's director and gives JC an
-  invisible item that restarts it on every map from then on; it is saved with your game.
+- **Start the mod once per playthrough**: open the console and type `ucstart`. This
+  starts the mod's director and gives JC an invisible item that restarts it on every map
+  from then on; it is saved with your game.
 - Play it for real from mission 4: find the evidence at NSF headquarters, do **not** send
   the signal, go back to Paul.
 - Or use the debug menu: each button sets the game state as if you had played up to that

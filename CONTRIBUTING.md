@@ -11,13 +11,16 @@ Deus Ex SDK installer. The full walk-through is
 [tutorial 1](docs/tutorials/01-setup-build-install.md); in short:
 
 ```powershell
-.\setup.ps1                              # development copy of the game (DevInstall)
-python tools\map_patch.py apply-all      # rebuild the modified maps from your own
-.\build.ps1 -Isolated                    # compile -> dist\UnatcoContinues.u
-.\install.ps1                            # game closed
+.\setup.ps1              # development copy of the game (DevInstall)
+.\build.ps1 -Isolated    # compile -> dist\UnatcoContinues.u
+.\install.ps1            # game closed
 ```
 
-If your game is not in the default Steam folder, change the paths in `config.ps1`.
+- **Clone into a short folder path** (for example `C:\Dev\unatco-continues`). The SDK
+  compiler crashes without a useful message when the path is long; `build.ps1` stops with
+  an explanation instead.
+- If your game is not in the default Steam folder, change the paths in `config.ps1`.
+- This sequence was tested from a fresh clone on the author's machine.
 
 ## 2. Find your way
 
@@ -62,7 +65,7 @@ Where the code is:
 ## 4. Rules of the house
 
 - The game folder is read-only. Never edit the game's own maps: work on the copies in
-  `maps\` and publish the change as a patch (`python tools\map_patch.py make-all`).
+  `maps\`.
 - Back up a configuration file before changing it. Install only with the game closed.
 - Follow the writing rules in the narrative design document: how each character speaks,
   what each character can know, one-way InfoLinks, characters who never vanish in view.
@@ -72,10 +75,17 @@ Where the code is:
 
 ## 5. Maps
 
-`maps\patches\*.ucpatch` are the differences between Revision's maps and the mod's.
-`apply-all` rebuilds the maps into `maps\`; `install.ps1` copies them into a separate
-folder the game reads first. To edit a map: `.\edit-map.ps1 <MapName>`, save, then
-`make-all` to refresh the patch. The scripted edits made so far are in `maps\editing`.
+`maps\*.dx` are the maps the mod modifies (so far one, the Hong Kong helibase).
+`install.ps1` copies them into a separate folder the game reads first, so the originals
+stay untouched. To edit a map: `.\edit-map.ps1 <MapName>` copies the original into
+`maps\` the first time and opens UnrealEd on it. The scripted edits made so far are in
+`maps\editing`. Commit a map only when the mod really changes it.
+
+## 5b. Publishing a build for players
+
+Players install from `release\UnatcoContinues.u` (see [PLAY.md](PLAY.md)). After a change
+you want them to have: build, run the checks, then copy `dist\UnatcoContinues.u` over
+`release\UnatcoContinues.u` and commit it.
 
 ## 6. Voices (optional)
 
