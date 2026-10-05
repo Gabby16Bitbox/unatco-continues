@@ -7,9 +7,7 @@ class UCDbgHotel extends UCDebug;
 
 function Run()
 {
-	BaseMission04();
-	EvidenceFound();
-	SetF('PaulInjured2_Played', True);   // salta la chiacchierata intermedia: la prossima e' M04PlayerLikesUNATCO
+	PaulDecision();
 	SetF('UC_DbgAutoConv', True);   // all'arrivo parte da sola la conversazione del bivio
 	Jump("04_NYC_Hotel", 1);
 }

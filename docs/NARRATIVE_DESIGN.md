@@ -41,6 +41,9 @@ and what they refuse to explain, never through a confession.
 Chapters 3 and 7 are optional: everything needed to go on can be learned elsewhere, and
 the story holds if a character involved is dead or was avoided.
 
+Where the story could go from here (VersaLife, the return to New York, Vandenberg, the
+endings) is in the [campaign concept](CAMPAIGN_CONCEPT.md).
+
 ## Rules of the writing
 
 **One refusal, then consequences.** After the fork the player is not asked again which side

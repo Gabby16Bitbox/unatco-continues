@@ -100,9 +100,7 @@ function Go(int n)
 	{
 		case 1:   // 'Ton: prova NSF trovata, segnale non inviato. JC e' nell'appartamento, a
 			      // qualche passo da Paul: a parlargli ci va Gabby
-			BaseMission04();
-			EvidenceFound();
-			SetF('PaulInjured2_Played', True);
+			PaulDecision();
 			url = "04_NYC_Hotel";
 			arrival = 8;
 			break;

@@ -21,6 +21,8 @@ var bool bCommitted;
 var bool bInit;
 var int pendingArrival;   // 1 = portami vicino a Paul (salto di debug)
 var int arrivalTicks;
+var int paulConversationTries; // avvia il dialogo solo dopo che JC e' sul pavimento
+var bool bPaulWaitingGated;
 var int tickCount;
 var bool bHeliChecked;
 var bool bTransmitterLocked;
@@ -238,6 +240,9 @@ function Timer()
 		EnsureHeli();
 	}
 
+	if (paulConversationTries > 0)
+		TryPaulDecision();
+
 	if (pendingArrival > 0)
 	{
 		arrivalTicks--;
@@ -312,11 +317,32 @@ function Timer()
 function GateGuardGate()
 {
 	local bool want, have;
+	local PaulDenton paul;
+	local ConListItem item;
 
 	have = flags.GetBool('M04MeetGateGuard_Played');
 
 	if (localURL == "04_NYC_HOTEL")
 	{
+		// La battuta d'attesa e' prima del bivio nella lista vanilla: con la prova
+		// trovata deve cedere il posto a M04PlayerLikesUNATCO, anche cliccando.
+		if (!bPaulWaitingGated)
+			foreach AllActors(class'PaulDenton', paul)
+				for (item = ConListItem(paul.ConListItems); item != None; item = item.next)
+					if (item.con != None)
+					{
+						if (item.con.conName == 'M04PaulWaiting')
+						{
+							item.con.AddFlagRef('M04MeetGateGuard_Played', False);
+							bPaulWaitingGated = True;
+						}
+						// Nel VIDEO l'utente si avvicina e clicca: niente avvio a raggio.
+						if (flags.GetBool('UC_Tour') && flags.GetInt('UC_TourStep') == 1)
+						{
+							item.con.bInvokeRadius = False;
+							item.con.bInvokeSight = False;
+						}
+					}
 		want = flags.GetBool('UNATCORoute_EvidenceFound') && !flags.GetBool('NSFSignalSent');
 		if (want == have)
 			return;
@@ -373,10 +399,6 @@ function EnsureHeli()
 // Porta il giocatore vicino a Paul (prova varie posizioni libere).
 function DoArrival(int where)
 {
-	local PaulDenton paul;
-	local int i;
-	local vector offs[6];
-
 	if (where == 2)
 	{
 		ArriveNearHeli();
@@ -399,9 +421,7 @@ function DoArrival(int where)
 	// fondo alla stanza), girato verso di lui
 	if (where == 8)
 	{
-		if (Player.SetLocation(vect(290, -3290, 112)))
-			Player.ClientSetRotation(rot(0, 46183, 0));
-		Dbg("[UC] Nell'appartamento di Paul.");
+		ArrivePaul(True);
 		return;
 	}
 	// Lucky Money: nel centro commerciale, davanti all'ingresso del club, verso ovest
@@ -423,37 +443,94 @@ function DoArrival(int where)
 	}
 	if (where != 1)
 		return;
+	ArrivePaul(False);
+}
+
+// Davanti alla sedia, nella stessa stanza: nessun offset di 70 unita' che possa
+// mettere JC nel bagno. Controlla pavimento, visuale e collisione del giocatore.
+function bool ArrivePaul(bool bVideo)
+{
+	local PaulDenton paul;
+	local Actor hitActor;
+	local vector forward, right, spot, target, hitLoc, hitNormal;
+	local rotator facing;
+	local int i;
+	local float distance;
 
 	foreach AllActors(class'PaulDenton', paul)
-		break;
+		if (paul.bInWorld && !paul.bHidden && !paul.bDeleteMe)
+			break;
 
-	if (paul == None)
+	if (paul == None || !paul.bInWorld || paul.bHidden)
 	{
 		Dbg("[UC] Paul non trovato in questa mappa.");
-		return;
+		return False;
 	}
 
-	offs[0] = vect(-70, 0, 10);
-	offs[1] = vect(70, 0, 10);
-	offs[2] = vect(0, -70, 10);
-	offs[3] = vect(0, 70, 10);
-	offs[4] = vect(-120, 0, 10);
-	offs[5] = vect(120, 0, 10);
-
-	for (i = 0; i < 6; i++)
+	forward = vector(paul.Rotation);
+	forward.Z = 0;
+	forward = Normal(forward);
+	right.X = -forward.Y;
+	right.Y = forward.X;
+	distance = 220;
+	if (bVideo)
+		distance = 280;
+	target = paul.Location + vect(0, 0, 24);
+	for (i = 0; i < 5; i++)
 	{
-		if (Player.SetLocation(paul.Location + offs[i]))
+		spot = paul.Location + forward * distance;
+		if (i == 1) spot += right * 80;
+		if (i == 2) spot -= right * 80;
+		if (i == 3) spot = paul.Location + forward * 170;
+		if (i == 4) spot = vect(300, -3440, 112);
+		if (VSize(spot - paul.Location) < Player.CollisionRadius + paul.CollisionRadius + 80)
+			continue;
+		hitActor = Trace(hitLoc, hitNormal, spot - vect(0, 0, 200), spot + vect(0, 0, 80), False);
+		if (hitActor == None || hitNormal.Z < 0.7)
+			continue;
+		spot.Z = hitLoc.Z + Player.CollisionHeight + 2;
+		if (Trace(hitLoc, hitNormal, target, spot + vect(0, 0, 24), False) != None)
+			continue;
+		if (Player.SetLocation(spot))
 		{
-			Dbg("[UC] Sei vicino a Paul.");
+			Player.Velocity = vect(0, 0, 0);
+			Player.Acceleration = vect(0, 0, 0);
+			facing = rotator(paul.Location - spot);
+			facing.Pitch = 0;
+			facing.Roll = 0;
+			Player.SetRotation(facing);
+			Player.ClientSetRotation(facing);
+			Log("UCPaul arrival: JC" @ spot @ "Paul" @ paul.Location @ "video" @ bVideo);
+			Dbg("[UC] Nell'appartamento, davanti a Paul.");
 			if (flags.GetBool('UC_DbgAutoConv'))
-			{
-				flags.SetBool('UC_DbgAutoConv', False,, 99);
-				Player.StartConversationByName('M04PlayerLikesUNATCO', paul, False, False);
-			}
-			return;
+				paulConversationTries = 10;
+			return True;
 		}
 	}
 	Dbg("[UC] Nessuna posizione libera vicino a Paul.");
+	return False;
+}
+
+function TryPaulDecision()
+{
+	local PaulDenton paul;
+	paulConversationTries--;
+	foreach AllActors(class'PaulDenton', paul)
+		if (paul.bInWorld && !paul.bHidden && !paul.bDeleteMe)
+			break;
+	if (paul != None && flags.GetBool('UC_DbgAutoConv')
+		&& Player.conPlay == None && Player.Physics == PHYS_Walking
+		&& Player.StartConversationByName('M04PlayerLikesUNATCO', paul, False, False))
+	{
+		flags.SetBool('UC_DbgAutoConv', False,, 99);
+		paulConversationTries = 0;
+		Log("UCPaul debug: M04PlayerLikesUNATCO started after arrival.");
+	}
+	else if (paulConversationTries == 0)
+	{
+		flags.SetBool('UC_DbgAutoConv', False,, 99);
+		Dbg("[UC] Dialogo non avviato: puoi parlare con Paul manualmente.");
+	}
 }
 
 function ArriveNearHeli()

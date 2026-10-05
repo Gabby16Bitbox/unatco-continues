@@ -91,7 +91,7 @@ function FreeView()
 	if (P != None && P.ViewTarget != None)
 	{
 		P.ViewTarget = None;
-		P.bBehindView = False;
+		P.bBehindView = P.InConversation(); // JC resta visibile nella camera del dialogo
 	}
 }
 
@@ -275,10 +275,14 @@ function Talk(DeusExPlayer P, string tagName)
 	// perche' una conversazione non parte: chi sta gia' parlando, se JC e il PNG possono
 	// conversare, quale conversazione sceglierebbe il gioco
 	c = P.GetActiveConversation(A, IM_Frob);
+	Log("UCShot parla: JC a" @ P.Location @ "distanza" @ VSize(P.Location - A.Location));
 	if (P.conPlay != None && P.conPlay.con != None)
 		Log("UCShot parla: in corso" @ P.conPlay.con.conName);
 	if (c != None)
+	{
+		Log("UCShot parla: avvio raggio" @ c.bInvokeRadius @ "raggio" @ c.radiusDistance);
 		Log("UCShot parla: scelta" @ c.conName @ "JC puo'" @ P.CanStartConversation() @ "PNG puo'" @ (ScriptedPawn(A) == None || ScriptedPawn(A).CanConverse()) @ "stato" @ A.GetStateName());
+	}
 	else
 	{
 		Log("UCShot parla: nessuna conversazione valida, stato" @ A.GetStateName() @ "a" @ A.Location @ "JC a" @ P.Location);
