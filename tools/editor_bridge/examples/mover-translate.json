@@ -1,0 +1,8 @@
+[
+  {
+    "actor": "DeusExMover14",
+    "operation": "translate",
+    "expected_location": [-1856, -160, 448],
+    "delta": [32, 0, 0]
+  }
+]

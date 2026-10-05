@@ -1,0 +1,78 @@
+# UNATCO Continues - cosa entra nel repository.
+# Regola: e' escluso TUTTO, poi si riammette solo quello che e' della mod e si puo' pubblicare.
+# Restano fuori: i file del gioco e di Revision (DevInstall, mappe .dx, SDK, editor), le voci
+# registrate e gli strumenti per produrle, le compilazioni, le foto di prova, chiavi e copie
+# di sicurezza.
+/*
+!/.gitignore
+!/README.md
+!/.gitattributes
+!/*.ps1
+!/*.bat
+/install-voices.ps1
+
+# codice della mod
+!/src/
+/src/*
+!/src/UnatcoContinues/
+/src/UnatcoContinues/*
+!/src/UnatcoContinues/Classes/
+!/src/UnatcoContinues/Textures/
+!/src/UnatcoContinues/obsolete/
+
+# documentazione
+!/docs/
+/docs/*
+!/docs/NARRATIVE_DESIGN.md
+!/docs/WORKFLOW.md
+!/docs/tutorials/
+!/docs/narrative/
+!/docs/img/
+!/docs/NOTE_DI_SVILUPPO.md
+!/docs/ROUTE_DESIGN.md
+!/docs/STORY.md
+!/docs/MISSION1_PIANO.md
+!/docs/HONGKONG_DESIGN.md
+!/docs/HONGKONG_M1_PIANO.md
+!/docs/HONGKONG_ASSAULT_DESIGN.md
+!/docs/MURI_SOLO_UNATCO.md
+!/docs/PLAYTEST_HK.md
+!/docs/VIDEO_PRESENTAZIONE.md
+
+# strumenti (solo script nostri: niente eseguibili, archivi, voci)
+!/tools/
+/tools/*
+!/tools/*.py
+!/tools/*.ps1
+!/tools/*.ahk
+/tools/check-voice-identity.ps1
+!/tools/editor_bridge/
+/tools/editor_bridge/*
+!/tools/editor_bridge/*.py
+!/tools/editor_bridge/*.ps1
+!/tools/editor_bridge/*.md
+!/tools/editor_bridge/requirements.txt
+/tools/editor_bridge/GEOMETRY_RESULTS.md
+!/tools/editor_bridge/examples/
+!/tools/editor_bridge/editor_src/
+!/tools/editor_bridge/engine_src/
+
+# modifiche alle mappe fatte da script (le mappe no: sono copie di quelle del gioco)
+!/maps/
+/maps/*
+!/maps/editing/
+
+# mai, da nessuna parte
+__pycache__/
+*.pyc
+*.bak
+*.bak-*
+*.log
+*.dx
+*.u
+*.wav
+*.mp3
+*.exe
+*.dll
+*.7z
+*key*.txt
