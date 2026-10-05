@@ -1,4 +1,5 @@
-# Comandi e tasto della presentazione per il video (UCTour) in RevisionUser.ini:
+# Comandi e tasti della mod in RevisionUser.ini:
+#   uc = menu di debug (anche tasto Home, se libero); e per la presentazione del video (UCTour):
 #   uctour = parte dal primo capitolo, ucnext = capitolo successivo (anche tasto PagSu),
 #   uchide = togli la scritta (anche tasto PagGiu'), ucagain = ripeti il passo, ucstop = ferma.
 # Il gioco deve essere chiuso (quando esce riscrive il file). Copia di sicurezza:
@@ -12,6 +13,7 @@ if (-not (Test-Path "$ini.bak_tour")) { Copy-Item -LiteralPath $ini "$ini.bak_to
 $text = Get-Content -LiteralPath $ini -Raw
 
 $aliases = [ordered]@{
+  uc      = 'UCDbgMenu'
   uctour  = 'UCDbgTour'
   ucnext  = 'UCDbgTourNext'
   ucagain = 'UCDbgTourAgain'
@@ -26,6 +28,12 @@ foreach ($name in $aliases.Keys) {
   if (-not $m.Success) { throw "Nessun alias libero in $ini" }
   $text = $text.Substring(0, $m.Index) + $m.Groups[1].Value + $line + $text.Substring($m.Index + $m.Length)
   Write-Host "alias $name aggiunto"
+}
+# Home apre il menu di debug: solo se non e' gia' usato per altro
+$m = [regex]::Match($text, '(?m)^Home=([^\r\n]*)')
+if ($m.Success -and $m.Groups[1].Value -eq '') {
+  $text = $text.Substring(0, $m.Index) + 'Home=uc' + $text.Substring($m.Index + $m.Length)
+  Write-Host 'tasto Home = uc'
 }
 # PagSu: solo se non e' gia' usato per altro
 $m = [regex]::Match($text, '(?m)^PageUp=([^\r\n]*)')

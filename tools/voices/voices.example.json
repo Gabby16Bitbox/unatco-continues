@@ -1,0 +1,41 @@
+{
+  "_info": "Template. Copy this file to voices.json and put, for each character, the id of a voice in YOUR ElevenLabs account. Voice ids are account-specific, so the ones used for the original recordings are not published.",
+  "_settings": {
+    "model_id": "eleven_v4",
+    "stability": 0.9,
+    "similarity_boost": 0.75
+  },
+  "_design": {
+    "JCDenton": "Male, early 30s, American. Very flat, deadpan, laconic delivery in a low baritone. Calm, controlled, almost emotionless, a trained government agent.",
+    "PaulDenton": "Male, early 30s, American. Calm, thoughtful baritone with warmth, slightly tired and strained as if injured, speaking with quiet conviction.",
+    "AnnaNavarre": "Female, early 30s, American. Cold, controlled, clipped military delivery. Low-pitched, hard and slightly menacing, no warmth at all.",
+    "GuntherHermann": "Male, 40s, deep and gravelly voice with a strong German accent. Slow, heavy, menacing delivery of a cybernetically augmented soldier.",
+    "AlexJacobson": "Male, late 20s, American. Quick, slightly nervous tech specialist, friendly but tense, speaking fast and low as if not wanting to be overheard.",
+    "UNATCOTroop": "Male, 30s, American soldier. Professional, terse, slightly bored radio-style delivery, mid-pitched.",
+    "MIB": "Male, 40s. Flat, emotionless monotone with precise diction, cold and unsettling, a sinister government agent."
+  },
+  "_fx": {},
+  "JCDenton": "[Insert your voice id]",
+  "AnnaNavarre": "[Insert your voice id]",
+  "GuntherHermann": "[Insert your voice id]",
+  "AlexJacobson": "[Insert your voice id]",
+  "PaulDenton": "[Insert your voice id]",
+  "UNATCOTroop": "[Insert your voice id]",
+  "MIB": "[Insert your voice id]",
+  "_delivery_plan": "delivery_natural_v4.json",
+  "UNATCOTroopB": "[Insert your voice id]",
+  "MJ12Troop": "[Insert your voice id]",
+  "MJ12TroopB": "[Insert your voice id]",
+  "Jock": "[Insert your voice id]",
+  "WaltonSimons": "[Insert your voice id]",
+  "GilbertRenton": "[Insert your voice id]",
+  "MaggieChow": "[Insert your voice id]",
+  "MaxChen": "[Insert your voice id]",
+  "GordonQuick": "[Insert your voice id]",
+  "TracerTong": "[Insert your voice id]",
+  "Red_Arrow_01": "[Insert your voice id]",
+  "TriadLumPath": "[Insert your voice id]",
+  "TriadRedArrow": "[Insert your voice id]",
+  "MJ12Commando": "[Insert your voice id]",
+  "ScientistConsulting": "[Insert your voice id]"
+}

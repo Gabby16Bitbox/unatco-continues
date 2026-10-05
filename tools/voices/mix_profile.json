@@ -1,0 +1,26 @@
+{
+  "revision": "band-deessed-dialogue-20261005",
+  "channels": {
+    "direct": -14.0,
+    "radio": -14.5
+  },
+  "speakers": {
+    "JCDenton": -15.5
+  },
+  "tolerance_lu": 0.25,
+  "limiter_ceiling_db": -2.0,
+  "deesser": {
+    "frequency_hz": 5500, "threshold_db": -24, "ratio": 8,
+    "max_reduction_db": 3, "q": 1, "attack_ms": 2, "release_ms": 70
+  },
+  "speaker_channels": {
+    "WaltonSimons/radio": {
+      "deesser": {
+        "frequency_hz": 5000, "threshold_db": -27, "ratio": 12,
+        "max_reduction_db": 6, "q": 1, "attack_ms": 2, "release_ms": 70
+      },
+      "radio_presence_max_db": 2.0
+    }
+  },
+  "reason": "Consistent perceived dialogue level across actors. JC remains 1.5 LU below direct interlocutors and 1 LU below radio callers. Native references continue to determine timbre and timing."
+}
