@@ -225,6 +225,22 @@ function BaseMission04()
 	SetF('GatesOpen', True);
 }
 
+// Il bivio al 'Ton: ripetibile anche dopo aver provato la route del raid.
+function PaulDecision()
+{
+	BaseMission04();
+	EvidenceFound();
+	SetF('PaulInjured2_Played', True);
+	SetF('TalkedToPaulAfterMessage_Played', False);
+	SetF('PaulBeforeAttack_Played', False);
+	SetF('PaulBeforeAttack2_Played', False);
+	SetF('M04RaidBegan', False);
+	SetF('M04RaidDone', False);
+	SetF('M04RaidTeleportDone', False);
+	SetF('AnnaBadMama_Played', False);
+	SetF('PlayerBailedOutWindow', False);
+}
+
 // Stato dopo il dialogo con Paul: route UNATCO scelta, Paul resta al 'Ton.
 // (Il goal "Meet Jock in Battery Park" lo da' UCMod all'arrivo.)
 function AfterPaul()

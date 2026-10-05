@@ -98,7 +98,9 @@ def validate_shots(shots):
     if not isinstance(shots, list) or not 1 <= len(shots) <= 40:
         raise ValueError('Supply 1..40 photographer actions')
     counts = {'cam': 8, 'view': 2, 'player': 7, 'wait': 3,
-              'console': 3, 'torch': 3, 'follow': 3, 'where': 3}
+              'console': 3, 'torch': 3, 'follow': 3, 'where': 3,
+              'talk': 3, 'flag': 3, 'hud': 3, 'next': 2, 'hand': 2,
+              'waitmap': 4, 'waitflag': 4}
     for shot in shots:
         if not isinstance(shot, str) or not shot or any(c in shot for c in '\r\n\0'):
             raise ValueError('Each action must be one nonempty line')
@@ -106,17 +108,19 @@ def validate_shots(shots):
         if len(fields) < 2 or not fields[0] or fields[1] not in counts or len(fields) != counts[fields[1]]:
             raise ValueError('Invalid photographer action: ' + shot)
         kind = fields[1]
-        if kind in ('cam', 'player', 'wait'):
+        if kind in ('cam', 'player', 'wait', 'waitmap', 'waitflag'):
             try:
-                numbers = list(map(float, fields[2:]))
+                numbers = list(map(float, fields[3:] if kind in ('waitmap', 'waitflag') else fields[2:]))
             except ValueError:
                 raise ValueError('Invalid coordinates/time in action: ' + shot)
-            if not all(math.isfinite(n) for n in numbers) or (kind == 'wait' and numbers[0] < 0):
+            if not all(math.isfinite(n) for n in numbers) or (kind in ('wait', 'waitmap', 'waitflag') and numbers[0] < 0):
                 raise ValueError('Coordinates/time must be finite; waiting time must be nonnegative')
-        elif kind == 'torch' and fields[2] not in ('0', '1'):
-            raise ValueError('torch requires 0 or 1')
-        elif kind in ('follow', 'where') and not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,62}', fields[2]):
-            raise ValueError('follow/where requires an actor Tag')
+        elif kind in ('torch', 'hud') and fields[2] not in ('0', '1'):
+            raise ValueError('torch/hud requires 0 or 1')
+        if kind in ('follow', 'where', 'talk', 'flag', 'waitflag') and not re.fullmatch(r'[A-Za-z_][A-Za-z0-9_]{0,62}', fields[2]):
+            raise ValueError('Invalid actor Tag, map or flag name')
+        elif kind == 'waitmap' and not re.fullmatch(r'[A-Za-z0-9_][A-Za-z0-9_]{0,62}', fields[2]):
+            raise ValueError('Invalid map name')
         elif kind == 'console' and not fields[2].strip():
             raise ValueError('Empty console command')
     return sum(s.split(';')[1] in PHOTOS for s in shots)

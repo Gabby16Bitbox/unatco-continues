@@ -28,6 +28,7 @@ Deus Ex SDK installer. The full walk-through is
 |---|---|
 | read the story and every line | [docs/NARRATIVE_DESIGN.md](docs/NARRATIVE_DESIGN.md) |
 | know what works and what is next | [docs/STATUS.md](docs/STATUS.md) |
+| see where the story is meant to go | [docs/CAMPAIGN_CONCEPT.md](docs/CAMPAIGN_CONCEPT.md) |
 | understand how the mod is organised | [tutorial 3](docs/tutorials/03-scenes-and-flags.md) |
 | add or change dialogue | [tutorial 2](docs/tutorials/02-conversations-in-code.md) |
 | check a scene in the game without playing to it | [tutorial 4](docs/tutorials/04-automatic-photos.md) |

@@ -25,8 +25,9 @@ anyone can read it, build it and continue it:
 
 **Just want to play?** [PLAY.md](PLAY.md): download, double-click, type one command.
 
-**Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md) and
-[what works and what is next](docs/STATUS.md).
+**Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
+[what works and what is next](docs/STATUS.md), and the
+[concept for the rest of the campaign](docs/CAMPAIGN_CONCEPT.md).
 
 ## Status
 
@@ -80,9 +81,11 @@ debug menu that jumps straight to a scene.
 ## Documentation
 
 1. [Narrative design document](docs/NARRATIVE_DESIGN.md) - start here for the story.
-2. [Continuing the mod](CONTRIBUTING.md) and [status](docs/STATUS.md)
-3. [Workflow and tools](docs/WORKFLOW.md)
-4. Tutorials
+2. [Campaign concept](docs/CAMPAIGN_CONCEPT.md) - where the story could go next:
+   VersaLife, the return to New York, Vandenberg, the endings.
+3. [Continuing the mod](CONTRIBUTING.md) and [status](docs/STATUS.md)
+4. [Workflow and tools](docs/WORKFLOW.md)
+5. Tutorials
    - [Setup, build, install](docs/tutorials/01-setup-build-install.md)
    - [Writing a conversation in code](docs/tutorials/02-conversations-in-code.md)
    - [Scenes, flags and the rules of the conversation engine](docs/tutorials/03-scenes-and-flags.md)

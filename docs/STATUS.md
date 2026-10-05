@@ -38,6 +38,11 @@ photos. Everything also passes the checks that run without the game.
 
 ## Ideas for whoever continues
 
+The plan for the rest of the campaign is written down in the
+[campaign concept](CAMPAIGN_CONCEPT.md): a second Hong Kong mission at VersaLife, a return
+to New York, Vandenberg, and an optional finale with four endings. It is indicative, not a
+script. In short:
+
 - The VersaLife investigation: what does a UNATCO agent find there when he arrives with
   Simons' authorisation instead of breaking in?
 - The return to New York and the debriefing, where the flags left along the way (Gunther's
