@@ -8,6 +8,10 @@ mai saltati né tagliati.
 - **Avvio**: in gioco, console `uctour` (oppure tasto **Home** → *VIDEO* → capitolo). Va bene partire
   da una partita qualsiasi, anche nuova.
 - **PagSu** (o `ucnext`) = passo successivo. Non va mai avanti da sola: decidi tu quando.
+  Una pressione = un passo: mentre la mappa carica e per i 2 secondi dopo l'arrivo PagSu non
+  conta, così un tasto tenuto premuto o premuto due volte non salta le varianti.
+- **Varianti dal menu**: *VIDEO* → *Varianti* le fa partire direttamente (2b Gunther se Anna è
+  morta, 4b Anna se Lebedev lo ha ucciso lei, 4c il soldato alla metro, 6b l'ufficiale e Majestic 12).
 - **PagGiù** (o `uchide`) = togli la scritta. Compare in dissolvenza (circa 2 secondi) e resta
   finché non la togli tu; la sostituisce solo la scritta del momento dopo, quando arriva.
 - `ucagain` = rifai il passo. `ucstop` = ferma. Un salto di debug normale la spegne.
@@ -36,12 +40,16 @@ mai saltati né tagliati.
 | 13 | Laboratorio di Tracer Tong | vai da Tong e parlagli; guarda il terminale; poi arriva l'assalto: resta, parla col comandante, aspetta la chiamata di Simons | Later, Tracer Tong agrees to see you: / He shows you what Paul found: / Then Special Projects arrives. You led them here: / UNATCO CONTINUES - To be continued. |
 
 Se da un capitolo esci giocando (per esempio dal 'Ton in strada, o da Battery Park col decollo) la
-presentazione riprende dal capitolo di quella mappa; alle varianti si arriva solo con PagSu.
+presentazione riprende dal capitolo di quella mappa; alle varianti si arriva con PagSu o dal
+menu *Varianti*.
 
 ## Dove sta nel codice
 `UCTour` (passi e scritte: i testi sono nella funzione `Cue`), `UCCaptionWindow` (la targhetta e la
 dissolvenza: `fadeTime`; il fondo usa la texture `UCFade`, rifatta da `tools\make_fade_texture.py`),
-`UCDbgTour` e sottoclassi (salti e stato della partita per ogni passo), `UCTourMenu` (menu).
+`UCDbgTour` e sottoclassi (salti e stato della partita per ogni passo; `UCDbgTourVar*` = le
+varianti), `UCTourMenu` e `UCTourVariantsMenu` (menu). Il flag `UC_TourBusy` blocca PagSu durante
+un salto: lo accende `UCDbgTour.Go`, lo spegne `UCTour` 2 secondi dopo l'arrivo.
 `UCMod` crea `UCTour` finché il flag `UC_Tour` è acceso; durante la presentazione i messaggi di
 servizio `[UC]` non compaiono. Prova automatica: `tools\shots.ps1 -Setup UCDbgTour2` con passi
-`console;summon UnatcoContinues.UCDbgTourNext` (le foto riprendono dopo ogni cambio di mappa).
+`console;summon UnatcoContinues.UCDbgTourNext` (le foto riprendono dopo ogni cambio di mappa;
+tra un passo e l'altro servono almeno 3 secondi di `wait`).
