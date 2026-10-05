@@ -1,0 +1,3461 @@
+{
+  "revision": "hong-kong-m1-explicit-notes-v4",
+  "model_id": "eleven_v4",
+  "pronunciations": {
+    "UNATCO's": "/ju\u02d0\u02c8n\u00e6tko\u028az/",
+    "UNATCO": "/ju\u02d0\u02c8n\u00e6tko\u028a/",
+    "FEMA": "/\u02c8fi\u02d0m\u0259/"
+  },
+  "analysis_basis": "Original PCM, robust fit to estimated syllables and sentence breaks, per speaker/channel, with 20% or 250ms tolerance. Long soldier dialogue also uses a word-rate floor, capped at 225 words/min, because short native barks should not force full sentences to rush. English syllable counts are approximate. Median integrated LUFS of complete speech; UNATCO A/B dialogue shares native A mix level. Spectral comparisons use different words and are approximate.",
+  "settings": {
+    "model_id": "eleven_v4",
+    "stability": 0.9,
+    "similarity_boost": 0.75
+  },
+  "characters": {
+    "JCDenton": {
+      "settings": {
+        "stability": 1.0,
+        "similarity_boost": 0.85
+      }
+    },
+    "AnnaNavarre": {
+      "settings": {}
+    },
+    "GuntherHermann": {
+      "settings": {}
+    },
+    "AlexJacobson": {
+      "settings": {}
+    },
+    "PaulDenton": {
+      "settings": {}
+    },
+    "UNATCOTroop": {
+      "settings": {
+        "stability": 0.95,
+        "similarity_boost": 0.8
+      }
+    },
+    "MIB": {
+      "settings": {}
+    },
+    "UNATCOTroopB": {
+      "settings": {
+        "stability": 0.95,
+        "similarity_boost": 0.8
+      }
+    },
+    "MJ12Troop": {
+      "settings": {
+        "stability": 0.95,
+        "similarity_boost": 0.8
+      }
+    },
+    "MJ12TroopB": {
+      "settings": {
+        "stability": 0.95,
+        "similarity_boost": 0.8
+      }
+    },
+    "Jock": {
+      "settings": {
+        "stability": 0.95,
+        "similarity_boost": 0.8
+      }
+    },
+    "WaltonSimons": {
+      "settings": {}
+    },
+    "GilbertRenton": {
+      "settings": {}
+    },
+    "MaggieChow": {
+      "settings": {}
+    },
+    "MaxChen": {
+      "settings": {}
+    },
+    "GordonQuick": {
+      "settings": {}
+    },
+    "TracerTong": {
+      "settings": {}
+    },
+    "Red_Arrow_01": {
+      "settings": {}
+    }
+  },
+  "lines": {
+    "V15549366": {
+      "speaker": "Red_Arrow_01",
+      "text": "Denton?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V15549366",
+      "channel": "direct",
+      "spoken_text": "Denton?",
+      "intent": "Restrained performance consistent with the surrounding scene.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Denton?",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2381690815704895
+      ],
+      "target_lufs": -13.38,
+      "seed": 15549366
+    },
+    "V12229571": {
+      "speaker": "JCDenton",
+      "text": "Who's asking?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V12229571",
+      "channel": "direct",
+      "spoken_text": "Who's asking?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Who's asking?",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 12229571
+    },
+    "V10494367": {
+      "speaker": "Red_Arrow_01",
+      "text": "Someone who knows why you're here.",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V10494367",
+      "channel": "direct",
+      "spoken_text": "Someone who knows why you're here.",
+      "intent": "Restrained performance consistent with the surrounding scene.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Someone who knows why you're here.",
+      "target_seconds": 1.6,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.28,
+        1.9200000000000002
+      ],
+      "target_lufs": -13.38,
+      "seed": 10494367
+    },
+    "V15985790": {
+      "speaker": "JCDenton",
+      "text": "Who?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V15985790",
+      "channel": "direct",
+      "spoken_text": "Who?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Who?",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 1,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 15985790
+    },
+    "V11319869": {
+      "speaker": "Red_Arrow_01",
+      "text": "Max Chen. Lucky Money.",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V11319869",
+      "channel": "direct",
+      "spoken_text": "Max Chen. Lucky Money.",
+      "intent": "Restrained performance consistent with the surrounding scene.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Max Chen. Lucky Money.",
+      "target_seconds": 1.5145020067760795,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8763329252055898,
+        2.152671088346569
+      ],
+      "target_lufs": -13.38,
+      "seed": 11319869
+    },
+    "V7228590": {
+      "speaker": "JCDenton",
+      "text": "Why does Chen want to see me?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V7228590",
+      "channel": "direct",
+      "spoken_text": "Why does Chen want to see me?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Why does Chen want to see me?",
+      "target_seconds": 1.2647412653419974,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6897957070563789,
+        1.8396868236276158
+      ],
+      "target_lufs": -13.45,
+      "seed": 7228590
+    },
+    "V15547753": {
+      "speaker": "Red_Arrow_01",
+      "text": "Ask him.",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-3",
+      "scene": "red-arrow-messenger",
+      "key": "V15547753",
+      "channel": "direct",
+      "spoken_text": "Ask him.",
+      "intent": "Restrained performance consistent with the surrounding scene.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Ask him.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2381690815704895
+      ],
+      "target_lufs": -13.38,
+      "seed": 15547753
+    },
+    "V14690816": {
+      "speaker": "MaxChen",
+      "text": "Mr. Denton.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V14690816",
+      "channel": "direct",
+      "spoken_text": "Mr. Denton.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Mr. Denton.",
+      "target_seconds": 1.2264879829446527,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.47648798294465267,
+        1.9764879829446527
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 14690816
+    },
+    "V15548463": {
+      "speaker": "JCDenton",
+      "text": "You know who I am.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V15548463",
+      "channel": "direct",
+      "spoken_text": "You know who I am.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You know who I am.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 15548463
+    },
+    "V16256613": {
+      "speaker": "MaxChen",
+      "text": "Everyone knows who you are.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V16256613",
+      "channel": "direct",
+      "spoken_text": "Everyone knows who you are.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Everyone knows who you are.",
+      "target_seconds": 2.010201960821434,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.2602019608214339,
+        2.760201960821434
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 16256613
+    },
+    "V14786971": {
+      "speaker": "JCDenton",
+      "text": "I'm looking for Tracer Tong.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V14786971",
+      "channel": "direct",
+      "spoken_text": "I'm looking for Tracer Tong.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I'm looking for Tracer Tong.",
+      "target_seconds": 1.2647412653419974,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6897957070563789,
+        1.8396868236276158
+      ],
+      "target_lufs": -13.45,
+      "seed": 14786971
+    },
+    "V12380353": {
+      "speaker": "MaxChen",
+      "text": "Then you are looking for the Luminous Path.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V12380353",
+      "channel": "direct",
+      "spoken_text": "Then you are looking for the Luminous Path.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Then you are looking for the Luminous Path.",
+      "target_seconds": 3.073174509862253,
+      "timing_features": {
+        "estimated_syllables": 11,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        2.4585396078898025,
+        3.687809411834704
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 12380353
+    },
+    "V5715540": {
+      "speaker": "JCDenton",
+      "text": "And Maggie Chow?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V5715540",
+      "channel": "direct",
+      "spoken_text": "And Maggie Chow?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] And Maggie Chow?",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 5715540
+    },
+    "V5059634": {
+      "speaker": "MaxChen",
+      "text": "She is expecting you.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "5",
+      "scene": "max-introduction",
+      "key": "V5059634",
+      "channel": "direct",
+      "spoken_text": "She is expecting you.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] She is expecting you.",
+      "target_seconds": 1.7444588235612288,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.9944588235612288,
+        2.494458823561229
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 5059634
+    },
+    "V11248312": {
+      "speaker": "MaggieChow",
+      "text": "Mr. J.C. Denton.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V11248312",
+      "channel": "direct",
+      "spoken_text": "Mr. J.C. Denton.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Mr. J.C. Denton.",
+      "target_seconds": 2.328589120880891,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 3,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.6174257470547788,
+        3.0397524947070034
+      ],
+      "target_lufs": -12.6,
+      "seed": 11248312
+    },
+    "V5773471": {
+      "speaker": "JCDenton",
+      "text": "Maggie Chow.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V5773471",
+      "channel": "direct",
+      "spoken_text": "Maggie Chow.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Maggie Chow.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 5773471
+    },
+    "V9408088": {
+      "speaker": "MaggieChow",
+      "text": "As serious as your brother.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V9408088",
+      "channel": "direct",
+      "spoken_text": "As serious as your brother.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] As serious as your brother.",
+      "target_seconds": 1.6616628169745178,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.9504994431484055,
+        2.3728261908006303
+      ],
+      "target_lufs": -12.6,
+      "seed": 9408088
+    },
+    "V13719496": {
+      "speaker": "JCDenton",
+      "text": "You knew Paul?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V13719496",
+      "channel": "direct",
+      "spoken_text": "You knew Paul?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You knew Paul?",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 13719496
+    },
+    "V12445327": {
+      "speaker": "MaggieChow",
+      "text": "Everyone involved with Tracer Tong knew Paul.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V12445327",
+      "channel": "direct",
+      "spoken_text": "Everyone involved with Tracer Tong knew Paul.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Everyone involved with Tracer Tong knew Paul.",
+      "target_seconds": 2.427810209161771,
+      "timing_features": {
+        "estimated_syllables": 11,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.9422481673294167,
+        2.9133722509941253
+      ],
+      "target_lufs": -12.6,
+      "seed": 12445327
+    },
+    "V2258518": {
+      "speaker": "JCDenton",
+      "text": "That's not what I asked.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V2258518",
+      "channel": "direct",
+      "spoken_text": "That's not what I asked.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] That's not what I asked.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 2258518
+    },
+    "V3423212": {
+      "speaker": "MaggieChow",
+      "text": "Yes.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V3423212",
+      "channel": "direct",
+      "spoken_text": "Yes.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Yes.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 1,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3111633738261124
+      ],
+      "target_lufs": -12.6,
+      "seed": 3423212
+    },
+    "V1957008": {
+      "speaker": "MaggieChow",
+      "text": "Your brother came here looking for answers.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V1957008",
+      "channel": "direct",
+      "spoken_text": "Your brother came here looking for answers.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Your brother came here looking for answers.",
+      "target_seconds": 2.2362733611149577,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.7890186888919661,
+        2.683528033337949
+      ],
+      "target_lufs": -12.6,
+      "seed": 1957008
+    },
+    "V13045758": {
+      "speaker": "JCDenton",
+      "text": "What did he find?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V13045758",
+      "channel": "direct",
+      "spoken_text": "What did he find?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] What did he find?",
+      "target_seconds": 0.7979749169746098,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3729204752602282
+      ],
+      "target_lufs": -13.45,
+      "seed": 13045758
+    },
+    "V9844731": {
+      "speaker": "MaggieChow",
+      "text": "Tracer Tong.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V9844731",
+      "channel": "direct",
+      "spoken_text": "Tracer Tong.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Tracer Tong.",
+      "target_seconds": 0.8955154247872648,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.606678798613377
+      ],
+      "target_lufs": -12.6,
+      "seed": 9844731
+    },
+    "V12219120": {
+      "speaker": "MaggieChow",
+      "text": "Look what happened to him.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "6",
+      "scene": "maggie-introduction",
+      "key": "V12219120",
+      "channel": "direct",
+      "spoken_text": "Look what happened to him.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Look what happened to him.",
+      "target_seconds": 1.4701259689277044,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.7589625951015921,
+        2.181289342753817
+      ],
+      "target_lufs": -12.6,
+      "seed": 12219120
+    },
+    "V11762677": {
+      "speaker": "GordonQuick",
+      "text": "Paul Denton trusted you.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V11762677",
+      "channel": "direct",
+      "spoken_text": "Paul Denton trusted you.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Paul Denton trusted you.",
+      "target_seconds": 1.9499999999999997,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.1999999999999997,
+        2.6999999999999997
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 11762677
+    },
+    "V7275393": {
+      "speaker": "JCDenton",
+      "text": "Paul made a mistake.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V7275393",
+      "channel": "direct",
+      "spoken_text": "Paul made a mistake.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Paul made a mistake.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 7275393
+    },
+    "V175668": {
+      "speaker": "GordonQuick",
+      "text": "Which one?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V175668",
+      "channel": "direct",
+      "spoken_text": "Which one?",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Which one?",
+      "target_seconds": 0.75,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 175668
+    },
+    "V13195081": {
+      "speaker": "JCDenton",
+      "text": "Choosing terrorists over UNATCO.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V13195081",
+      "channel": "direct",
+      "spoken_text": "Choosing terrorists over UNATCO.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Choosing terrorists over /ju\u02d0\u02c8n\u00e6tko\u028a/.",
+      "target_seconds": 1.7315076137093852,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.1565620554237668,
+        2.3064531719950034
+      ],
+      "target_lufs": -13.45,
+      "seed": 13195081
+    },
+    "V889527": {
+      "speaker": "GordonQuick",
+      "text": "No. Trusting his brother.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V889527",
+      "channel": "direct",
+      "spoken_text": "No. Trusting his brother.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] No. Trusting his brother.",
+      "target_seconds": 2.05,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.2999999999999998,
+        2.8
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 889527
+    },
+    "V11372586": {
+      "speaker": "JCDenton",
+      "text": "Where's Tong?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V11372586",
+      "channel": "direct",
+      "spoken_text": "Where's Tong?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Where's Tong?",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 11372586
+    },
+    "V5190126": {
+      "speaker": "GordonQuick",
+      "text": "Somewhere you will never find him.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V5190126",
+      "channel": "direct",
+      "spoken_text": "Somewhere you will never find him.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Somewhere you will never find him.",
+      "target_seconds": 2.8499999999999996,
+      "timing_features": {
+        "estimated_syllables": 9,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        2.28,
+        3.4199999999999995
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 5190126
+    },
+    "V15936479": {
+      "speaker": "JCDenton",
+      "text": "Then we're finished.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V15936479",
+      "channel": "direct",
+      "spoken_text": "Then we're finished.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Then we're finished.",
+      "target_seconds": 0.7979749169746098,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3729204752602282
+      ],
+      "target_lufs": -13.45,
+      "seed": 15936479
+    },
+    "V15715922": {
+      "speaker": "GordonQuick",
+      "text": "Maybe.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V15715922",
+      "channel": "direct",
+      "spoken_text": "Maybe.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Maybe.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 1,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.35
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 15715922
+    },
+    "V13593712": {
+      "speaker": "GordonQuick",
+      "text": "Ask Maggie Chow who killed Yuen Kong.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "8",
+      "scene": "gordon-gate",
+      "key": "V13593712",
+      "channel": "direct",
+      "spoken_text": "Ask Maggie Chow who killed Yuen Kong.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Ask Maggie Chow who killed Yuen Kong.",
+      "target_seconds": 2.25,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.8,
+        2.7
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 13593712
+    },
+    "V9838326": {
+      "speaker": "WaltonSimons",
+      "text": "Maggie. Denton should be arriving shortly.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V9838326",
+      "channel": "radio",
+      "spoken_text": "Maggie. Denton should be arriving shortly.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Maggie. Denton should be arriving shortly.",
+      "target_seconds": 2.5783958053902376,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        2.0627166443121903,
+        3.094074966468285
+      ],
+      "target_lufs": -16.01,
+      "seed": 9838326
+    },
+    "V4603932": {
+      "speaker": "MaggieChow",
+      "text": "And if he refuses to cooperate?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V4603932",
+      "channel": "direct",
+      "spoken_text": "And if he refuses to cooperate?",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] And if he refuses to cooperate?",
+      "target_seconds": 2.2362733611149577,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.7890186888919661,
+        2.683528033337949
+      ],
+      "target_lufs": -12.6,
+      "seed": 4603932
+    },
+    "V5320742": {
+      "speaker": "WaltonSimons",
+      "text": "He won't.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V5320742",
+      "channel": "radio",
+      "spoken_text": "He won't.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] He won't.",
+      "target_seconds": 0.6156791610780475,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2156791610780475
+      ],
+      "target_lufs": -16.01,
+      "seed": 5320742
+    },
+    "V14364151": {
+      "speaker": "MaggieChow",
+      "text": "You're very confident.",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V14364151",
+      "channel": "direct",
+      "spoken_text": "You're very confident.",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] You're very confident.",
+      "target_seconds": 1.4701259689277044,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.7589625951015921,
+        2.181289342753817
+      ],
+      "target_lufs": -12.6,
+      "seed": 14364151
+    },
+    "V12883177": {
+      "speaker": "WaltonSimons",
+      "text": "His brother made that mistake for us.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V12883177",
+      "channel": "radio",
+      "spoken_text": "His brother made that mistake for us.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] His brother made that mistake for us.",
+      "target_seconds": 2.2455562248512138,
+      "timing_features": {
+        "estimated_syllables": 9,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.796444979880971,
+        2.6946674698214563
+      ],
+      "target_lufs": -16.01,
+      "seed": 12883177
+    },
+    "V12007292": {
+      "speaker": "MaggieChow",
+      "text": "And Tong?",
+      "kind": "con",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V12007292",
+      "channel": "direct",
+      "spoken_text": "And Tong?",
+      "intent": "Maggie is poised and manipulative, politely confident. Natural pauses, subtle emphasis; no dramatic breathiness.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] And Tong?",
+      "target_seconds": 0.7039785767404516,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.4151419505665639
+      ],
+      "target_lufs": -12.6,
+      "seed": 12007292
+    },
+    "V6559136": {
+      "speaker": "WaltonSimons",
+      "text": "Denton will take care of that.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V6559136",
+      "channel": "radio",
+      "spoken_text": "Denton will take care of that.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Denton will take care of that.",
+      "target_seconds": 1.7798770637731662,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.423901651018533,
+        2.1358524765277993
+      ],
+      "target_lufs": -16.01,
+      "seed": 6559136
+    },
+    "V11032729": {
+      "speaker": "JCDenton",
+      "text": "Simons...",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 ologramma",
+      "scene": "chow-hologram",
+      "key": "V11032729",
+      "channel": "direct",
+      "spoken_text": "Simons",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Simons",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 11032729
+    },
+    "V12615066": {
+      "speaker": "JCDenton",
+      "text": "I found the Dragon's Tooth in Chow's apartment.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V12615066",
+      "channel": "direct",
+      "spoken_text": "I found the Dragon's Tooth in Chow's apartment.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I found the Dragon's Tooth in Chow's apartment.",
+      "target_seconds": 1.8870963964985144,
+      "timing_features": {
+        "estimated_syllables": 11,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.312150838212896,
+        2.462041954784133
+      ],
+      "target_lufs": -13.45,
+      "seed": 12615066
+    },
+    "V13226041": {
+      "speaker": "WaltonSimons",
+      "text": "Then secure it.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V13226041",
+      "channel": "radio",
+      "spoken_text": "Then secure it.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Then secure it.",
+      "target_seconds": 1.081358322156095,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.481358322156095,
+        1.681358322156095
+      ],
+      "target_lufs": -16.01,
+      "seed": 13226041
+    },
+    "V5917675": {
+      "speaker": "JCDenton",
+      "text": "I also found a recording.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V5917675",
+      "channel": "direct",
+      "spoken_text": "I also found a recording.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I also found a recording.",
+      "target_seconds": 1.4203300481311267,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8453844898455083,
+        1.9952756064167452
+      ],
+      "target_lufs": -13.45,
+      "seed": 5917675
+    },
+    "V311204": {
+      "speaker": "JCDenton",
+      "text": "You and Maggie.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V311204",
+      "channel": "direct",
+      "spoken_text": "You and Maggie.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You and Maggie.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 311204
+    },
+    "V12660794": {
+      "speaker": "WaltonSimons",
+      "text": "Maggie Chow is an intelligence asset.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V12660794",
+      "channel": "radio",
+      "spoken_text": "Maggie Chow is an intelligence asset.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Maggie Chow is an intelligence asset.",
+      "target_seconds": 2.4783958053902375,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.98271664431219,
+        2.974074966468285
+      ],
+      "target_lufs": -16.01,
+      "seed": 12660794
+    },
+    "V13613275": {
+      "speaker": "JCDenton",
+      "text": "You knew.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V13613275",
+      "channel": "direct",
+      "spoken_text": "You knew.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You knew.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 13613275
+    },
+    "V10426059": {
+      "speaker": "WaltonSimons",
+      "text": "I know a great many things you don't, Denton.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V10426059",
+      "channel": "radio",
+      "spoken_text": "I know a great many things you don't, Denton.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] I know a great many things you don't, Denton.",
+      "target_seconds": 2.7112353859292613,
+      "timing_features": {
+        "estimated_syllables": 11,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        2.168988308743409,
+        3.2534824631151134
+      ],
+      "target_lufs": -16.01,
+      "seed": 10426059
+    },
+    "V13215460": {
+      "speaker": "JCDenton",
+      "text": "Did she kill Yuen Kong?",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V13215460",
+      "channel": "direct",
+      "spoken_text": "Did she kill Yuen Kong?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Did she kill Yuen Kong?",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 13215460
+    },
+    "V15329295": {
+      "speaker": "WaltonSimons",
+      "text": "Your objective is Tracer Tong.",
+      "kind": "infolink",
+      "file": "HONGKONG_M1_PIANO.md",
+      "source_section": "HK-7 chiamata aggiornata",
+      "scene": "sword-simons-call",
+      "key": "V15329295",
+      "channel": "radio",
+      "spoken_text": "Your objective is Tracer Tong.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Your objective is Tracer Tong.",
+      "target_seconds": 2.01271664431219,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.610173315449752,
+        2.415259973174628
+      ],
+      "target_lufs": -16.01,
+      "seed": 15329295
+    },
+    "V12307065": {
+      "speaker": "MaxChen",
+      "text": "Maggie had this?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V12307065",
+      "channel": "direct",
+      "spoken_text": "Maggie had this?",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Maggie had this?",
+      "target_seconds": 0.9472294117806145,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.6972294117806146
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 12307065
+    },
+    "V16042596": {
+      "speaker": "JCDenton",
+      "text": "Yes.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V16042596",
+      "channel": "direct",
+      "spoken_text": "Yes.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Yes.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 1,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 16042596
+    },
+    "V3682340": {
+      "speaker": "MaxChen",
+      "text": "Then she killed Yuen Kong.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V3682340",
+      "channel": "direct",
+      "spoken_text": "Then she killed Yuen Kong.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Then she killed Yuen Kong.",
+      "target_seconds": 1.478715686301024,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.728715686301024,
+        2.2287156863010242
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 3682340
+    },
+    "V6604783": {
+      "speaker": "JCDenton",
+      "text": "That's what the evidence suggests.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V6604783",
+      "channel": "direct",
+      "spoken_text": "That's what the evidence suggests.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] That's what the evidence suggests.",
+      "target_seconds": 1.4203300481311267,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8453844898455083,
+        1.9952756064167452
+      ],
+      "target_lufs": -13.45,
+      "seed": 6604783
+    },
+    "V1267321": {
+      "speaker": "MaxChen",
+      "text": "And you're working with her.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V1267321",
+      "channel": "direct",
+      "spoken_text": "And you're working with her.",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] And you're working with her.",
+      "target_seconds": 1.7444588235612288,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.9944588235612288,
+        2.494458823561229
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 1267321
+    },
+    "V13849649": {
+      "speaker": "JCDenton",
+      "text": "I'm working for UNATCO.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V13849649",
+      "channel": "direct",
+      "spoken_text": "I'm working for UNATCO.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I'm working for /ju\u02d0\u02c8n\u00e6tko\u028a/.",
+      "target_seconds": 1.2647412653419974,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6897957070563789,
+        1.8396868236276158
+      ],
+      "target_lufs": -13.45,
+      "seed": 13849649
+    },
+    "V15879505": {
+      "speaker": "MaxChen",
+      "text": "Is there a difference?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "13",
+      "scene": "max-evidence",
+      "key": "V15879505",
+      "channel": "direct",
+      "spoken_text": "Is there a difference?",
+      "intent": "Triad leader speaks with composed authority and guarded politeness; measured questions, minimal emotion.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Is there a difference?",
+      "target_seconds": 1.7444588235612288,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.9944588235612288,
+        2.494458823561229
+      ],
+      "target_lufs": -11.844999999999999,
+      "seed": 15879505
+    },
+    "V5766960": {
+      "speaker": "GordonQuick",
+      "text": "Tong will speak with you.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "14",
+      "scene": "gordon-permission",
+      "key": "V5766960",
+      "channel": "direct",
+      "spoken_text": "Tong will speak with you.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Tong will speak with you.",
+      "target_seconds": 1.65,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8999999999999999,
+        2.4
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 5766960
+    },
+    "V13307669": {
+      "speaker": "JCDenton",
+      "text": "I didn't ask to speak with him.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "14",
+      "scene": "gordon-permission",
+      "key": "V13307669",
+      "channel": "direct",
+      "spoken_text": "I didn't ask to speak with him.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I didn't ask to speak with him.",
+      "target_seconds": 1.4203300481311267,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8453844898455083,
+        1.9952756064167452
+      ],
+      "target_lufs": -13.45,
+      "seed": 13307669
+    },
+    "V1748247": {
+      "speaker": "GordonQuick",
+      "text": "No. You came to arrest him.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "14",
+      "scene": "gordon-permission",
+      "key": "V1748247",
+      "channel": "direct",
+      "spoken_text": "No. You came to arrest him.",
+      "intent": "Gordon distrusts an UNATCO agent and resents Paul's betrayal. Low, controlled challenge, without aggression or shouting.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] No. You came to arrest him.",
+      "target_seconds": 2.35,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.8800000000000001,
+        2.8200000000000003
+      ],
+      "target_lufs": -12.155000000000001,
+      "seed": 1748247
+    },
+    "V13729488": {
+      "speaker": "TracerTong",
+      "text": "J.C. Denton.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V13729488",
+      "channel": "direct",
+      "spoken_text": "J.C. Denton.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] J.C. Denton.",
+      "target_seconds": 1.6960766962502707,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 2,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.9460766962502707,
+        2.4460766962502705
+      ],
+      "target_lufs": -11.17,
+      "seed": 13729488
+    },
+    "V2491107": {
+      "speaker": "JCDenton",
+      "text": "Tracer Tong.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V2491107",
+      "channel": "direct",
+      "spoken_text": "Tracer Tong.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Tracer Tong.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 2491107
+    },
+    "V4944780": {
+      "speaker": "TracerTong",
+      "text": "Paul said you would come.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V4944780",
+      "channel": "direct",
+      "spoken_text": "Paul said you would come.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Paul said you would come.",
+      "target_seconds": 1.2075958703128382,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4575958703128382,
+        1.9575958703128382
+      ],
+      "target_lufs": -11.17,
+      "seed": 4944780
+    },
+    "V3760307": {
+      "speaker": "JCDenton",
+      "text": "Paul thought I'd come for help.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V3760307",
+      "channel": "direct",
+      "spoken_text": "Paul thought I'd come for help.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Paul thought I'd come for help.",
+      "target_seconds": 1.1091524825528682,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.5342069242672498,
+        1.6840980408384867
+      ],
+      "target_lufs": -13.45,
+      "seed": 3760307
+    },
+    "V11115945": {
+      "speaker": "TracerTong",
+      "text": "And instead?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V11115945",
+      "channel": "direct",
+      "spoken_text": "And instead?",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] And instead?",
+      "target_seconds": 0.784557522187703,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.534557522187703
+      ],
+      "target_lufs": -11.17,
+      "seed": 11115945
+    },
+    "V5872319": {
+      "speaker": "JCDenton",
+      "text": "You're coming with me.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V5872319",
+      "channel": "direct",
+      "spoken_text": "You're coming with me.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You're coming with me.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 5872319
+    },
+    "V15937928": {
+      "speaker": "TracerTong",
+      "text": "To UNATCO.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V15937928",
+      "channel": "direct",
+      "spoken_text": "To UNATCO.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] To /ju\u02d0\u02c8n\u00e6tko\u028a/.",
+      "target_seconds": 0.9960766962502707,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.7460766962502707
+      ],
+      "target_lufs": -11.17,
+      "seed": 15937928
+    },
+    "V14299673": {
+      "speaker": "JCDenton",
+      "text": "That's right.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V14299673",
+      "channel": "direct",
+      "spoken_text": "That's right.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] That's right.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 14299673
+    },
+    "V10056885": {
+      "speaker": "TracerTong",
+      "text": "Even now.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V10056885",
+      "channel": "direct",
+      "spoken_text": "Even now.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Even now.",
+      "target_seconds": 0.784557522187703,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.534557522187703
+      ],
+      "target_lufs": -11.17,
+      "seed": 10056885
+    },
+    "V3700751": {
+      "speaker": "JCDenton",
+      "text": "Especially now.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "15",
+      "scene": "tong-introduction",
+      "key": "V3700751",
+      "channel": "direct",
+      "spoken_text": "Especially now.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Especially now.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 3700751
+    },
+    "V2561065": {
+      "speaker": "TracerTong",
+      "text": "Paul tried to convince you.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V2561065",
+      "channel": "direct",
+      "spoken_text": "Paul tried to convince you.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Paul tried to convince you.",
+      "target_seconds": 1.419115044375406,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6691150443754059,
+        2.169115044375406
+      ],
+      "target_lufs": -11.17,
+      "seed": 2561065
+    },
+    "V2284000": {
+      "speaker": "JCDenton",
+      "text": "He didn't.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V2284000",
+      "channel": "direct",
+      "spoken_text": "He didn't.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] He didn't.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 2284000
+    },
+    "V16078455": {
+      "speaker": "TracerTong",
+      "text": "Because he gave you a conclusion.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V16078455",
+      "channel": "direct",
+      "spoken_text": "Because he gave you a conclusion.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Because he gave you a conclusion.",
+      "target_seconds": 2.053672566563109,
+      "timing_features": {
+        "estimated_syllables": 9,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.6429380532504871,
+        2.464407079875731
+      ],
+      "target_lufs": -11.17,
+      "seed": 16078455
+    },
+    "V8760735": {
+      "speaker": "TracerTong",
+      "text": "I'll give you evidence.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V8760735",
+      "channel": "direct",
+      "spoken_text": "I'll give you evidence.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] I'll give you evidence.",
+      "target_seconds": 1.419115044375406,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6691150443754059,
+        2.169115044375406
+      ],
+      "target_lufs": -11.17,
+      "seed": 8760735
+    },
+    "V6467283": {
+      "speaker": "JCDenton",
+      "text": "Where did you get this?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V6467283",
+      "channel": "direct",
+      "spoken_text": "Where did you get this?",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Where did you get this?",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 6467283
+    },
+    "V3817773": {
+      "speaker": "TracerTong",
+      "text": "Ask your employers.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V3817773",
+      "channel": "direct",
+      "spoken_text": "Ask your employers.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Ask your employers.",
+      "target_seconds": 0.9960766962502707,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.7460766962502707
+      ],
+      "target_lufs": -11.17,
+      "seed": 3817773
+    },
+    "V13776423": {
+      "speaker": "JCDenton",
+      "text": "I'm asking you.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V13776423",
+      "channel": "direct",
+      "spoken_text": "I'm asking you.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I'm asking you.",
+      "target_seconds": 0.7979749169746098,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3729204752602282
+      ],
+      "target_lufs": -13.45,
+      "seed": 13776423
+    },
+    "V8746019": {
+      "speaker": "TracerTong",
+      "text": "VersaLife.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "16",
+      "scene": "tong-evidence",
+      "key": "V8746019",
+      "channel": "direct",
+      "spoken_text": "VersaLife.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] VersaLife.",
+      "target_seconds": 0.784557522187703,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.534557522187703
+      ],
+      "target_lufs": -11.17,
+      "seed": 8746019
+    },
+    "V7280705": {
+      "speaker": "TracerTong",
+      "text": "You led them here.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "17",
+      "scene": "tong-alarm",
+      "key": "V7280705",
+      "channel": "direct",
+      "spoken_text": "You led them here.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] You led them here.",
+      "target_seconds": 0.9960766962502707,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.7460766962502707
+      ],
+      "target_lufs": -11.17,
+      "seed": 7280705
+    },
+    "V3390671": {
+      "speaker": "TracerTong",
+      "text": "You still don't know?",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "17",
+      "scene": "tong-alarm",
+      "key": "V3390671",
+      "channel": "direct",
+      "spoken_text": "You still don't know?",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] You still don't know?",
+      "target_seconds": 0.9960766962502707,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.7460766962502707
+      ],
+      "target_lufs": -11.17,
+      "seed": 3390671
+    },
+    "V9833119": {
+      "speaker": "WaltonSimons",
+      "text": "Denton.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V9833119",
+      "channel": "radio",
+      "spoken_text": "Denton.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Denton.",
+      "target_seconds": 0.6156791610780475,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2156791610780475
+      ],
+      "target_lufs": -16.01,
+      "seed": 9833119
+    },
+    "V1220764": {
+      "speaker": "JCDenton",
+      "text": "There's a tactical team entering the compound.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V1220764",
+      "channel": "direct",
+      "spoken_text": "There's a tactical team entering the compound.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] There's a tactical team entering the compound.",
+      "target_seconds": 2.042685179287644,
+      "timing_features": {
+        "estimated_syllables": 12,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.4677396210020255,
+        2.617630737573262
+      ],
+      "target_lufs": -13.45,
+      "seed": 1220764
+    },
+    "V16443216": {
+      "speaker": "WaltonSimons",
+      "text": "Correct.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V16443216",
+      "channel": "radio",
+      "spoken_text": "Correct.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Correct.",
+      "target_seconds": 0.6156791610780475,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2156791610780475
+      ],
+      "target_lufs": -16.01,
+      "seed": 16443216
+    },
+    "V14828450": {
+      "speaker": "JCDenton",
+      "text": "You tracked me.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V14828450",
+      "channel": "direct",
+      "spoken_text": "You tracked me.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You tracked me.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 14828450
+    },
+    "V9525789": {
+      "speaker": "WaltonSimons",
+      "text": "We tracked Tong.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V9525789",
+      "channel": "radio",
+      "spoken_text": "We tracked Tong.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] We tracked Tong.",
+      "target_seconds": 0.8485187416170713,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.4485187416170713
+      ],
+      "target_lufs": -16.01,
+      "seed": 9525789
+    },
+    "V6507384": {
+      "speaker": "JCDenton",
+      "text": "Through me.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V6507384",
+      "channel": "direct",
+      "spoken_text": "Through me.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Through me.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.1749455582856183
+      ],
+      "target_lufs": -13.45,
+      "seed": 6507384
+    },
+    "V5233123": {
+      "speaker": "WaltonSimons",
+      "text": "You completed your assignment.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V5233123",
+      "channel": "radio",
+      "spoken_text": "You completed your assignment.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] You completed your assignment.",
+      "target_seconds": 2.01271664431219,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.41271664431219,
+        2.61271664431219
+      ],
+      "target_lufs": -16.01,
+      "seed": 5233123
+    },
+    "V15539421": {
+      "speaker": "WaltonSimons",
+      "text": "Stand by. The recovery team will take him into custody.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V15539421",
+      "channel": "radio",
+      "spoken_text": "Stand by. The recovery team will take him into custody.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Stand by. The recovery team will take him into custody.",
+      "target_seconds": 3.97543328862438,
+      "timing_features": {
+        "estimated_syllables": 16,
+        "extra_sentence_breaks": 1,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        3.1803466308995043,
+        4.770519946349256
+      ],
+      "target_lufs": -16.01,
+      "seed": 15539421
+    },
+    "V11373234": {
+      "speaker": "JCDenton",
+      "text": "He's my prisoner.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V11373234",
+      "channel": "direct",
+      "spoken_text": "He's my prisoner.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] He's my prisoner.",
+      "target_seconds": 0.953563699763739,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.5285092580493576
+      ],
+      "target_lufs": -13.45,
+      "seed": 11373234
+    },
+    "V5233234": {
+      "speaker": "WaltonSimons",
+      "text": "Not anymore.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "18-19",
+      "scene": "mj12-arrival",
+      "key": "V5233234",
+      "channel": "radio",
+      "spoken_text": "Not anymore.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Not anymore.",
+      "target_seconds": 1.081358322156095,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.481358322156095,
+        1.681358322156095
+      ],
+      "target_lufs": -16.01,
+      "seed": 5233234
+    },
+    "V12816577": {
+      "speaker": "JCDenton",
+      "text": "Come with me.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "20",
+      "scene": "tong-escape",
+      "key": "V12816577",
+      "channel": "direct",
+      "spoken_text": "Come with me.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Come with me.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 12816577
+    },
+    "V7167085": {
+      "speaker": "TracerTong",
+      "text": "No.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "20",
+      "scene": "tong-escape",
+      "key": "V7167085",
+      "channel": "direct",
+      "spoken_text": "No.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] No.",
+      "target_seconds": 0.6,
+      "timing_features": {
+        "estimated_syllables": 1,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.35
+      ],
+      "target_lufs": -11.17,
+      "seed": 7167085,
+      "limiter_ceiling_db": -1.1
+    },
+    "V13183268": {
+      "speaker": "TracerTong",
+      "text": "Then look at what they do after I leave.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "20",
+      "scene": "tong-escape",
+      "key": "V13183268",
+      "channel": "direct",
+      "spoken_text": "Then look at what they do after I leave.",
+      "intent": "Tong calmly confronts JC with evidence. Thoughtful, deliberate sentences, restrained irony; no lecturing performance.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Then look at what they do after I leave.",
+      "target_seconds": 2.2651917406256765,
+      "timing_features": {
+        "estimated_syllables": 10,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.8121533925005413,
+        2.7182300887508117
+      ],
+      "target_lufs": -11.17,
+      "seed": 13183268
+    },
+    "V14900609": {
+      "speaker": "JCDenton",
+      "text": "Orders were to secure the facility.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "20",
+      "scene": "tong-escape",
+      "key": "V14900609",
+      "channel": "direct",
+      "spoken_text": "Orders were to secure the facility.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Orders were to secure the facility.",
+      "target_seconds": 1.8870963964985144,
+      "timing_features": {
+        "estimated_syllables": 11,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.312150838212896,
+        2.462041954784133
+      ],
+      "target_lufs": -13.45,
+      "seed": 14900609
+    },
+    "V6593002": {
+      "speaker": "MJ12TroopB",
+      "text": "Our orders are different.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "20",
+      "scene": "tong-escape",
+      "key": "V6593002",
+      "channel": "direct",
+      "spoken_text": "Our orders are different.",
+      "intent": "Base guard is terse and wary about Tong. Matter-of-fact, with a short pause at each sentence.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Our orders are different.",
+      "target_seconds": 1.5469641969135615,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.2375713575308491,
+        1.8563570362962738
+      ],
+      "target_lufs": -13.26,
+      "seed": 6593002
+    },
+    "V5921030": {
+      "speaker": "JCDenton",
+      "text": "He's unarmed.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "21",
+      "scene": "mj12-prisoner",
+      "key": "V5921030",
+      "channel": "direct",
+      "spoken_text": "He's unarmed.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] He's unarmed.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 5921030
+    },
+    "V16001234": {
+      "speaker": "MJ12TroopB",
+      "text": "Move along, Agent Denton.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "21",
+      "scene": "mj12-prisoner",
+      "key": "V16001234",
+      "channel": "direct",
+      "spoken_text": "Move along, Agent Denton.",
+      "intent": "Base guard is terse and wary about Tong. Matter-of-fact, with a short pause at each sentence.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Move along, Agent Denton.",
+      "target_seconds": 1.5469641969135615,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.2375713575308491,
+        1.8563570362962738
+      ],
+      "target_lufs": -13.26,
+      "seed": 16001234
+    },
+    "V7708230": {
+      "speaker": "JCDenton",
+      "text": "That's an order.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "21",
+      "scene": "mj12-prisoner",
+      "key": "V7708230",
+      "channel": "direct",
+      "spoken_text": "That's an order.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] That's an order.",
+      "target_seconds": 0.7979749169746098,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3729204752602282
+      ],
+      "target_lufs": -13.45,
+      "seed": 7708230
+    },
+    "V4601577": {
+      "speaker": "MJ12TroopB",
+      "text": "Not from my chain of command.",
+      "kind": "con",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "21",
+      "scene": "mj12-prisoner",
+      "key": "V4601577",
+      "channel": "direct",
+      "spoken_text": "Not from my chain of command.",
+      "intent": "Base guard is terse and wary about Tong. Matter-of-fact, with a short pause at each sentence.",
+      "delivery_tags": "matter-of-fact",
+      "tts_text": "[matter-of-fact] Not from my chain of command.",
+      "target_seconds": 1.5469641969135615,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.2375713575308491,
+        1.8563570362962738
+      ],
+      "target_lufs": -13.26,
+      "seed": 4601577
+    },
+    "V8673565": {
+      "speaker": "JCDenton",
+      "text": "Tong escaped.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V8673565",
+      "channel": "direct",
+      "spoken_text": "Tong escaped.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Tong escaped.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 8673565
+    },
+    "V6774180": {
+      "speaker": "JCDenton",
+      "text": "Your team alerted him.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V6774180",
+      "channel": "direct",
+      "spoken_text": "Your team alerted him.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Your team alerted him.",
+      "target_seconds": 1.1091524825528682,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.5342069242672498,
+        1.6840980408384867
+      ],
+      "target_lufs": -13.45,
+      "seed": 6774180
+    },
+    "V7043535": {
+      "speaker": "WaltonSimons",
+      "text": "Our team prevented him from destroying valuable intelligence.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V7043535",
+      "channel": "radio",
+      "spoken_text": "Our team prevented him from destroying valuable intelligence.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Our team prevented him from destroying valuable intelligence.",
+      "target_seconds": 3.87543328862438,
+      "timing_features": {
+        "estimated_syllables": 16,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        3.1003466308995042,
+        4.650519946349256
+      ],
+      "target_lufs": -16.01,
+      "seed": 7043535
+    },
+    "V67485": {
+      "speaker": "JCDenton",
+      "text": "I had him.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V67485",
+      "channel": "direct",
+      "spoken_text": "I had him.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I had him.",
+      "target_seconds": 0.6423861341854805,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2173316924710988
+      ],
+      "target_lufs": -13.45,
+      "seed": 67485
+    },
+    "V4459690": {
+      "speaker": "WaltonSimons",
+      "text": "You were talking to him.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V4459690",
+      "channel": "radio",
+      "spoken_text": "You were talking to him.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] You were talking to him.",
+      "target_seconds": 1.5470374832341425,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.237629986587314,
+        1.856444979880971
+      ],
+      "target_lufs": -16.01,
+      "seed": 4459690
+    },
+    "V181565": {
+      "speaker": "JCDenton",
+      "text": "I was interrogating him.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V181565",
+      "channel": "direct",
+      "spoken_text": "I was interrogating him.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I was interrogating him.",
+      "target_seconds": 1.4203300481311267,
+      "timing_features": {
+        "estimated_syllables": 8,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.8453844898455083,
+        1.9952756064167452
+      ],
+      "target_lufs": -13.45,
+      "seed": 181565
+    },
+    "V9218202": {
+      "speaker": "WaltonSimons",
+      "text": "Then consider the interrogation over.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V9218202",
+      "channel": "radio",
+      "spoken_text": "Then consider the interrogation over.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Then consider the interrogation over.",
+      "target_seconds": 2.944074966468285,
+      "timing_features": {
+        "estimated_syllables": 12,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        2.355259973174628,
+        3.532889959761942
+      ],
+      "target_lufs": -16.01,
+      "seed": 9218202
+    },
+    "V2069687": {
+      "speaker": "JCDenton",
+      "text": "Tong gave me information about VersaLife.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V2069687",
+      "channel": "direct",
+      "spoken_text": "Tong gave me information about VersaLife.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] Tong gave me information about VersaLife.",
+      "target_seconds": 2.042685179287644,
+      "timing_features": {
+        "estimated_syllables": 12,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        1.4677396210020255,
+        2.617630737573262
+      ],
+      "target_lufs": -13.45,
+      "seed": 2069687
+    },
+    "V8123083": {
+      "speaker": "WaltonSimons",
+      "text": "What information?",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V8123083",
+      "channel": "radio",
+      "spoken_text": "What information?",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] What information?",
+      "target_seconds": 1.3141979026951187,
+      "timing_features": {
+        "estimated_syllables": 5,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.7141979026951187,
+        1.9141979026951188
+      ],
+      "target_lufs": -16.01,
+      "seed": 8123083
+    },
+    "V12976801": {
+      "speaker": "JCDenton",
+      "text": "That's what I'm going to find out.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V12976801",
+      "channel": "direct",
+      "spoken_text": "That's what I'm going to find out.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] That's what I'm going to find out.",
+      "target_seconds": 1.2647412653419974,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6897957070563789,
+        1.8396868236276158
+      ],
+      "target_lufs": -13.45,
+      "seed": 12976801
+    },
+    "V4057912": {
+      "speaker": "WaltonSimons",
+      "text": "Denton...",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V4057912",
+      "channel": "radio",
+      "spoken_text": "Denton",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Denton",
+      "target_seconds": 0.6156791610780475,
+      "timing_features": {
+        "estimated_syllables": 2,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.2156791610780475
+      ],
+      "target_lufs": -16.01,
+      "seed": 4057912
+    },
+    "V15951334": {
+      "speaker": "JCDenton",
+      "text": "You wanted Tong.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V15951334",
+      "channel": "direct",
+      "spoken_text": "You wanted Tong.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] You wanted Tong.",
+      "target_seconds": 0.7979749169746098,
+      "timing_features": {
+        "estimated_syllables": 4,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.3729204752602282
+      ],
+      "target_lufs": -13.45,
+      "seed": 15951334
+    },
+    "V12937515": {
+      "speaker": "JCDenton",
+      "text": "He led me to VersaLife.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V12937515",
+      "channel": "direct",
+      "spoken_text": "He led me to VersaLife.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] He led me to VersaLife.",
+      "target_seconds": 1.2647412653419974,
+      "timing_features": {
+        "estimated_syllables": 7,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.6897957070563789,
+        1.8396868236276158
+      ],
+      "target_lufs": -13.45,
+      "seed": 12937515
+    },
+    "V11336721": {
+      "speaker": "JCDenton",
+      "text": "I'm following the lead.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V11336721",
+      "channel": "direct",
+      "spoken_text": "I'm following the lead.",
+      "intent": "JC replies in his basic, slightly rough deadpan; preserve a small natural pause between sentences.",
+      "delivery_tags": "deadpan",
+      "tts_text": "[deadpan] I'm following the lead.",
+      "target_seconds": 1.1091524825528682,
+      "timing_features": {
+        "estimated_syllables": 6,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.5342069242672498,
+        1.6840980408384867
+      ],
+      "target_lufs": -13.45,
+      "seed": 11336721
+    },
+    "V9046807": {
+      "speaker": "WaltonSimons",
+      "text": "Very well.",
+      "kind": "infolink",
+      "file": "HONGKONG_DESIGN.md",
+      "source_section": "23",
+      "scene": "simons-ending",
+      "key": "V9046807",
+      "channel": "radio",
+      "spoken_text": "Very well.",
+      "intent": "Remote command briefing from Simons: controlled authority, deliberate diction and minimal emotion.",
+      "delivery_tags": "serious, restrained",
+      "tts_text": "[serious, restrained] Very well.",
+      "target_seconds": 0.8485187416170713,
+      "timing_features": {
+        "estimated_syllables": 3,
+        "extra_sentence_breaks": 0,
+        "digit_pause_seconds": 0.0
+      },
+      "duration_range": [
+        0.4,
+        1.4485187416170713
+      ],
+      "target_lufs": -16.01,
+      "seed": 9046807
+    }
+  },
+  "status": "draft-not-linked-to-runtime",
+  "source_hashes": {
+    "HONGKONG_DESIGN.md": "f82c8a48c483f0d149b81c98490da5187f7ce65e160fd63b04a09efdfd582d84",
+    "HONGKONG_M1_PIANO.md": "c9a2130d20c47faa053adf4429ec0ff9b1dd40882279d599e0c771b8cdc19bb3"
+  },
+  "scenes": [
+    {
+      "scene": "red-arrow-messenger",
+      "document": "HONGKONG_M1_PIANO.md",
+      "section": "HK-3",
+      "keys": [
+        "V15549366",
+        "V12229571",
+        "V10494367",
+        "V15985790",
+        "V11319869",
+        "V7228590",
+        "V15547753"
+      ]
+    },
+    {
+      "scene": "max-introduction",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "5",
+      "keys": [
+        "V14690816",
+        "V15548463",
+        "V16256613",
+        "V14786971",
+        "V12380353",
+        "V5715540",
+        "V5059634"
+      ]
+    },
+    {
+      "scene": "maggie-introduction",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "6",
+      "keys": [
+        "V11248312",
+        "V5773471",
+        "V9408088",
+        "V13719496",
+        "V12445327",
+        "V2258518",
+        "V3423212",
+        "V1957008",
+        "V13045758",
+        "V9844731",
+        "V12219120"
+      ]
+    },
+    {
+      "scene": "gordon-gate",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "8",
+      "keys": [
+        "V11762677",
+        "V7275393",
+        "V175668",
+        "V13195081",
+        "V889527",
+        "V11372586",
+        "V5190126",
+        "V15936479",
+        "V15715922",
+        "V13593712"
+      ]
+    },
+    {
+      "scene": "chow-hologram",
+      "document": "HONGKONG_M1_PIANO.md",
+      "section": "HK-7 ologramma",
+      "keys": [
+        "V9838326",
+        "V4603932",
+        "V5320742",
+        "V14364151",
+        "V12883177",
+        "V12007292",
+        "V6559136",
+        "V11032729"
+      ]
+    },
+    {
+      "scene": "sword-simons-call",
+      "document": "HONGKONG_M1_PIANO.md",
+      "section": "HK-7 chiamata aggiornata",
+      "keys": [
+        "V12615066",
+        "V13226041",
+        "V5917675",
+        "V311204",
+        "V12660794",
+        "V13613275",
+        "V10426059",
+        "V13215460",
+        "V15329295"
+      ]
+    },
+    {
+      "scene": "max-evidence",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "13",
+      "keys": [
+        "V12307065",
+        "V16042596",
+        "V3682340",
+        "V6604783",
+        "V1267321",
+        "V13849649",
+        "V15879505"
+      ]
+    },
+    {
+      "scene": "gordon-permission",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "14",
+      "keys": [
+        "V5766960",
+        "V13307669",
+        "V1748247"
+      ]
+    },
+    {
+      "scene": "tong-introduction",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "15",
+      "keys": [
+        "V13729488",
+        "V2491107",
+        "V4944780",
+        "V3760307",
+        "V11115945",
+        "V5872319",
+        "V15937928",
+        "V14299673",
+        "V10056885",
+        "V3700751"
+      ]
+    },
+    {
+      "scene": "tong-evidence",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "16",
+      "keys": [
+        "V2561065",
+        "V2284000",
+        "V16078455",
+        "V8760735",
+        "V6467283",
+        "V3817773",
+        "V13776423",
+        "V8746019"
+      ]
+    },
+    {
+      "scene": "tong-alarm",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "17",
+      "keys": [
+        "V7280705",
+        "V15985790",
+        "V3390671"
+      ]
+    },
+    {
+      "scene": "mj12-arrival",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "18-19",
+      "keys": [
+        "V9833119",
+        "V1220764",
+        "V16443216",
+        "V14828450",
+        "V9525789",
+        "V6507384",
+        "V5233123",
+        "V15539421",
+        "V11373234",
+        "V5233234"
+      ]
+    },
+    {
+      "scene": "tong-escape",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "20",
+      "keys": [
+        "V12816577",
+        "V7167085",
+        "V13183268",
+        "V14900609",
+        "V6593002"
+      ]
+    },
+    {
+      "scene": "mj12-prisoner",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "21",
+      "keys": [
+        "V5921030",
+        "V16001234",
+        "V7708230",
+        "V4601577"
+      ]
+    },
+    {
+      "scene": "simons-ending",
+      "document": "HONGKONG_DESIGN.md",
+      "section": "23",
+      "keys": [
+        "V8673565",
+        "V6774180",
+        "V7043535",
+        "V67485",
+        "V4459690",
+        "V181565",
+        "V9218202",
+        "V2069687",
+        "V8123083",
+        "V12976801",
+        "V4057912",
+        "V15951334",
+        "V12937515",
+        "V11336721",
+        "V9046807"
+      ]
+    }
+  ],
+  "reused_raw_takes": [
+    "V16042596",
+    "V9833119"
+  ],
+  "new_takes": [
+    "V15549366",
+    "V12229571",
+    "V10494367",
+    "V15985790",
+    "V11319869",
+    "V7228590",
+    "V15547753",
+    "V14690816",
+    "V15548463",
+    "V16256613",
+    "V14786971",
+    "V12380353",
+    "V5715540",
+    "V5059634",
+    "V11248312",
+    "V5773471",
+    "V9408088",
+    "V13719496",
+    "V12445327",
+    "V2258518",
+    "V3423212",
+    "V1957008",
+    "V13045758",
+    "V9844731",
+    "V12219120",
+    "V11762677",
+    "V7275393",
+    "V175668",
+    "V13195081",
+    "V889527",
+    "V11372586",
+    "V5190126",
+    "V15936479",
+    "V15715922",
+    "V13593712",
+    "V9838326",
+    "V4603932",
+    "V5320742",
+    "V14364151",
+    "V12883177",
+    "V12007292",
+    "V6559136",
+    "V11032729",
+    "V12615066",
+    "V13226041",
+    "V5917675",
+    "V311204",
+    "V12660794",
+    "V13613275",
+    "V10426059",
+    "V13215460",
+    "V15329295",
+    "V12307065",
+    "V3682340",
+    "V6604783",
+    "V1267321",
+    "V13849649",
+    "V15879505",
+    "V5766960",
+    "V13307669",
+    "V1748247",
+    "V13729488",
+    "V2491107",
+    "V4944780",
+    "V3760307",
+    "V11115945",
+    "V5872319",
+    "V15937928",
+    "V14299673",
+    "V10056885",
+    "V3700751",
+    "V2561065",
+    "V2284000",
+    "V16078455",
+    "V8760735",
+    "V6467283",
+    "V3817773",
+    "V13776423",
+    "V8746019",
+    "V7280705",
+    "V3390671",
+    "V1220764",
+    "V16443216",
+    "V14828450",
+    "V9525789",
+    "V6507384",
+    "V5233123",
+    "V15539421",
+    "V11373234",
+    "V5233234",
+    "V12816577",
+    "V7167085",
+    "V13183268",
+    "V14900609",
+    "V6593002",
+    "V5921030",
+    "V16001234",
+    "V7708230",
+    "V4601577",
+    "V8673565",
+    "V6774180",
+    "V7043535",
+    "V67485",
+    "V4459690",
+    "V181565",
+    "V9218202",
+    "V2069687",
+    "V8123083",
+    "V12976801",
+    "V4057912",
+    "V15951334",
+    "V12937515",
+    "V11336721",
+    "V9046807"
+  ],
+  "pending": [
+    "La spiegazione di Maggie su Tong e sulle Triadi e ancora prosa: servono battute scritte per sonorizzarla."
+  ],
+  "verified": true
+}

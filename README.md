@@ -13,8 +13,8 @@ law, and Tracer Tong is no longer your rescuer. He is your assignment.
 
 ## What this repository is for
 
-It is the working repository of the mod, published so the project can be read, not only
-played:
+It is the complete working repository of the mod, **open source (MIT)**, published so that
+anyone can read it, build it and continue it:
 
 - **the story**, as a [narrative design document](docs/NARRATIVE_DESIGN.md) with every
   line of dialogue the mod adds, its conditions and its variants;
@@ -22,6 +22,9 @@ played:
   agents, and the tools written along the way;
 - **tutorials** for the techniques that are reusable in other Deus Ex mods;
 - **the source**: UnrealScript, build scripts and tools.
+
+**Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md) and
+[what works and what is next](docs/STATUS.md).
 
 ## Status
 
@@ -38,27 +41,43 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 | `docs/tutorials/` | step-by-step guides |
 | `docs/*.md` in Italian | the working notes: designs, plans, playtest checklist |
 | `tools/` | scripts: game-data readers, map tools, automatic in-game photos, checks |
-| `maps/editing/` | the scripted map edits (the maps themselves are not included) |
+| `maps/patches/`, `maps/editing/` | the map changes, as patches for your own copy of the maps, and the scripted edits |
+| `tools/voices/` | the voice tools (no recordings, no key: you use your own) |
 | `build.ps1`, `install.ps1`, ... | build and install scripts (Windows, PowerShell) |
 
 **Not included, on purpose:**
 
-- anything that belongs to Deus Ex or Revision: game files, exported sources, the
-  modified copies of the game's maps, the SDK and editor binaries;
-- the voice recordings and the voice-production pipeline. Every line is in the script as
-  text; in game, a line without a recording is shown as a subtitle.
+- anything that belongs to Deus Ex or Revision: game files, exported sources, the SDK and
+  editor binaries. The mod's map changes are published as **patches** that rebuild the
+  maps from your own copy;
+- the voice recordings, the samples and the voice identifiers. Every line is in the script
+  as text; in game, a line without a recording is shown as a subtitle;
+- any key. `tools/voices/elevenlabs_key.example.txt` is a placeholder for your own.
 
 ## Requirements
 
 - Deus Ex: Game of the Year Edition and Deus Ex: Revision (Steam).
-- To build: the Deus Ex SDK compiler (`ucc`) set up as described in
-  [tutorial 1](docs/tutorials/01-setup-build-install.md). Python 3 for the tools.
+- To build: the Deus Ex SDK installer, 7-Zip and Python 3, as described in
+  [tutorial 1](docs/tutorials/01-setup-build-install.md).
+
+## Quick start
+
+```powershell
+.\setup.ps1                              # development copy of the game
+python tools\map_patch.py apply-all      # rebuild the modified maps from your own
+.\build.ps1 -Isolated                    # compile
+.\install.ps1                            # game closed
+```
+
+Then, in the game, type `summon UnatcoContinues.UCDbgMenu` in the console once: it starts
+the mod and opens the debug jumps. Play from mission 4, or jump straight to a scene.
 
 ## Documentation
 
 1. [Narrative design document](docs/NARRATIVE_DESIGN.md) - start here for the story.
-2. [Workflow and tools](docs/WORKFLOW.md)
-3. Tutorials
+2. [Continuing the mod](CONTRIBUTING.md) and [status](docs/STATUS.md)
+3. [Workflow and tools](docs/WORKFLOW.md)
+4. Tutorials
    - [Setup, build, install](docs/tutorials/01-setup-build-install.md)
    - [Writing a conversation in code](docs/tutorials/02-conversations-in-code.md)
    - [Scenes, flags and the rules of the conversation engine](docs/tutorials/03-scenes-and-flags.md)
@@ -80,7 +99,9 @@ Made by Gabby ([@Gabby16Bitbox](https://github.com/Gabby16Bitbox)) with AI codin
 
 This is an unofficial fan project. Deus Ex is a trademark of its owners; Deus Ex: Revision
 is the work of Caustic Creative. Nothing from the game or from Revision is distributed
-here, and you need to own the game to use the mod. One small sign texture
-(`UCSignElevators`) is redrawn in the style of the Revision texture it replaces.
+here, and you need to own the game to use the mod.
 
-No licence has been chosen yet: until one is added, the content is published for reading.
+## Licence
+
+[MIT](LICENSE) for everything written for this project: code, tools, documentation and
+dialogue. What the licence does not cover is listed in [NOTICE.md](NOTICE.md).

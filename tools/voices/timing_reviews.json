@@ -1,0 +1,20 @@
+{
+  "V4287223": {
+    "speaker": "JCDenton",
+    "text": "Dead Triads don't tell me where Tong is.",
+    "native_residual_quantile": 0.95,
+    "reason": "Use JC's measured 95th-percentile original pause variation for this deliberate answer; make only the smallest necessary tempo correction."
+  },
+  "V5944289": {
+    "speaker": "JCDenton",
+    "text": "Tong is mine.",
+    "native_residual_quantile": 0.95,
+    "reason": "A short, settled answer needs the original actor's measured pause spread, rather than the longer-sentence syllable estimate alone."
+  },
+  "V6354539": {
+    "speaker": "JCDenton",
+    "text": "Identify your network first. Then take you out.",
+    "native_residual_quantile": 0.95,
+    "reason": "Preserve the pause between the two procedural statements. The native two-sentence comparison 'You said outside influences. What does China fear?' lasts 3.68 seconds."
+  }
+}

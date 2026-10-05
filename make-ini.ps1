@@ -7,7 +7,9 @@ $orig = Get-Content "$DevSystem\Revision.ini"
 $all  = $orig | Where-Object { $_ -match '^EditPackages=' } | ForEach-Object { $_.Substring(13).Trim() }
 if ($true) { $pk = $all | Where-Object { $_ -ne $ModName -and (Test-Path "$DevSystem\$_.u") } }
 # pacchetto audio delle voci (ElevenLabs), compilato prima della mod
-if (Test-Path "$Root\src\UnatcoVoices\Classes\UnatcoVoices.uc") { $pk = @($pk | Where-Object { $_ -ne 'UnatcoVoices' }) + 'UnatcoVoices' }
+# (facoltativo: senza i sorgenti delle voci, o con UC_NO_VOICES=1, il pacchetto non si compila)
+$pk = @($pk | Where-Object { $_ -ne 'UnatcoVoices' })
+if ((Test-Path "$Root\src\UnatcoVoices\Classes\UnatcoVoices.uc") -and -not $env:UC_NO_VOICES) { $pk += 'UnatcoVoices' }
 if ($Mode -eq 'make' -or (Test-Path "$DevSystem\$ModName.u")) { $pk += $ModName }
 $out = New-Object System.Collections.Generic.List[string]
 foreach ($l in $orig) {

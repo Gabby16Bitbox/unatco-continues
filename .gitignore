@@ -1,15 +1,17 @@
 # UNATCO Continues - cosa entra nel repository.
 # Regola: e' escluso TUTTO, poi si riammette solo quello che e' della mod e si puo' pubblicare.
 # Restano fuori: i file del gioco e di Revision (DevInstall, mappe .dx, SDK, editor), le voci
-# registrate e gli strumenti per produrle, le compilazioni, le foto di prova, chiavi e copie
-# di sicurezza.
+# registrate (audio, campioni, id delle voci), LA CHIAVE ElevenLabs, le compilazioni, le foto
+# di prova e le copie di sicurezza.
 /*
 !/.gitignore
 !/README.md
+!/LICENSE
+!/NOTICE.md
+!/CONTRIBUTING.md
 !/.gitattributes
 !/*.ps1
 !/*.bat
-/install-voices.ps1
 
 # codice della mod
 !/src/
@@ -25,6 +27,7 @@
 /docs/*
 !/docs/NARRATIVE_DESIGN.md
 !/docs/WORKFLOW.md
+!/docs/STATUS.md
 !/docs/tutorials/
 !/docs/narrative/
 !/docs/img/
@@ -45,7 +48,6 @@
 !/tools/*.py
 !/tools/*.ps1
 !/tools/*.ahk
-/tools/check-voice-identity.ps1
 !/tools/editor_bridge/
 /tools/editor_bridge/*
 !/tools/editor_bridge/*.py
@@ -57,10 +59,26 @@
 !/tools/editor_bridge/editor_src/
 !/tools/editor_bridge/engine_src/
 
-# modifiche alle mappe fatte da script (le mappe no: sono copie di quelle del gioco)
+# mappe: gli script delle modifiche e le PATCH (differenze rispetto alla mappa originale,
+# vedi tools/map_patch.py). Le mappe .dx no: sono copie modificate di quelle del gioco.
 !/maps/
 /maps/*
 !/maps/editing/
+!/maps/patches/
+
+# voci: solo gli script e i piani di regia in uso. Niente audio, campioni, ricevute dei
+# cloni, id delle voci (voices.json) e soprattutto niente chiave: al loro posto i due
+# file .example da copiare e riempire.
+!/tools/voices/
+/tools/voices/*
+!/tools/voices/*.py
+!/tools/voices/voices.ps1
+!/tools/voices/README.md
+!/tools/voices/delivery_natural_v4.json
+!/tools/voices/delivery_hk_draft_v4.json
+!/tools/voices/mix_profile.json
+!/tools/voices/timing_reviews.json
+!/tools/voices/voices.example.json
 
 # mai, da nessuna parte
 __pycache__/
@@ -76,3 +94,9 @@ __pycache__/
 *.dll
 *.7z
 *key*.txt
+
+# segnaposto della chiave (dopo la regola qui sopra, che altrimenti lo escluderebbe)
+!/tools/voices/elevenlabs_key.example.txt
+# ...e per sicurezza, detto due volte: la chiave vera e gli id delle voci non entrano MAI
+/tools/voices/elevenlabs_key.txt
+/tools/voices/voices.json

@@ -109,7 +109,19 @@ All in `tools/`, written during the project. Python 3 and PowerShell, no depende
 | `UnrealEd-WASD.ahk` | WASD movement in the 2000-era editor. |
 | `dxkeys.ps1` | Sends key presses and console text to the running game. |
 
+### Voices
+
+| Tool | What it does |
+|---|---|
+| `tools/voices/` | Codex's voice pipeline: lists the mod's lines, generates and mixes recordings through ElevenLabs, builds the voice package. Published without recordings, samples or voice ids; it needs your own key (`elevenlabs_key.example.txt`). |
+| `tools/voices/unvoiced_lines.py` | Lists the lines that have no recording yet. |
+
+### Maps as patches
+
+| Tool | What it does |
+|---|---|
+| `map_patch.py` | Publishes a map change as the difference from the original map, and rebuilds the map from your own copy. |
+
 ## What is not here
 
-The voice recordings and the scripts that produce them are not part of this repository.
-The game binaries, the SDK and the exported game sources never are.
+The voice recordings, the game binaries, the SDK and the exported game sources.

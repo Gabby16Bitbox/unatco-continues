@@ -3,6 +3,12 @@
 param([switch]$Isolated)
 . "$PSScriptRoot\config.ps1"
 $ErrorActionPreference = 'Stop'
+# Il pacchetto delle voci (src\UnatcoVoices) e' facoltativo: l'audio non e' nel repository
+# pubblico. Senza, si compila solo la mod e le battute restano come testo.
+# UC_NO_VOICES=1 lo esclude anche quando c'e' (per provare la compilazione "da repository").
+$HasVoices = (Test-Path "$Root\src\UnatcoVoices\Classes\UnatcoVoices.uc") -and -not $env:UC_NO_VOICES
+$BuildPackages = @($ModName)
+if ($HasVoices) { $BuildPackages = @('UnatcoVoices') + $BuildPackages }
 & "$PSScriptRoot\make-ini.ps1" make | Out-Null
 if ($Isolated) {
   # Fresh output packages avoid files held open by UnrealEd. Dependencies are
@@ -26,7 +32,7 @@ if ($Isolated) {
       New-Item -ItemType Junction -Path (Join-Path $BuildRoot $BuildAssets) -Target $BuildAssetSource | Out-Null
     }
   }
-  foreach ($BuildSourcePackage in @('UnatcoVoices', $ModName)) {
+  foreach ($BuildSourcePackage in $BuildPackages) {
     New-Item -ItemType Junction -Path (Join-Path $BuildRoot $BuildSourcePackage) -Target (Join-Path $Root "src\$BuildSourcePackage") | Out-Null
   }
   $DevSystem = $BuildSystem
@@ -68,7 +74,8 @@ try {
   if ($LASTEXITCODE -ne 0) { throw "DrawScale della scritta ELEVATORS non impostato" }
 }
 finally { Pop-Location }
-foreach ($p in 'UnatcoVoices', $ModName) {
+New-Item -ItemType Directory -Force "$Root\dist" | Out-Null
+foreach ($p in $BuildPackages) {
   if (Test-Path "$DevSystem\$p.u") { Copy-Item "$DevSystem\$p.u" "$Root\dist\" -Force; "OK: dist\$p.u" }
   else { throw "ERRORE: $p.u non compilato (vedi sopra)" }
 }
