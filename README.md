@@ -23,6 +23,8 @@ anyone can read it, build it and continue it:
 - **tutorials** for the techniques that are reusable in other Deus Ex mods;
 - **the source**: UnrealScript, build scripts and tools.
 
+**Just want to play?** [PLAY.md](PLAY.md): download, double-click, type one command.
+
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md) and
 [what works and what is next](docs/STATUS.md).
 
@@ -41,15 +43,16 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 | `docs/tutorials/` | step-by-step guides |
 | `docs/*.md` in Italian | the working notes: designs, plans, playtest checklist |
 | `tools/` | scripts: game-data readers, map tools, automatic in-game photos, checks |
-| `maps/patches/`, `maps/editing/` | the map changes, as patches for your own copy of the maps, and the scripted edits |
+| `maps/` | the map modified by the mod, and the scripted edits made to it |
+| `release/` | the mod's compiled package, ready to install |
 | `tools/voices/` | the voice tools (no recordings, no key: you use your own) |
 | `build.ps1`, `install.ps1`, ... | build and install scripts (Windows, PowerShell) |
 
 **Not included, on purpose:**
 
 - anything that belongs to Deus Ex or Revision: game files, exported sources, the SDK and
-  editor binaries. The mod's map changes are published as **patches** that rebuild the
-  maps from your own copy;
+  editor binaries. The one exception is the map the mod modifies, which is useless
+  without the game (see [NOTICE.md](NOTICE.md));
 - the voice recordings, the samples and the voice identifiers. Every line is in the script
   as text; in game, a line without a recording is shown as a subtitle;
 - any key. `tools/voices/elevenlabs_key.example.txt` is a placeholder for your own.
@@ -62,15 +65,17 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 
 ## Quick start
 
+To play: [PLAY.md](PLAY.md). To build it yourself (keep the project in a **short folder
+path**, such as `C:\Dev\unatco-continues`: the 2000-era compiler crashes on long paths):
+
 ```powershell
-.\setup.ps1                              # development copy of the game
-python tools\map_patch.py apply-all      # rebuild the modified maps from your own
-.\build.ps1 -Isolated                    # compile
-.\install.ps1                            # game closed
+.\setup.ps1              # development copy of the game
+.\build.ps1 -Isolated    # compile
+.\install.ps1            # game closed
 ```
 
-Then, in the game, type `summon UnatcoContinues.UCDbgMenu` in the console once: it starts
-the mod and opens the debug jumps. Play from mission 4, or jump straight to a scene.
+Then, in the game, type `ucstart` in the console once to start the mod, or `uc` for the
+debug menu that jumps straight to a scene.
 
 ## Documentation
 

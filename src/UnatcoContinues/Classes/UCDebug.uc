@@ -268,6 +268,10 @@ function TongLabState()
 	SetF('UC_HK_SimonsBriefing', True);
 	SetF('UC_HK_MessengerDone', True);
 	SetF('Have_Evidence', True);
+	// il rapporto sul Dragon's Tooth e la risposta di Simons sono gia' avvenuti a Queen's
+	// Tower: senza questo l'InfoLink partiva qui, all'arrivo nel laboratorio
+	SetF('UC_SimonsSwordCall', True);
+	SetF('DragonToothEvidenceFound', True);
 	SetF('MaxChenConvinced', True);
 	SetF('QuickConvinced', True);
 	SetF('QuickLetPlayerIn', True);

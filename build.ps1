@@ -62,6 +62,14 @@ if ($Isolated) {
     catch { Write-Warning "Compilazione vecchia non eliminata ($($BuildOld.Name)): $($_.Exception.Message)" }
   }
 }
+# Il compilatore dell'SDK (anno 2000) va in crash, senza un messaggio utile, quando il
+# percorso della cartella System e' lungo: provato il 5 ott 2026 con un clone del
+# repository, funziona a 103 caratteri e si pianta a 125. Meglio dirlo subito.
+if ($DevSystem.Length -gt 105) {
+  throw ("Percorso troppo lungo per il compilatore dell'SDK ($($DevSystem.Length) caratteri: $DevSystem). " +
+         "Sposta il progetto in una cartella dal percorso corto, per esempio C:\Dev\unatco-continues. / " +
+         "The project folder path is too long for the SDK compiler: move the project to a short path.")
+}
 Push-Location $DevSystem
 try {
   foreach ($BuildPackage in @('UnatcoVoices.u', "$ModName.u")) {
