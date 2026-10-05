@@ -22,6 +22,7 @@ var string mapName;
 var bool bInit;
 var bool bLeaving;       // un salto e' gia' partito (UCDbgTour): PagSu premuto due volte non ne salta uno
 var float leaveT;
+var float aliveT;        // da quanto esiste questo attore (cioe' da quanto JC e' nella mappa)
 var float chapterT;      // secondi passati in questa mappa
 var float captionT;      // da quanto e' a schermo la scritta
 var string curTitle, curBody;
@@ -243,6 +244,21 @@ function Timer()
 		foreach AllActors(class'DeusExLevelInfo', info)
 			mapName = Caps(info.mapName);
 
+	// due secondi dopo l'arrivo PagSu torna a funzionare (vedi UCDbgTour: UC_TourBusy);
+	// lo stesso se un salto non e' partito entro 8 secondi
+	aliveT += 0.2;
+	if (bLeaving)
+	{
+		leaveT += 0.2;
+		if (leaveT > 8.0)
+		{
+			bLeaving = False;
+			leaveT = 0;
+		}
+	}
+	if (aliveT >= 2.0 && !bLeaving && P.FlagBase.GetBool('UC_TourBusy'))
+		P.FlagBase.SetBool('UC_TourBusy', False,, 99);
+
 	step = P.FlagBase.GetInt('UC_TourStep');
 	if (!bInit)
 	{
@@ -274,12 +290,6 @@ function Timer()
 	// in partenza per il passo dopo: niente scritte (se il salto non parte, dopo un po' si riprende)
 	if (bLeaving)
 	{
-		leaveT += 0.2;
-		if (leaveT > 8.0)
-		{
-			bLeaving = False;
-			leaveT = 0;
-		}
 		curTitle = "";
 		curBody = "";
 		ShowCaption(P);

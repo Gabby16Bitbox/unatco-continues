@@ -51,6 +51,7 @@ function Run()
 	}
 	if (mode == 3)
 	{
+		SetF('UC_TourBusy', False);
 		SetF('UC_Tour', False);
 		Player.ClientMessage("[UC] Presentazione fermata.");
 		Leave();
@@ -61,6 +62,15 @@ function Run()
 		if (!flags.GetBool('UC_Tour'))
 		{
 			Player.ClientMessage("[UC] La presentazione non e' attiva: uctour per avviarla.");
+			Leave();
+			return;
+		}
+		// Un salto e' appena partito (o JC e' appena arrivato): i tasti premuti nel frattempo
+		// non contano. Senza questo, PagSu tenuto premuto o premuto durante il caricamento
+		// faceva partire due o tre salti di fila e le varianti (Anna alla metro) venivano
+		// saltate senza essere viste. Il flag lo toglie UCTour due secondi dopo l'arrivo.
+		if (flags.GetBool('UC_TourBusy'))
+		{
 			Leave();
 			return;
 		}
@@ -172,6 +182,7 @@ function Go(int n)
 			break;
 	}
 	Equip();
+	SetF('UC_TourBusy', True);
 	SetF('UC_Tour', True);
 	flags.SetInt('UC_TourStep', n,, 99);
 	flags.SetInt('UC_TourCues', 0,, 99);
