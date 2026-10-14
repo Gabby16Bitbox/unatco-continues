@@ -44,8 +44,6 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 | `docs/tutorials/` | step-by-step guides |
 | `docs/*.md` in Italian | the working notes: designs, plans, playtest checklist |
 | `tools/` | scripts: game-data readers, map tools, automatic in-game photos, checks |
-| `maps/` | the map modified by the mod, and the scripted edits made to it |
-| `release/` | the mod's compiled package, ready to install |
 | `tools/voices/` | the voice tools (no recordings, no key: you use your own) |
 | `build.ps1`, `install.ps1`, ... | build and install scripts (Windows, PowerShell) |
 

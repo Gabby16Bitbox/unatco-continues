@@ -69,8 +69,8 @@ Close the game first.
 .\install.ps1
 ```
 
-It copies the package into Revision's `System` folder and the maps from `maps\` into a
-separate `UnatcoMaps` folder, which it registers in `Revision.ini` *before* Revision's own
+It copies the package into Revision's `System` folder and the maps you edited yourself in
+`maps\` (they never go into the repository: they are Revision's) into a separate `UnatcoMaps` folder, which it registers in `Revision.ini` *before* Revision's own
 maps (a backup of the ini is made). The original maps are never touched.
 
 It also adds two console commands to `RevisionUser.ini` (a backup is made): `ucstart`,

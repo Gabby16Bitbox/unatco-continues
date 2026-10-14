@@ -11,15 +11,9 @@ mod.
 
 ## What it does not cover
 
-- **Deus Ex and Deus Ex: Revision.** No game file is distributed here. You need your own
-  copy of both to build or play the mod. Names, characters and setting belong to their
+- **Deus Ex and Deus Ex: Revision.** No file of the game or of Revision is distributed here:
+  no map, texture, sound or package of theirs, nor anything made from them. You need your
+  own copy of both to build or play the mod. Names, characters and setting belong to their
   owners.
-- **`maps/*.dx`.** A map of Deus Ex: Revision as modified by this mod. It is distributed,
-  as mods for this game usually are, for use with your own copy of the game and of
-  Revision, and it does nothing without them. It is not offered under the MIT licence;
-  only the changes made for the mod are ours.
-- **`src/UnatcoContinues/Textures/UCSignElevators.*`.** A small sign redrawn in the style
-  of the Revision texture it replaces. It is included so the mod builds; it is not offered
-  under the MIT licence.
 - **Voices.** No recording, sample or voice identifier is included. The voice tools in
   `tools/voices` need your own ElevenLabs account and key.

@@ -974,7 +974,8 @@ function SwapHelibaseSign(bool bOn)
 	local Texture orig, repl;
 
 	orig = Texture(DynamicLoadObject("HK_Helibase.Sn_HBLkdwn", class'Texture', True));
-	repl = Texture'UnatcoContinues.UCSignElevators';
+	// the sign was made on a texture of Revision: no longer in the repository, so nothing changes here
+	repl = Texture(DynamicLoadObject("UnatcoContinues.UCSignElevators", class'Texture', True));
 	if (orig == None || repl == None)
 		return;
 	if (bOn)

@@ -436,13 +436,7 @@ function Helibase()
 		if (fx.IsA('ControlPanel') && !fx.bDeleteMe && VSize((fx.Location - vect(-1240, -128, 500)) * vect(1,1,0)) < 160
 			&& fx.Location.Z < 10000)
 			Check(False, "quadro elettrico storto ancora li':" @ fx.Name);
-	// la scritta sopra la porta: LOCKDOWN -> ELEVATORS
-	sign = Texture(DynamicLoadObject("HK_Helibase.Sn_HBLkdwn", class'Texture', True));
-	Check(sign != None && sign.AnimNext == Texture'UnatcoContinues.UCSignElevators'
-		&& sign.AnimCurrent == Texture'UnatcoContinues.UCSignElevators', "scritta ELEVATORS al posto di LOCKDOWN");
-	Check(Texture'UnatcoContinues.UCSignElevators'.USize == 1024 && Texture'UnatcoContinues.UCSignElevators'.VSize == 128
-		&& Texture'UnatcoContinues.UCSignElevators'.DrawScale == 0.125, "scritta ELEVATORS in alta risoluzione (1024x128, DrawScale 0.125): "
-		$ Texture'UnatcoContinues.UCSignElevators'.USize $ "x" $ Texture'UnatcoContinues.UCSignElevators'.VSize @ Texture'UnatcoContinues.UCSignElevators'.DrawScale);
+	// (la scritta ELEVATORS non e' piu' nel repository: era rifatta su una texture di Revision)
 	// la mappa della mod (maps\): coperture UCWall nascoste e macerie UCVanilla presenti (gioco normale)
 	foreach AllActors(class'Mover', mo)
 	{

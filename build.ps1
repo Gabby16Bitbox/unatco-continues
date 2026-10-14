@@ -77,9 +77,6 @@ try {
   }
   & .\ucc.exe 'editor.make'
   if ($LASTEXITCODE -ne 0) { throw "Compilazione UCC fallita: $LASTEXITCODE" }
-  # DrawScale delle texture HD (l'import di ucc non ha l'opzione; in UnrealScript e' const)
-  & python "$PSScriptRoot\tools\set_texture_prop.py" "$ModName.u" UCSignElevators DrawScale 0.125
-  if ($LASTEXITCODE -ne 0) { throw "DrawScale della scritta ELEVATORS non impostato" }
 }
 finally { Pop-Location }
 New-Item -ItemType Directory -Force "$Root\dist" | Out-Null

@@ -76,17 +76,11 @@ Where the code is:
 
 ## 5. Maps
 
-`maps\*.dx` are the maps the mod modifies (so far one, the Hong Kong helibase).
-`install.ps1` copies them into a separate folder the game reads first, so the originals
-stay untouched. To edit a map: `.\edit-map.ps1 <MapName>` copies the original into
-`maps\` the first time and opens UnrealEd on it. The scripted edits made so far are in
-`maps\editing`. Commit a map only when the mod really changes it.
-
-## 5b. Publishing a build for players
-
-Players install from `release\UnatcoContinues.u` (see [PLAY.md](PLAY.md)). After a change
-you want them to have: build, run the checks, then copy `dist\UnatcoContinues.u` over
-`release\UnatcoContinues.u` and commit it.
+Revision's maps belong to Revision's authors: never commit a map (`.dx`), a texture or a
+package of theirs, or anything made from them. To edit a map locally: `.\edit-map.ps1
+<MapName>` copies the original into `maps\` (kept out of git) and opens UnrealEd on it;
+`install.ps1` copies `maps\*.dx` into a separate folder the game reads first, so the
+originals stay untouched.
 
 ## 6. Voices (optional)
 

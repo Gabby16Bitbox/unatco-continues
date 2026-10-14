@@ -1,6 +1,7 @@
 # Playing the mod
 
-You do not need to build anything to play.
+There is no ready-made package in the repository: build the mod first (see
+[the first tutorial](docs/tutorials/01-setup-build-install.md)).
 
 ## You need
 
@@ -12,9 +13,8 @@ You do not need to build anything to play.
 2. Close the game.
 3. Double-click **`Install mod.bat`**.
 
-It copies the mod's package into Revision's `System` folder, puts the modified map in a
-separate `UnatcoMaps` folder (your original maps are not touched), tells Revision to look
-there first, and adds a console command to start the mod. Backups of the two
+It copies the mod's package into Revision's `System` folder, tells Revision to look in a
+separate `UnatcoMaps` folder first (your original maps are not touched), and adds a console command to start the mod. Backups of the two
 configuration files it changes are made next to them (`Revision.ini.bak_maps2`,
 `RevisionUser.ini.bak_tour`).
 

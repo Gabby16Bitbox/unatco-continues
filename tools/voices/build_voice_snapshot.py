@@ -138,8 +138,6 @@ def main():
         finally:
             m.SRC = original_src
         run([system / 'ucc.exe', 'editor.make'], system, system / 'build.log')
-        run([sys.executable, ROOT / 'tools/set_texture_prop.py', 'UnatcoContinues.u',
-             'UCSignElevators', 'DrawScale', '0.125'], system, system / 'texture.log')
         n.save(system / 'voice-build-inputs.json', {'sources': expected, 'dist': previous_dist, 'game': previous_game})
     checks = {}
     for commandlet, prefix in (('UCVoiceCheckCommandlet', 'UCVoiceCheck'),
