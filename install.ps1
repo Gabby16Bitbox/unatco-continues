@@ -1,7 +1,7 @@
 # Installa la mod nel gioco: codice (UnatcoContinues.u), voci (UnatcoVoices.u) e le
-# mappe modificate (maps\*.dx -> Revision\UnatcoMaps\). Il gioco deve essere chiuso.
-# Il pacchetto viene da dist\ (l'ultima compilazione); se non hai compilato niente, da
-# release\ (la versione pronta pubblicata nel repository: per chi vuole solo giocare).
+# mappe che hai modificato tu (maps\*.dx -> Revision\UnatcoMaps\: non sono nel repository,
+# sono di Revision). Il gioco deve essere chiuso.
+# Il pacchetto viene da dist\ (l'ultima compilazione), o da release\ se ne hai messo uno li'.
 # La prima volta aggiunge a Revision.ini la riga che fa leggere UnatcoMaps per prima
 # (backup: Revision.ini.bak_maps).
 . "$PSScriptRoot\config.ps1"

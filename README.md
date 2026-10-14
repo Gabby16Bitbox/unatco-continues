@@ -23,7 +23,7 @@ anyone can read it, build it and continue it:
 - **tutorials** for the techniques that are reusable in other Deus Ex mods;
 - **the source**: UnrealScript, build scripts and tools.
 
-**Just want to play?** [PLAY.md](PLAY.md): download, double-click, type one command.
+**Just want to play?** [PLAY.md](PLAY.md): build it once, install with a double-click, type one command.
 
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
 [what works and what is next](docs/STATUS.md), and the
@@ -50,8 +50,8 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 **Not included, on purpose:**
 
 - anything that belongs to Deus Ex or Revision: game files, exported sources, the SDK and
-  editor binaries. The one exception is the map the mod modifies, which is useless
-  without the game (see [NOTICE.md](NOTICE.md));
+  editor binaries, and their maps, textures and packages, modified or not, or anything
+  made from them (see [NOTICE.md](NOTICE.md));
 - the voice recordings, the samples and the voice identifiers. Every line is in the script
   as text; in game, a line without a recording is shown as a subtitle;
 - any key. `tools/voices/elevenlabs_key.example.txt` is a placeholder for your own.

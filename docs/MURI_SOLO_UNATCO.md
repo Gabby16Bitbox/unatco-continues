@@ -95,9 +95,9 @@ Passaggio fra l'hangar e l'atrio dell'ascensore: x da -1152 a -1328, y da -256 a
     HelibaseWall_E sotto e DrtyBrwnWall_A sopra, come il muro;
   - `UCVanillaLamiere0` / `UCVanillaMacerie0`: copie identiche delle lamiere strappate (Brush234) e delle macerie a
     terra (Brush236), che sono state tolte dalla geometria; esistono solo nel gioco normale.
-  - Geometria e luci ricostruite (MAP REBUILD + LIGHT APPLY). Sorgente dei mover: `maps\editing\helibase_porta_mover.*`.
+  - Geometria e luci ricostruite (MAP REBUILD + LIGHT APPLY). Sorgente dei mover: uno script locale, non nel repository.
 - La scritta "LOCKDOWN" sopra la porta (`HK_Helibase.Sn_HBLkdwn`) diventa "ELEVATORS"
-  (`UnatcoContinues.UCSignElevators`, `src\UnatcoContinues\Textures\UCSignElevators.pcx`) solo nella variante UNATCO
+  (`UnatcoContinues.UCSignElevators`: una texture locale, non nel repository perche' rifatta su una di Revision) solo nella variante UNATCO
   (`UCMod.SwapHelibaseSign`: la texture originale "si anima" sulla nuova).
 - I 3 pulsanti della piattaforma di sinistra (`Switch1`, Event `Helipad_Lifter`: alzano la piattaforma e aprono
   il suo tetto) sono spenti nella variante UNATCO (`UCMod.LockHelipadLift`): il tetto sopra Jock lo apre la scena

@@ -82,7 +82,6 @@ All in `tools/`, written during the project. Python 3 and PowerShell, no depende
 | `set_actor_props.py`, `set_surf_flags.py`, `set_texture_prop.py` | Change single properties inside a package. |
 | `lightbits.py` | Reads and edits a map's light-map shadow masks (used to remove shadows left by deleted objects without rebuilding the lighting). |
 | `fix_brush_surfs.py` | Rebuilds the surfaces of a mover imported from text. |
-| `maps/editing/*.py` | The scripted edits made to the helibase map, kept as code. |
 | `editor_bridge/` | Codex's MCP server for agents: inspect, plan and apply property and mover changes on private copies of maps, try them in the game, undo. |
 
 ### Checking the result
