@@ -5,7 +5,7 @@
 What if JC Denton had said no to his brother, and stayed with UNATCO?**
 
 > **Work in progress.** The new route is playable from mission 4 to Hong Kong, and is still
-> being built. Follow it and talk about it on Discord: *coming soon*.
+> being built. Follow it and talk about it on [Discord](https://discord.gg/GRNcZf8PM).
 
 In the original game JC leaves UNATCO in mission 4 whatever the player does. This mod
 makes that moment a real choice. Refuse Paul at the 'Ton hotel and the story goes on from
@@ -63,7 +63,7 @@ We are looking for passionate people who would like to finish the project:
   improved*) and write what comes next;
 - **game dev generalists**: UnrealScript, scenes, conversations, testing.
 
-News on the YouTube channel **GABROCHACHO**. Discord: *coming soon*.
+News on the YouTube channel **GABROCHACHO**. Discord: [https://discord.gg/GRNcZf8PM](https://discord.gg/GRNcZf8PM).
 
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
 [what works and what is next](docs/STATUS.md), and the
@@ -168,7 +168,7 @@ This is an unofficial fan project. Deus Ex is a trademark of its owners; Deus Ex
 is the work of Caustic Creative. No game files are included: the maps are patches applied to
 your own copy of Deus Ex, and the mod needs the original game to run. Free, not for sale.
 
-Discord: *coming soon* · DeusEdix: *coming soon*
+[Discord](https://discord.gg/GRNcZf8PM) · DeusEdix: *coming soon*
 
 ## Licence
 
