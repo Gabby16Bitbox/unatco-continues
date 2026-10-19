@@ -74,7 +74,7 @@ def stage(target):
         if target == 'vanilla' and p.stem == '06_HongKong_TongBase':
             continue                    # not ready for the original game yet
         shutil.copy2(p, pdir / p.name)
-    for name in ('LICENSE', 'NOTICE.md'):
+    for name in ('NOTICE.md',):
         if (ROOT / name).exists():
             shutil.copy2(ROOT / name, out / name)
     (out / 'BEFORE.txt').write_text(BEFORE.format(game=v['game'], start=v['start']), encoding='utf-8')

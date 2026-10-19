@@ -49,7 +49,6 @@ Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern
 UninstallDisplayName=UNATCO Continues for {#GameName}
-LicenseFile={#Stage}\LICENSE
 InfoBeforeFile={#Stage}\BEFORE.txt
 
 [Messages]
