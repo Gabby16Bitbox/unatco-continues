@@ -9,7 +9,7 @@ What if JC Denton had said no to his brother, and stayed with UNATCO?**
 
 **[▶ Watch the demo of the mod on YouTube](https://www.youtube.com/watch?v=U4Ep9GD3eVY)**
 
-[![UNATCO Continues, demo video](https://img.youtube.com/vi/U4Ep9GD3eVY/hqdefault.jpg)](https://www.youtube.com/watch?v=U4Ep9GD3eVY)
+[![UNATCO Continues, demo video](https://img.youtube.com/vi/U4Ep9GD3eVY/maxresdefault.jpg)](https://www.youtube.com/watch?v=U4Ep9GD3eVY)
 
 In the original game JC leaves UNATCO in mission 4 whatever the player does. This mod
 makes that moment a real choice. Refuse Paul at the 'Ton hotel and the story goes on from
