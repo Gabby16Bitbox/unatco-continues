@@ -31,7 +31,7 @@ There are no recorded voices in this download: the new lines show as subtitles. 
 yourself (see the project's page, docs/VOICES.md).
 
 Made with DeusEdix, a map and story editor for Deus Ex (coming soon).
-Discord: coming soon.  Source code: https://github.com/Gabby16Bitbox/unatco-continues
+Discord: https://discord.gg/GRNcZf8PM  Source code: https://github.com/Gabby16Bitbox/unatco-continues
 
 After installing: start the game, load or begin a game, press T, delete "Say" and type
 {start}

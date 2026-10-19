@@ -1195,7 +1195,10 @@ installed (**Install** does it).
 character where it stands, against the map around it, instead of in the Studio's empty room: a hand
 on a railing or a desk, the back against a wall. The character shows its skeleton's handles: drag the
 **hands** (orange) and the **feet** (blue) onto the map and they stick to what is under the pointer (a
-hand lies on it, the palm against it; a foot stands on it); **Alt** moves them freely. The **hips**
+hand lies on it, the palm against it, the fingers pointing on away from the shoulder; a foot stands on
+it); **Alt** moves them freely. A handle that sticks stays where it touches, and grabbing it again moves
+nothing until the pointer moves. A thin railing is easy to miss by a pixel: dragged near it, the hand
+gets onto it, and slipping just past its edge does not drop the hand onto the floor behind it. The **hips**
 (green) move the body (**Shift**: up and down) and, with **Ctrl**, the whole character moves in the map
 to come closer to what it leans on, the hands that hold on staying where they are. A handle turns
 red when the arm or the leg cannot reach. A hand that sticks closes by itself as on what it holds:
@@ -1209,8 +1212,10 @@ The panel leans, turns and bends the upper body, closes the hands (**Grip**) and
 breathing. **Save** makes it an animation of the Animation
 Studio (`Pose<name>`), puts it on the character's models and gives it to the character as what it does
 when idle, with *Stays put* (it never turns away from what it leans on); **Rebuild** puts it in the
-map. Opening Pose here again on that character goes back to the same pose. **Esc** or *Cancel* leaves
-without changing anything.
+map. Opening Pose here again on that character goes back to the same pose. **Ctrl+Z** and **Ctrl+Y** (or
+the arrows in the panel) step back and forth through the changes made while posing, the character's place
+in the map included; *Reset* (standing again) is one of them, so a mistake never means starting over.
+**Esc** or *Cancel* leaves without changing anything.
 
 ### Animation Studio
 
