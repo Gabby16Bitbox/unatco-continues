@@ -51,7 +51,7 @@ def syllables(word):
     # Approximate English pronunciation length, with the game's acronyms made
     # explicit. Word count alone treats 'JC' and 'UNATCO' like one short word.
     known = {'jc': 2, 'unatco': 3, "unatco's": 3, 'nsf': 3, 'mib': 3, 'mj12': 3, '1997': 5,
-             'fema': 2, 'hour': 1, "hour's": 1, 'hours': 1, 'every': 2,
+             'fema': 2, 'id': 2, 'ids': 2, 'hour': 1, "hour's": 1, 'hours': 1, 'every': 2,
              'everyone': 3, 'fire': 1, 'our': 1, 'your': 1, 'weapons': 2,
              'quiet': 2, 'actually': 4, 'agent': 2, 'denton': 2,
              "doesn't": 2, "didn't": 2, "isn't": 2, "wasn't": 2,
@@ -248,6 +248,8 @@ def calibrate():
 
 
 def author_plan(calibration, lines=None, destination=PLAN):
+    cfg = json.loads(Path(m.VOICES).read_text(encoding='utf-8'))
+    casting = cfg.get('_casting', {})
     prior = json.loads((HERE / 'delivery_plan.json').read_text(encoding='utf-8'))
     review_path = HERE / 'timing_reviews.json'
     timing_reviews = json.loads(review_path.read_text(encoding='utf-8')) if review_path.exists() else {}
@@ -258,27 +260,39 @@ def author_plan(calibration, lines=None, destination=PLAN):
         kind = channel(line)
         projection = line.get('conversation') == 'M06WaltonHolo' and line['speaker'] in ('WaltonSimons', 'MaggieChow')
         profile_kind = 'radio' if projection and line['speaker'] == 'WaltonSimons' else kind
-        profile = calibration['profiles'][line['speaker']][profile_kind]
+        reference_speaker = casting.get(line['speaker'], {}).get('timing_reference', line['speaker'])
+        profile = calibration['profiles'][reference_speaker][profile_kind]
         features = duration_features(line['text'])
         target = max(.6, float(np.dot(features, profile['duration_coefficients'])))
         # Spoken keypad digits need brief separation. Native short barks do
         # not contain these serial numbers and otherwise underpredict them.
         digit_groups = re.findall(r'\b(?:zero|one|two|three|four|five|six|seven|eight|nine)(?:-(?:zero|one|two|three|four|five|six|seven|eight|nine))+\b', line['text'], re.I)
         digit_pause = .15 * sum(group.count('-') for group in digit_groups)
-        # M-J-twelve has three spoken syllables, with brief separation between
-        # the initials and number. Treating the whole identifier as one syllable
-        # incorrectly forced JC's short questions to the fastest allowed tempo.
-        initialism_pause = .20 * len(re.findall(r'\bMJ12\b', line['text'], re.I))
+        # Letter-by-letter identifiers need brief separation. Counting ID(s)
+        # as an ordinary one-syllable word also underpredicts JC's short replies.
+        initialism_pause = .20 * len(re.findall(r'\b(?:MJ12|IDs?)\b', line['text'], re.I))
         digit_pause += initialism_pause
         if re.search(r'\bcode\s+is\s+1997\b', line['text'], re.I):
             digit_pause += .45
         target += digit_pause
+        harbour_command = (line['speaker'] in ('TriadLumPath', 'TriadRedArrow')
+                           and line['file'] == 'UCSceneHarbourline.uc')
+        if harbour_command:
+            # The original short Triad barks extrapolate to over 300 wpm.
+            # Harbourline's complete raid orders need intelligible phrasing.
+            target = max(target, len(words(line['text'])) * 60 / 200)
+        if reference_speaker != line['speaker']:
+            # New cast members borrow a timing family, not the old actor's exact
+            # short-bark rate. Keep ordinary sentences below 225 words/minute.
+            target = max(target, len(words(line['text'])) * 60 / 225)
         if line['speaker'] in BARK_SPEAKERS and len(words(line['text'])) >= 9:
             target = max(target, len(words(line['text'])) * 60 / min(225, profile['median_words_per_minute']))
         if line['speaker'] == 'Red_Arrow_01' and len(words(line['text'])) >= 6:
             target = max(target, len(words(line['text'])) * 60 / min(225, profile['median_words_per_minute']))
         # 20% tolerance plus a small allowance for short, emphatic replies.
         allowance = max(.35 if line['speaker'] == 'JCDenton' else .25, target * .20)
+        if reference_speaker != line['speaker']:
+            allowance = max(allowance, .5, target * .25)
         if line['speaker'] in ('JCDenton', 'GuntherHermann'):
             # Short, level replies vary substantially in the original actor's
             # recordings. Keep their observed timing spread instead of forcing
@@ -307,19 +321,20 @@ def author_plan(calibration, lines=None, destination=PLAN):
             residuals = [abs(ref['seconds'] - float(np.dot(duration_features(ref['text']), profile['duration_coefficients'])))
                          for ref in profile['references']]
             allowance = max(allowance, float(np.quantile(residuals, review['native_residual_quantile'])))
-        spoken = line['text'].replace('...', ',').strip(', ')
+        # [tags] written in the dialogue ("[muffled]") are performance directions: they stay in
+        # the prompt (ElevenLabs reads them as directions) and out of the spoken words
+        with_tags = line['text'].replace('...', ',').strip(', ')
+        spoken = re.sub(r'\[[^\]]*\]\s*', '', with_tags).strip(', ')
+        bare_text = re.sub(r'\[[^\]]*\]\s*', '', line['text'])
         tag = 'matter-of-fact'
         if line['speaker'] == 'JCDenton':
-            tag = 'deadpan'
-            # Rare, small contrasts in an otherwise level delivery.
-            if spoken == "I listened. I didn't agree.":
-                spoken = spoken.replace('agree', 'AGREE')
+            tag = cfg.get('_jc_delivery', '')
         elif line['speaker'] in ('PaulDenton', 'WaltonSimons') or (line['speaker'] == 'AlexJacobson' and 'new picture' in spoken):
             tag = 'serious, restrained'
         elif line['speaker'] == 'AnnaNavarre' and ('agents die' in spoken or 'walks away' in spoken):
             tag = 'firm, restrained'
-        assert words(spoken) == words(line['text'])
-        prompted = spoken
+        assert words(spoken) == words(bare_text)
+        prompted = with_tags if with_tags != re.sub(r'\[[^\]]*\]\s*', '', with_tags) else spoken
         for grapheme, phonemes in pronunciations.items():
             if grapheme == '1997' and not re.search(r'\bcode\s+is\s+1997\b', line['text'], re.I):
                 continue
@@ -328,10 +343,19 @@ def author_plan(calibration, lines=None, destination=PLAN):
             raise ValueError('Voice hash collision: ' + line['key'])
         entries[line['key']] = {**line, 'channel': kind, 'spoken_text': spoken,
             'intent': prior['lines'].get(line['key'], {}).get('intent', 'Restrained delivery appropriate to the scene; review new dialogue in context.'), 'delivery_tags': tag,
-            'tts_text': '[%s] %s' % (tag, prompted), 'target_seconds': target,
+            'tts_text': ('[%s] ' % tag if tag else '') + prompted, 'target_seconds': target,
             'timing_features': {'estimated_syllables': features[1], 'extra_sentence_breaks': features[2], 'digit_pause_seconds': digit_pause},
             'duration_range': [max(.4, target - allowance), target + allowance],
             'target_lufs': profile['target_lufs']}
+        if reference_speaker != line['speaker']:
+            # A new character has no original recordings. Borrow only timing/mix,
+            # never claim this is a calibrated recording of the new actor.
+            entries[line['key']]['timing_reference'] = reference_speaker
+            entries[line['key']]['processing_reference'] = reference_speaker
+            entries[line['key']]['tempo_target'] = 'nearest_boundary'
+        if harbour_command:
+            entries[line['key']]['timing_basis'] = 'Harbourline commands: target at most 200 words/minute, preserving sentence pauses.'
+            entries[line['key']]['tempo_target'] = 'nearest_boundary'
         if projection:
             entry = entries[line['key']]
             entry['processing_channel'] = 'radio'
@@ -345,6 +369,8 @@ def author_plan(calibration, lines=None, destination=PLAN):
             entries[line['key']]['tempo_target'] = 'nearest_boundary'
         if initialism_pause:
             entries[line['key']]['tempo_target'] = 'nearest_boundary'
+        if line['speaker'] == 'JCDenton' and not tag:
+            entries[line['key']]['tempo_target'] = 'nearest_boundary'
     yes_key = m.voice_key('AnnaNavarre', 'Yes.')
     if yes_key in entries:
         entries[yes_key]['intent'] = 'Anna confirms the threat with a short, level answer.'
@@ -352,16 +378,40 @@ def author_plan(calibration, lines=None, destination=PLAN):
             'pronunciations': pronunciations,
             'analysis_basis': calibration['method'],
             'settings': {'model_id': 'eleven_v4', 'stability': .9, 'similarity_boost': .75},
-            'characters': {speaker: {'settings': {}} for speaker in calibration['profiles']},
+            'characters': {speaker: {'settings': {}} for speaker in sorted(set(calibration['profiles']) | {line['speaker'] for line in entries.values()})},
             'lines': entries}
     plan['characters']['JCDenton']['settings'] = {'stability': 1.0, 'similarity_boost': .85}
     for speaker in ('UNATCOTroop', 'UNATCOTroopB', 'MJ12Troop', 'MJ12TroopB', 'Jock'):
         if speaker in plan['characters']:
             plan['characters'][speaker]['settings'] = {'stability': .95, 'similarity_boost': .8}
+    for speaker, cast in casting.items():
+        if speaker in plan['characters']:
+            plan['characters'][speaker]['settings'].update(cast.get('settings', {}))
     apply_mix_profile(plan)
+    apply_delivery_overrides(plan)
     save(destination, plan)
     print('Prepared', len(entries), 'calibrated V4 lines.', flush=True)
     return plan
+
+
+def apply_delivery_overrides(plan):
+    """Keep approved acting directions across refreshes; never change spoken words."""
+    path = HERE / 'delivery_overrides.json'
+    if not path.exists():
+        return
+    overrides = json.loads(path.read_text(encoding='utf-8'))
+    for key, override in overrides.get('lines', {}).items():
+        line = plan['lines'].get(key)
+        if line is None:
+            continue
+        if any(line[field] != override[field] for field in ('speaker', 'text')):
+            raise ValueError('Delivery override belongs to another utterance: ' + key)
+        if words(m.undo_pronunciation(re.sub(r'\[[^\]]*\]', '', override['tts_text']), plan)) != words(re.sub(r'\[[^\]]*\]', '', line['text'])):
+            raise ValueError('Delivery override changes spoken words: ' + key)
+        for field in ('tts_text', 'delivery_tags', 'intent', 'settings', 'seed', 'tempo_target'):
+            if field in override:
+                line[field] = override[field]
+        line['authored_delivery'] = overrides['revision']
 
 
 def apply_mix_profile(plan):
@@ -377,7 +427,17 @@ def apply_mix_profile(plan):
         line['limiter_ceiling_db'] = mix.get('limiter_ceiling_db', -2.0)
         line['processing_revision'] = mix['revision']
         override = mix.get('speaker_channels', {}).get(line['speaker'] + '/' + kind, {})
-        line['deesser'] = override.get('deesser', mix['deesser'])
+        if 'processing_revision' in override:
+            line['processing_revision'] = override['processing_revision']
+        for field in ('presence_eq_db', 'presence_eq_hz', 'pitch_semitones'):
+            if field in override:
+                line[field] = override[field]
+        # Only actual radio/InfoLink speech is de-essed. Projected recordings
+        # keep their channel EQ, but ordinary/direct speech is bypassed.
+        deesser_kind = line['channel']
+        deesser_override = mix.get('speaker_channels', {}).get(line['speaker'] + '/' + deesser_kind, {})
+        line['deesser'] = deesser_override.get('deesser',
+            mix.get('channel_deessers', {}).get(deesser_kind, mix['deesser']))
         if 'radio_presence_max_db' in override:
             line['radio_presence_max_db'] = override['radio_presence_max_db']
     plan['mix_profile'] = mix
@@ -390,6 +450,17 @@ def processing_filters(line, tempo):
     if line['speaker'] == 'JCDenton':
         # Let the original-sample clone supply JC's texture. Do not brighten it.
         filters = [filters[0], 'treble=g=-1.5:f=3500:width_type=o:width=1', filters[-1]]
+    pitch = float(line.get('pitch_semitones', 0))
+    if not math.isfinite(pitch) or not -3 <= pitch <= 3:
+        raise ValueError('Invalid dialogue pitch shift: ' + line['key'])
+    if pitch:
+        filters.insert(1, 'rubberband=pitch=%.8f:formant=preserved' % (2 ** (pitch / 12)))
+    if line.get('presence_eq_db', 0):
+        gain = line['presence_eq_db']
+        frequency = line.get('presence_eq_hz', 1800)
+        if not -3 <= gain <= 3 or not 800 <= frequency <= 3000:
+            raise ValueError('Invalid dialogue presence EQ: ' + line['key'])
+        filters.append('equalizer=f=%g:width_type=o:width=1:g=%g' % (frequency, gain))
     if line.get('processing_channel', line['channel']) == 'radio':
         # Actual InfoLink references below determine the bandwidth. No reverb:
         # the call should sound electronic but remain close and intelligible.
@@ -417,6 +488,8 @@ def deesser_filter(line):
     # bell response at its centre is the square of that gain (FFmpeg 6.0
     # af_adynamicequalizer.c). Explicitly cut ABOVE the detection threshold.
     profile = line['deesser']
+    if not profile.get('enabled', True):
+        return 'anull'
     if (not 2000 <= profile['frequency_hz'] <= 9000
             or not -60 <= profile['threshold_db'] <= 0
             or not 0 <= profile['max_reduction_db'] <= 12
@@ -604,7 +677,7 @@ def verify(plan, keys=None):
         with wave.open(str(path)) as reader:
             if (reader.getnchannels(), reader.getsampwidth(), reader.getframerate()) != (1, 2, RATE):
                 failures.append(key)
-        if words(m.undo_pronunciation(re.sub(r'\[[^\]]*\]', '', line['tts_text']), plan)) != words(line['text']):
+        if words(m.undo_pronunciation(re.sub(r'\[[^\]]*\]', '', line['tts_text']), plan)) != words(re.sub(r'\[[^\]]*\]', '', line['text'])):
             failures.append(key)
     if failures:
         raise ValueError('Invalid or missing takes: ' + ', '.join(failures))

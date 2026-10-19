@@ -88,8 +88,10 @@ function int Main(string Parms)
 	Check(camera.cameraPosition == CP_HeadShotSlightLeft, "NPC front countershot");
 	speech = class'UCVoice'.static.Find("Who's asking?", "JCDenton");
 	Check(speech != None, "Current JC messenger reply resolves to the compiled voice");
+	//#if revision
 	Check(class'DXOgg'.static.CheckFiles("", "02_NYC_Convo.ogg"), "Revision conversation soundtrack exists");
 	Check(class'DXOgg'.static.CheckFiles("", "PS2_NYC_Convo.ogg"), "Selected PS2 soundtrack fallback exists");
+	//#endif
 	Check(class'UCSceneWalkOff'.static.DepartureTheme() != None, "Original UNATCO departure theme loads");
 	Check(class'UCSceneWalkOff'.static.InFrame(vect(0,-500,35), vect(0,0,20), vect(100,0,53)), "Departure shot retains walking actor in frame");
 	Check(!class'UCSceneWalkOff'.static.InFrame(vect(0,-500,35), vect(0,0,20), vect(800,0,53)), "Departure shot rejects an actor outside the frame");
@@ -106,10 +108,10 @@ function int Main(string Parms)
 	originalItem.con.conName = 'M04Guard';
 	originalItem.con.conOwnerName = "HotelGuard";
 	barkItem.next = originalItem;
-	Check(class'UCMod'.static.OriginalBarkBinding(barkItem, "UNATCOTroop") == "HotelGuard", "Original NPC conversation binding survives a temporary bark");
-	Check(class'UCMod'.static.OriginalBarkBinding(None, "UNATCOTroop") == "UNATCOTroop", "Spawned guards recover their class binding");
+	Check(class'UCCampaign'.static.OriginalBarkBinding(barkItem, "UNATCOTroop") == "HotelGuard", "Original NPC conversation binding survives a temporary bark");
+	Check(class'UCCampaign'.static.OriginalBarkBinding(None, "UNATCOTroop") == "UNATCOTroop", "Spawned guards recover their class binding");
 	barkItem.next = None;
-	Check(class'UCMod'.static.OriginalBarkBinding(barkItem, "MIB") == "MIB", "Temporary bark owner cannot become the permanent binding");
+	Check(class'UCCampaign'.static.OriginalBarkBinding(barkItem, "MIB") == "MIB", "Temporary bark owner cannot become the permanent binding");
 	Log("UCDialogueCheck:" @ checked @ "checked," @ failed @ "failed.");
 	if (failed != 0)
 		return 1;

@@ -1,6 +1,6 @@
 //=============================================================================
 // UCSceneTakeoff - Battery Park: JC sale sull'elicottero di Jock e si parte.
-// Parte quando JC risponde "I'm ready" a Jock (flag UC_JockGo, vedi UCMod).
+// Parte quando JC risponde "I'm ready" a Jock (flag UC_JockGo, vedi UCCampaign).
 //  - goal MeetJockBatteryPark completato, UNATCORoute_DepartedNYC = True;
 //  - JC e' a bordo (sparisce), la telecamera guarda l'elicottero;
 //  - l'elicottero decolla sul percorso vanilla della mappa ('HelicopterFlysOff',
@@ -96,12 +96,12 @@ Fly:
 
 	CutsceneEnd();
 	if (Plr() != None)
-		class'UCMod'.static.PrepareHongKongFlags(Plr().FlagBase);
+		class'UCCampaign'.static.PrepareHongKongFlags(Plr().FlagBase);
 	TravelTo(HongKongURL, 0);
 	Destroy();
 }
 
 defaultproperties
 {
-     HongKongURL="06_HongKong_Helibase"
+     HongKongURL="06_HongKong_WanChai_Rooftop"
 }

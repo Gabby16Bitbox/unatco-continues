@@ -30,6 +30,7 @@
 !/docs/WORKFLOW.md
 !/docs/STATUS.md
 !/docs/CAMPAIGN_CONCEPT.md
+!/docs/CAMPAIGN_REWRITE_2026_10_06.md
 !/docs/tutorials/
 !/docs/narrative/
 !/docs/img/
@@ -61,7 +62,20 @@
 !/tools/editor_bridge/editor_src/
 !/tools/editor_bridge/engine_src/
 
-# mappe: mai nel repository (14 ott 2026): sono di Revision, anche quelle modificate dalla mod.
+# mappe: gli script delle modifiche e le PATCH delle mappe modificate dalla mod (14 ott 2026, Gabby:
+# niente mappe di Revision nel repository, sono loro). Una patch ha solo le nostre differenze:
+# install.ps1 la applica alla copia di Revision\Maps di chi installa (tools\mappatch.py).
+!/maps/
+/maps/*
+!/maps/patches/
+!/maps/patches.json
+# the original game's (19 Oct 2026): the same, against the original Deus Ex's maps
+!/maps/vanilla/
+/maps/vanilla/*
+!/maps/vanilla/patches/
+!/maps/vanilla/patches.json
+# the installers' scripts (Inno Setup); what they build goes to build\installer (not here)
+!/installer/
 
 # voci: solo gli script e i piani di regia in uso. Niente audio, campioni, ricevute dei
 # cloni, id delle voci (voices.json) e soprattutto niente chiave: al loro posto i due
@@ -91,6 +105,9 @@ __pycache__/
 *.dll
 *.7z
 *key*.txt
+/src/UnatcoContinues/Textures/UCSignElevators*
+# Eva's helicopter: the game's BlackHelicopterTex1 recoloured (tools\make_eva_heli_tex.py makes it)
+/src/UnatcoContinues/Textures/UCEvaHeliTex*
 
 # niente di Revision nel repository: nessuna mappa, texture o pacchetto loro (14 ott 2026)
 

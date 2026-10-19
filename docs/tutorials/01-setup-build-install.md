@@ -41,6 +41,11 @@ configuration files the compiler looks for.
 
 - `-Isolated` compiles in a fresh `DevInstall\Build-<id>` folder made of hard links, so
   an open editor or a running check never locks the files. The three newest are kept.
+- The compiler: when the map editor's engine is there (`tools\mapkit\bin\UCMapKitHost.exe`),
+  `build.ps1` runs it as `UCMapKitHost.exe --make`: the script compiler of the game's own
+  `Editor.dll`, the same one UCC starts, so the SDK is not needed and the long-path limit
+  does not apply. Otherwise, or with `-Ucc`, it uses the SDK's `UCC.exe`. Without the SDK,
+  `setup.ps1` skips UnrealEd and UCC and says so.
 - A good build ends with `Success - 0 error(s), 0 warnings` and leaves
   `dist\UnatcoContinues.u`.
 - The voice package is optional: it is compiled only if `src\UnatcoVoices` exists, and it
@@ -69,8 +74,8 @@ Close the game first.
 .\install.ps1
 ```
 
-It copies the package into Revision's `System` folder and the maps you edited yourself in
-`maps\` (they never go into the repository: they are Revision's) into a separate `UnatcoMaps` folder, which it registers in `Revision.ini` *before* Revision's own
+It copies the package into Revision's `System` folder and the maps from `maps\` into a
+separate `UnatcoMaps` folder, which it registers in `Revision.ini` *before* Revision's own
 maps (a backup of the ini is made). The original maps are never touched.
 
 It also adds two console commands to `RevisionUser.ini` (a backup is made): `ucstart`,

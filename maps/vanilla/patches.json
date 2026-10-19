@@ -1,0 +1,8 @@
+{
+ "06_HongKong_WanChai_Street": ["06_HongKong_WanChai_Street"],
+ "04_NYC_BatteryPark": ["04_NYC_BatteryPark"],
+ "06_HongKong_WanChai_Rooftop": ["06_HongKong_Helibase", "06_HongKong_WanChai_Street", "06_HongKong_WanChai_Market",
+                                 "06_HongKong_VersaLife", "06_HongKong_WanChai_Canal", "06_HongKong_WanChai_Underworld",
+                                 "09_NYC_Dockyard", "02_NYC_Street", "02_NYC_Warehouse", "04_NYC_NSFHQ", "09_NYC_ShipBelow",
+                                 "12_Vandenberg_Tunnels", "14_OceanLab_Lab", "14_Oceanlab_Silo"]
+}

@@ -3,7 +3,7 @@
 // in ogni mappa.
 // Le uscite di Revision (MapExit, ascensori di Hong Kong...) ricostruiscono
 // l'URL con BuildOptionString() e "?Mutator=" vuoto, e i ServerActors in single
-// player non vengono creati: senza questo oggetto UCMod non partirebbe nelle
+// player non vengono creati: senza questo oggetto UCCampaign non partirebbe nelle
 // mappe raggiunte giocando. L'inventario invece viaggia sempre con il giocatore.
 // Non si vede ne' nell'inventario ne' nella cintura.
 //=============================================================================
@@ -17,6 +17,9 @@ event TravelPostAccept()
 	Super.TravelPostAccept();
 	EnsureMod();
 	CloseStaleWindows();
+	// Harbourline Tower (Mission 6): a first arrival is black from the first frame, the landing comes
+	// out of it (the scene starts half a second later)
+	class'UCSceneHarbourline'.static.ArrivalBlack(DeusExPlayer(GetPlayerPawn()));
 }
 
 // Le scene della mod sono transient: se JC cambia zona a meta' di un InfoLink (o del
@@ -63,12 +66,12 @@ event Tick(float deltaTime)
 
 function EnsureMod()
 {
-	local UCMod m;
+	local UCCampaign m;
 
-	foreach AllActors(class'UCMod', m)
+	foreach AllActors(class'UCCampaign', m)
 		if (!m.bDeleteMe)
 			return;
-	Spawn(class'UCMod');
+	Spawn(class'UCCampaign');
 	Log("UnatcoContinues: gestore route avviato dall'inventario di JC");
 }
 

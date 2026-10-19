@@ -28,6 +28,7 @@ static function Music DepartureTheme()
 	return Music(DynamicLoadObject("UNATCO_Music.UNATCO_Music", class'Music', True));
 }
 
+//#if revision
 function DXOggMusicManager FindMusicManager(DeusExPlayer P)
 {
 	local DXOggMusicManager manager;
@@ -37,12 +38,15 @@ function DXOggMusicManager FindMusicManager(DeusExPlayer P)
 		return manager;
 	return None;
 }
+//#endif
 
 function StartDepartureMusic()
 {
 	local DeusExPlayer P;
+	//#if revision
 	local RevJCDentonMale revisionPlayer;
 	local DXOggMusicManager manager;
+	//#endif
 	local UCDialogueDirector director;
 	local Music theme;
 	P = Plr();
@@ -53,19 +57,23 @@ function StartDepartureMusic()
 	foreach AllActors(class'UCDialogueDirector', director)
 		director.EndDialogueMusic(P);
 	previousTrackerSong = string(P.Song);
+	//#if revision
 	manager = FindMusicManager(P);
 	if (manager != None)
 	{
 		manager.StopPlayback();
 		manager.musicMode = MUS_Outro;
 	}
+	//#endif
 	// The original tracker theme plays for this scene even with Revision music
 	// selected. Outro mode prevents automatic combat/ambient/capture replacement.
 	P.ClientSetMusic(theme, 0, 255, MTRAN_FastFade);
 	P.musicMode = MUS_Outro;
+	//#if revision
 	revisionPlayer = RevJCDentonMale(P);
 	if (revisionPlayer != None)
 		revisionPlayer.musicModeRev = MUS_Outro;
+	//#endif
 	bSceneMusic = True;
 	Log("UCWalkOff: original UNATCO theme, ambient section 0");
 }
@@ -73,8 +81,10 @@ function StartDepartureMusic()
 function EndDepartureMusic()
 {
 	local DeusExPlayer P;
+	//#if revision
 	local RevJCDentonMale revisionPlayer;
 	local DXOggMusicManager manager;
+	//#endif
 	local Music previousMusic;
 	if (!bSceneMusic)
 		return;
@@ -87,6 +97,7 @@ function EndDepartureMusic()
 		// The vanilla music enum has no MUS_None; release its outro lock
 		// through the regular conversation-to-ambient transition instead.
 		P.musicMode = MUS_Conversation;
+		//#if revision
 		revisionPlayer = RevJCDentonMale(P);
 		if (revisionPlayer != None)
 			revisionPlayer.musicModeRev = MUS_None;
@@ -97,6 +108,7 @@ function EndDepartureMusic()
 			manager.musicChangeTimer = 0;
 			manager.musicCheckTimer = 0;
 		}
+		//#endif
 	}
 	bSceneMusic = False;
 	previousTrackerSong = "";

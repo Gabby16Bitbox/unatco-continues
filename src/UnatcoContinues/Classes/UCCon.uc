@@ -21,6 +21,8 @@ var ConEvent last;
 var string lastSpeakerName, lastSpeakingToName;
 var string pendingLabel;   // etichetta per il prossimo evento (destinazione di scelte e salti)
 var bool bFixedCamera;     // un'unica inquadratura (FixedShot): niente primi piani a ogni battuta
+var ConChoice lastAnswer;
+var UCConRandom randomBranch;
 
 function Begin(Name conName, string ownerName, bool bFirstPerson)
 {
@@ -119,6 +121,68 @@ function Choice(string text1, string label1, string text2, string label2)
 	Add(e);
 }
 
+// Una scelta con quante risposte si vuole (come le armi di Paul a Liberty Island): Choices()
+// la apre, ogni Answer() aggiunge una risposta che salta alla sua etichetta. Con un flag la
+// risposta compare solo se il flag ha quel valore.
+function Choices()
+{
+	local ConEventChoice e;
+
+	e = new(Outer) class'ConEventChoice';
+	e.eventType = ET_Choice;
+	e.bClearScreen = True;
+	Add(e);
+}
+
+function Answer(string text, string l, optional Name flagName, optional bool value)
+{
+	local ConEventChoice e;
+	local ConChoice c, tail;
+
+	e = ConEventChoice(last);
+	if (e == None)
+	{
+		Choices();
+		e = ConEventChoice(last);
+	}
+	c = new(Outer) class'ConChoice';
+	c.choiceText = text;
+	c.choiceLabel = l;
+	c.soundID = -1;
+	if (flagName != '')
+	{
+		c.flagRef = new(Outer) class'ConFlagRef';
+		c.flagRef.flagName = flagName;
+		c.flagRef.value = value;
+	}
+	if (e.ChoiceList == None)
+	{
+		e.ChoiceList = c;
+		return;
+	}
+	tail = e.ChoiceList;
+	while (tail.nextChoice != None)
+		tail = tail.nextChoice;
+	tail.nextChoice = c;
+}
+
+// JC riceve un oggetto (arma, munizioni, oggetto; "DeusEx.WeaponGEPGun") creato dal nulla: chi
+// parla tiene il suo. Il gioco lo mostra nella conversazione; se l'inventario e' pieno la
+// conversazione va a failLabel (o prosegue).
+function Give(string className, optional int count, optional string failLabel)
+{
+	local ConEventTransferObject e;
+
+	e = new(Outer) class'ConEventTransferObject';
+	e.eventType = ET_TransferObject;
+	e.objectName = className;
+	e.giveObject = class<Inventory>(DynamicLoadObject(className, class'Class', True));
+	e.transferCount = Max(count, 1);
+	e.toName = "JCDenton";
+	e.failLabel = failLabel;
+	Add(e);
+}
+
 // Salta a un'etichetta della stessa conversazione.
 function Jump(string l)
 {
@@ -128,6 +192,24 @@ function Jump(string l)
 	e.eventType = ET_Jump;
 	e.jumpLabel = l;
 	Add(e);
+}
+
+function JumpOriginal(Actor context, string path)
+{
+	local Conversation original;
+	local Actor A;
+	local ConListItem item;
+	original=Conversation(DynamicLoadObject(path,class'Conversation',True));
+	if (original==None) return;
+	foreach context.AllActors(class'Actor',A)
+		for (item=ConListItem(A.ConListItems); item!=None; item=item.next)
+			if (item.con!=None && item.con.conName==original.conName
+				&& item.con.conOwnerName==original.conOwnerName && Left(item.con.CreatedBy,9)=="DeusEdix:")
+			{
+				ConEventJump(last).jumpCon=item.con;
+				return;
+			}
+	ConEventJump(last).jumpCon=original;
 }
 
 // Se il flag ha quel valore salta all'etichetta, altrimenti prosegue.
@@ -258,6 +340,8 @@ function SetFlag(Name flagName, bool value)
 	r.flagName = flagName;
 	r.value = value;
 	r.expiration = 0;
+	if (Left(string(flagName), 3) == "UC_")
+		r.expiration = 99;
 
 	e = new(Outer) class'ConEventSetFlag';
 	e.eventType = ET_SetFlag;
@@ -295,6 +379,83 @@ function Done()
 	e = new(Outer) class'ConEventEnd';
 	e.eventType = ET_End;
 	Add(e);
+}
+
+// Original conversation copies retain native conditions and event properties.
+function LastProp(string propertyName, string value)
+{
+	if (last != None) last.SetPropertyText(propertyName, value);
+}
+
+function ConProp(string propertyName, string value)
+{
+	con.SetPropertyText(propertyName, value);
+}
+
+function NativeEvent(name kind)
+{
+	local ConEvent e;
+	switch(kind)
+	{
+		case 'Comment': e=new(Outer) class'ConEventComment'; e.eventType=ET_Comment; break;
+		case 'AddNote': e=new(Outer) class'ConEventAddNote'; e.eventType=ET_AddNote; break;
+		case 'AddCredits': e=new(Outer) class'ConEventAddCredits'; e.eventType=ET_AddCredits; break;
+		case 'AddSkillPoints': e=new(Outer) class'ConEventAddSkillPoints'; e.eventType=ET_AddSkillPoints; break;
+		case 'CheckObject': e=new(Outer) class'ConEventCheckObject'; e.eventType=ET_CheckObject; break;
+		case 'CheckPersona': e=new(Outer) class'ConEventCheckPersona'; e.eventType=ET_CheckPersona; break;
+		case 'Animation': e=new(Outer) class'ConEventAnimation'; e.eventType=ET_Animation; break;
+		case 'Trade': e=new(Outer) class'ConEventTrade'; e.eventType=ET_Trade; break;
+	}
+	if (e != None) Add(e);
+}
+
+function LastFlags(name flagName, bool value, int expiration, optional bool first)
+{
+	local ConFlagRef f;
+	f=new(Outer) class'ConFlagRef'; f.flagName=flagName; f.value=value; f.expiration=expiration;
+	if (ConEventSetFlag(last) != None)
+	{
+		if (!first) f.nextFlagRef=ConEventSetFlag(last).flagRef;
+		ConEventSetFlag(last).flagRef=f;
+	}
+	else if (ConEventCheckFlag(last) != None)
+	{
+		if (!first) f.nextFlagRef=ConEventCheckFlag(last).flagRef;
+		ConEventCheckFlag(last).flagRef=f;
+	}
+}
+
+function AnswerDetails(string skillName, int skillLevel, bool displaySpeech)
+{
+	lastAnswer=ConEventChoice(last).ChoiceList;
+	while (lastAnswer != None && lastAnswer.nextChoice != None) lastAnswer=lastAnswer.nextChoice;
+	if (lastAnswer == None) return;
+	if (skillName != "") lastAnswer.skillNeeded=class<Skill>(DynamicLoadObject(skillName,class'Class',True));
+	lastAnswer.skillLevelNeeded=skillLevel;
+	lastAnswer.bDisplayAsSpeech=displaySpeech;
+}
+
+function AnswerFlag(name flagName, bool value, int expiration)
+{
+	local ConFlagRef f;
+	if (lastAnswer == None) return;
+	f=new(Outer) class'ConFlagRef'; f.flagName=flagName; f.value=value; f.expiration=expiration;
+	f.nextFlagRef=lastAnswer.flagRef; lastAnswer.flagRef=f;
+}
+
+function RandomBegin(Actor context, bool cycle, bool once, bool shuffle)
+{
+	randomBranch=context.Spawn(class'UCConRandom',context);
+	randomBranch.Tag=randomBranch.Name;
+	randomBranch.cycle=cycle; randomBranch.once=once; randomBranch.shuffle=shuffle;
+	Trigger(randomBranch.Tag);
+	Jump("");
+	randomBranch.target=ConEventJump(last);
+}
+
+function RandomLabel(string labelName)
+{
+	if (randomBranch != None) randomBranch.AddLabel(labelName);
 }
 
 defaultproperties

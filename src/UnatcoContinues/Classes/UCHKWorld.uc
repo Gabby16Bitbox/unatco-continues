@@ -10,7 +10,7 @@
 //    e' l'assalto al laboratorio di Tong);
 //  - Alex non e' alla base di Tong (e' all'UNATCO);
 //  - passaggi verso la mappa delle fogne (non esiste nel gioco) disattivati.
-// La lancia UCMod nelle mappe 06 (non l'eliporto, gestito da UCMod, ne' Storage).
+// La lancia UCCampaign nelle mappe 06 (non l'eliporto, gestito da UCCampaign, ne' Storage).
 // Nessun puntatore a giocatore/flag tenuto fra un tick e l'altro.
 //=============================================================================
 class UCHKWorld extends Actor
@@ -104,7 +104,7 @@ function Attitudes()
 		want = Wanted(sp);
 		if (want > 1.5)
 			continue;
-		if (bFirstVisit || !HostileToPlayer(sp) || sp.Tag == 'MaggieTroop')
+		if ((bFirstVisit && (sp.Enemy==None || sp.Enemy != GetPlayerPawn())) || !HostileToPlayer(sp))
 			sp.ChangeAlly('Player', want, False);
 	}
 }
@@ -127,6 +127,7 @@ function int Disarm(name triggerTag, optional name onlyEvent)
 function Setup()
 {
 	local Teleporter tp;
+	local MapExit me;
 	local ScriptedPawn sp;
 	local Actor A;
 	local int n;
@@ -135,6 +136,20 @@ function Setup()
 	foreach AllActors(class'Teleporter', tp)
 		if (InStr(Caps(tp.URL), "SEWERS") != -1)
 			tp.bEnabled = False;
+	// New arrival: the old military helibase is not an early public freight route.
+	if (mapName=="06_HONGKONG_WANCHAI_MARKET" && DeusExPlayer(GetPlayerPawn())!=None
+		&& DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_RooftopIntroduced'))
+		foreach AllActors(class'Teleporter',tp)
+			if (InStr(Caps(tp.URL),"HELIBASE")!=-1)
+				tp.bEnabled=DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_VLManifestRead')
+					|| DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_SweepComplete');
+	if (mapName=="06_HONGKONG_WANCHAI_MARKET" && DeusExPlayer(GetPlayerPawn())!=None
+		&& DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_RooftopIntroduced')
+		&& !DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_VLManifestRead')
+		&& !DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_SweepComplete'))
+		foreach AllActors(class'MapExit',me)
+			if (InStr(Caps(me.DestMap),"HELIBASE")!=-1)
+				me.Tag='UCCargoLiftClosed';   // the lift stays shut: the Special Projects dock is under Wan Chai Street
 
 	if (mapName == "06_HONGKONG_WANCHAI_STREET")
 	{
@@ -150,7 +165,7 @@ function Setup()
 	else if (mapName == "06_HONGKONG_WANCHAI_COMPOUND")
 	{
 		// il Luminous Path caccia JC a parole ("Leave the compound now!") ma non lo attacca
-		n = Disarm('LumpathPissed');
+		if (DeusExPlayer(GetPlayerPawn()) != None && DeusExPlayer(GetPlayerPawn()).FlagBase.GetBool('UC_LPMeetingGranted')) n = Disarm('LumpathPissed');
 	}
 	else if (mapName == "06_HONGKONG_WANCHAI_UNDERWORLD")
 	{

@@ -64,7 +64,8 @@ def extract():
     def add(speaker, text, kind, fname, conversation=None):
         text = unescape(text)
         identity = (speaker, text, 'radio' if kind == 'infolink' and speaker != 'JCDenton' else 'direct')
-        if not text or identity in seen:
+        # a beat without words ("...": the agent who does not answer) stays text, no recording
+        if not text or identity in seen or not re.search(r'[A-Za-z0-9]', re.sub(r'\[[^\]]*\]', '', text)):
             return
         seen.add(identity)
         entry = {'speaker': speaker, 'text': text, 'kind': kind, 'file': fname,
@@ -96,8 +97,15 @@ def extract():
             speaker = m.group(2) if m.group(2) is not None else m.group(1)
             if speaker == 'speaker':        # la definizione di UCCon.Line
                 continue
-            if 'BindName' in speaker:
-                raise ValueError('Literal text with dynamic speaker needs an explicit profile: ' + fname)
+            if m.group(2) is None:
+                # Battery Park shares these two lines between its MIB agents.
+                # Resolve only that known helper, never invent a voice called owner.
+                functions = list(re.finditer(r'function\s+(?:[A-Za-z_]+\s+)?([A-Za-z_]+)\s*\(', src[:m.start()]))
+                function = functions[-1].group(1) if functions else None
+                if fname == 'UCSceneBatteryPark.uc' and function == 'AgainTalks' and speaker == 'owner':
+                    speaker = 'MIB'
+                else:
+                    raise ValueError('Literal text with dynamic speaker needs an explicit profile: ' + fname + ':' + speaker)
             if speaker == 'UCGreeter':      # il soldato che riconosce JC in Hell's Kitchen
                 # The selected actor might use either native voice variant.
                 add('UNATCOTroopB', m.group(5), 'con', fname)
@@ -107,12 +115,17 @@ def extract():
                 # pawn's saved BarkBindName selects the matching recording.
                 add('TriadRedArrow', m.group(5), 'con', fname)
                 speaker = 'TriadLumPath'
+            if speaker.lower().startswith('ucspecialagent'):
+                speaker = 'MIB'
             # UCGateGuard: soldato UNATCO (classe UNATCOTroop) alla grata della metro
-            speaker = {'UCHKOfficer': 'MJ12Troop', 'UCHKGuard': 'MJ12TroopB', 'UCGateGuard': 'UNATCOTroop', 'UCSpecialAgent1': 'MIB', 'UCSpecialAgent2': 'MIB',
+            speaker = {'UCHKOfficer': 'MJ12Troop', 'UCHKGuard': 'MJ12TroopB', 'UCGateGuard': 'UNATCOTroop', 'UCSpecialAgent1': 'MIB', 'UCSpecialAgent2': 'MIB', 'UCSpecialAgent3': 'MIB',
                        'UCLMAgent1': 'MIB', 'UCLMAgent2': 'MIB', 'UCMaggieHolo': 'MaggieChow',
                        'UCMessenger': 'Red_Arrow_01', 'UCLMRedArrow': 'Red_Arrow_01',
                        'UCSPTech1': 'MJ12Troop', 'UCSPCommander': 'MJ12Commando',
-                       'UCPrisoner': 'ScientistConsulting'}.get(speaker, speaker)
+                       'UCYardRaider1': 'TriadLumPath', 'UCYardRaider2': 'TriadLumPath', 'UCYardRaider3': 'TriadLumPath',
+                       'UCPrisoner': 'ScientistConsulting',
+                       # Named Harbourline staff keep their own cast identities.
+                       'UCHBPath': 'TriadLumPath'}.get(speaker, speaker)
             if speaker in ('UCHKOfficer', 'UCHKGuard'):   # MJ12 all'eliporto di Hong Kong
                 speaker = 'MJ12Troop'
             conversation = next((b.group(1) for b in reversed(beginnings) if b.start() < m.start()), None)
@@ -120,8 +133,8 @@ def extract():
         for m in rx_say.finditer(src):
             add(m.group(1), m.group(2), 'infolink', fname)
 
-        # battute dei soldati / MIB (UCMod.BarkLine): blocco "IsA('MIB')" = MIB, resto = soldato
-        if fname == 'UCMod.uc':
+        # battute dei soldati / MIB (UCCampaign.BarkLine): blocco "IsA('MIB')" = MIB, resto = soldato
+        if fname == 'UCCampaign.uc':
             a = src.find('function string BarkLine')
             b = src.find('function BarkTick')
             body = src[a:b]
@@ -217,8 +230,10 @@ def acting_request(line, cfg):
     prompted = entry['tts_text']
     spoken = entry.get('spoken_text', text)
     token_pattern = r"[A-Za-z0-9]+(?:['-][A-Za-z0-9]+)*"
+    # [tags] in the dialogue itself ("[muffled]", Battery Park) are directions, not words
+    bare = re.sub(r'\[[^\]]*\]\s*', '', text)
     if (undo_pronunciation(re.sub(r'\[[^\]]*\]\s*', '', prompted), plan) != spoken or
-            re.findall(token_pattern, spoken.lower()) != re.findall(token_pattern, text.lower())):
+            re.findall(token_pattern, spoken.lower()) != re.findall(token_pattern, bare.lower())):
         raise ValueError('La direzione cambia le parole della battuta ' + line['key'])
     settings.update(plan['settings'])
     settings.update(plan['characters'][line['speaker']]['settings'])

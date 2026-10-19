@@ -4,6 +4,8 @@
 
 *Working design document, not a final script.*
 
+> **6 October 2026 revision —** The New York / Hong Kong rewrite below is a design to implement, not a description of the installed build. The complete new dialogue is in [the rewrite script](CAMPAIGN_REWRITE_2026_10_06.md). Later missions remain indicative.
+
 > **About this document.** This is the campaign treatment the mod is being developed from: where the
 > story could go after what is already playable. It was written before and during implementation, so
 > some details (and some sample lines) differ from the game. For what the mod actually does, see the
@@ -58,21 +60,25 @@ JC has already been ordered by Manderley to travel to Hong Kong and take out Tra
 
 ### Key Gunther beat
 
+Gunther reproaches JC and resumes the arrest operation. JC does not win the argument.
+
 **GUNTHER:** Denton. You should be on your way to Hong Kong. Did you see Paul?
 
 **JC:** I spoke to him.
 
-**GUNTHER:** He is wanted by UNATCO. Why is he not in custody?
+**GUNTHER:** And you left him here.
 
-**JC:** He tried to recruit me. I turned him down.
+**JC:** He tried to recruit me. I refused.
 
-**GUNTHER:** And then you left him here.
+**GUNTHER:** You should have arrested him. Manderley will hear about this. Get out of the way.
 
-**JC:** I’m not stopping you.
+As Gunther passes JC, in first person:
 
-**GUNTHER:** Manderley will hear about this. Get out of the way.
+**JC:** Bring him in alive.
 
-Optional interior content rewards the curious player: Gunther searches Paul’s empty room, is frustrated that the team arrived too late, and may reveal that the two Special Agents were sent through Simons. If Anna died on the 747, Gunther is noticeably more hostile and tells JC that he has not forgotten the airfield; however, unless he possesses proof, he does not accuse JC outright of killing her.
+**GUNTHER:** You had your chance.
+
+The optional interior sequence is a search, not a lecture. One voluntary interaction gives the reproach about letting Paul escape; another tells JC to put Paul's evidence in his report and follow orders. Further interactions close with “Go to Hong Kong, Denton.” The shortened script and the Anna-death opening are in the [6 October rewrite](CAMPAIGN_REWRITE_2026_10_06.md).
 
 ### 747 continuity variants
 
@@ -84,104 +90,89 @@ Optional interior content rewards the curious player: Gunther searches Paul’s 
 
 ## 4. Mission 1 — Hong Kong: “The Hunt”
 
-Target length: roughly 60–90 minutes. This is the first true alternate mission. It should use as much of retail Hong Kong as possible while reversing the player’s relationship to its factions.
+This revision makes JC the investigator conducting the operation. The locations and loyalist route remain familiar; faction bargaining and the physical access granted to Special Projects now determine how the mission develops. Full dialogue: [6 October script](CAMPAIGN_REWRITE_2026_10_06.md).
 
-### Act I — MJ12 Helibase
+### Act I — Authorized arrival
 
-Jock lands at the same Hong Kong helibase that is hostile in the retail route. Here the base recognizes JC as an authorized UNATCO operative. Security bots, doors and personnel are friendly. JC sees the designation MJ12 but is given only a bureaucratic explanation: Special Projects operating under Coalition authority.
+The helibase welcomes an active UNATCO agent. Preserve Jock, the officer and the variants for hearing Majestic 12 mentioned earlier. A readable field authorization identifies Special Projects and its local issuing office.
 
-**OFFICER:** Agent Denton. Special Projects handles this facility.
+Simons's one-way InfoLink makes JC responsible for the investigation:
 
-**JC:** MJ12.
+**SIMONS:** Denton. Special Projects has developed several leads on Tong's network. You will coordinate the local investigation.
 
-**OFFICER:** That’s right.
+**SIMONS:** Start with the Red Arrow. We believe Tong is using the conflict between the Triads to conceal his movements.
 
-**JC:** Part of UNATCO?
+**SIMONS:** Locate him and report from a secure terminal. Special Projects will handle the transfer once you have him contained.
 
-**OFFICER:** We operate under Coalition authority. Further details are classified.
+Initial goals: **LOCATE TRACER TONG** and **ESTABLISH CONTACT WITH RED ARROW**. Maggie becomes an investigative lead rather than the mandatory first stop.
 
-If JC previously heard Lebedev mention Majestic 12, he should acknowledge the name instead of saying he has never heard it. Hearing the accusation is not the same as believing it.
+### Act II — Competing offers
 
-#### Simons InfoLink
+An optional messenger and the existing Red Arrow escort lead to Max Chen. Max offers an introduction to Gordon in exchange for the Dragon's Tooth and evidence about Yuen Kong. He wants to strengthen the Red Arrow, not merely help UNATCO.
 
-**SIMONS:** Denton. Special Projects personnel in Hong Kong have been instructed to cooperate with your investigation. Manderley’s orders remain in effect: locate Tracer Tong and identify the people protecting him before you move against him.
+Maggie claims the Luminous Path stole the same weapon and offers reconciliation if JC recovers it. JC can challenge that account using Max's claims only if he has heard them.
 
-**SIMONS:** Start with Maggie Chow. She has contacts with both Triads and has cooperated with Coalition interests in the past. Find Tong’s network. Once we know where he is, we’ll decide how to proceed.
+Gordon refuses access until JC brings something verifiable. Paul earned his trust; a UNATCO badge does not.
 
-JC does not answer the InfoLink. The player receives the goals Locate Tracer Tong and Contact Maggie Chow.
+The investigation distinguishes the sword's location, the transcript involving Yuen and the police death report. A weapon found in Maggie's apartment proves deception about its location, not murder by itself. The Simons/Maggie recording proves coordination, not the Gray Death conspiracy.
 
-### Act II — Wan Chai / Triads
+### Act III — Custody and access
 
-- Optional Red Arrow messenger points JC toward Max Chen. Killing or ignoring the messenger must not break progress.
-- Near the Lucky Money, two Government Agents can be seen discussing a suspicious shipment with a Red Arrow member. No raid occurs; this is only foreshadowing.
-- Max establishes that Tong belongs to Luminous Path and that Maggie is expecting JC.
-- Maggie gives JC a coherent false interpretation: Tong radicalized Paul, Luminous Path destabilized the Triads, and the Dragon’s Tooth is the immediate cause of the conflict.
-- Gordon Quick refuses to trust a UNATCO agent but suggests that JC investigate Maggie and Yuen Kong.
-- The player may discover the Dragon’s Tooth and Maggie/Simons hologram in non-linear order. Maggie is non-essential after her introductory function.
+Three approaches can reach Tong:
 
-#### Maggie / Simons recording
+- Deliver the sword and the collected evidence to Max. Red Arrow gains the weapon and negotiates a truce.
+- Bring evidence directly to Gordon. He can arrange a guarded meeting and a local ceasefire without pretending Max received the sword.
+- Retain the sword as evidence, or leave it in the case while documenting it. Access comes through the records; Max remains dissatisfied.
 
-**SIMONS:** Denton should be arriving shortly. He is still following UNATCO orders, which makes him useful.
+The weapon transfer is a real inventory transaction. Its ownership and the extent of the truce remain visible in later reactions.
 
-**MAGGIE:** And if Paul changed his mind?
+Gordon permits a meeting because Tong wants to examine the records and confront JC. He does not consent to Tong's arrest, become a friend of UNATCO or erase the reason JC came.
 
-**SIMONS:** He didn’t. Denton believes in procedure. Give him a procedure to follow.
+**GORDON:** You expose Chow and expect us to forget why you're here.
 
-**MAGGIE:** And Tong?
+**JC:** I'm here for Tong.
 
-**SIMONS:** If Denton gets close enough, we’ll know where to look.
+**GORDON:** Exactly.
 
-**JC:** Simons…
+### Act IV — Comparable evidence
 
-After the evidence is reported, Simons responds through a one-way InfoLink: Maggie is an intelligence asset; her activities can be reviewed later; JC must remain focused on Tong. The InfoLink must not become a telephone conversation.
+Tong offers documents instead of demanding allegiance. The shipment IDs already used in the mod are compared with Paul's separately readable copy. The helibase field authorization is compared with a VersaLife Level Two annex from Special Projects.
 
-### Act III — Triad truce
+These are leads with provenance, not a complete revelation. A hostile source may have altered them; JC wants the originals at VersaLife. Lines vary when he has not read Paul's copy or the helibase record.
 
-JC gives the evidence to Max. The original truce mechanics are reused. Gordon is impressed not because JC has become a friend, but because he chose to resolve the conflict rather than exploit it. He finally permits JC to meet Tong.
+**JC:** Your records say Simons has access to VersaLife. They don't prove UNATCO is involved.
 
-**MAX:** You work for UNATCO. Maggie works with your people. Yet you’re giving me evidence against her.
+**TONG:** I didn't say they did.
 
-**JC:** I work for UNATCO. Not Maggie Chow.
+**JC:** I want the originals.
 
-**MAX:** Is there a difference?
+**TONG:** Then keep looking.
 
-**JC:** There should be.
+The manifest can be read and copied without triggering the raid.
 
-### Act IV — Tracer Tong
+### Act V — JC opens the access
 
-Tong understands that Paul failed to persuade JC because he asked him to accept a conclusion. Tong therefore takes the opposite approach: evidence first, ideology later.
+The player explicitly reports Tong's location and requests a transfer team at the secure terminal. Simons instructs him to open the northern maintenance access. The squad waits outside.
 
-**TONG:** Paul reached the end of the argument before he showed you the beginning. He asked you to accept his conclusions because you trusted him.
+The current map has no verified northern assault access: the door, console and staging vestibule must be built on a copy. Do not rename the southern entrance or reuse Tong's escape route.
 
-**JC:** I don’t.
+JC uses credentials or hacking and activates **OPEN NORTH MAINTENANCE ACCESS**. The lock clicks, the physical door opens, and Special Projects enters through that passage. Only then do the alarm, armed resistance and sweep begin.
 
-**TONG:** Good. Trust is useful between friends. It is a poor substitute for evidence.
+**TONG:** They didn't send you to kill me.
 
-**JC:** Then show me yours.
+**TONG:** They sent you to open the door.
 
-Tong shows Ambrosia shipping identifiers, VersaLife routing information and references to restricted nanotechnology research. This is deliberately incomplete: Mission 1 must not yet prove the entire Gray Death conspiracy.
+**TONG:** Now watch what comes through it.
 
-### Act V — MJ12 assault
-
-Once Tong has admitted JC into the real facility, Special Projects moves in. The reveal is not that the uniform says MJ12; JC already knows that name. The reveal is that Simons used JC as the authentication required to locate Tong’s hidden base.
-
-**SIMONS:** Denton. Hold your position. A Special Projects recovery team is entering the compound. Tong’s location has been confirmed. Secure any intelligence you have already recovered and do not interfere with the sweep.
-
-**TONG:** They did not send you here because they trusted you to kill me. They sent you because I would allow Paul Denton’s brother through a door I would close to any other UNATCO agent.
-
-**JC:** They could have followed me from the market.
-
-**TONG:** And found another safehouse. Another empty room. You were the authentication.
-
-Tong evacuates. MJ12 remains friendly to JC but hostile to Luminous Path. The player can witness technicians sanitizing servers and a commander willing to kill an unarmed technician until JC intervenes. Preventing one execution must not automatically turn MJ12 hostile; the campaign would otherwise collapse immediately into the retail route.
+The ending of a conversation, a timer, Tong's death or a map transition must not bypass the opening action. If JC leaves before opening the access, the objective stays pending. Offscreen resolution is allowed only after the operation has started.
 
 ### Mission ending
 
-Special Projects occupies Tong’s facility. Simons sends a final one-way InfoLink: Tong escaped, the site is being sanitized, and the recovered material references VersaLife. JC is officially authorized to investigate VersaLife from the inside. He remains an active UNATCO agent.
+Tong uses a separate escape route. Special Projects copies selected archives, destroys other records and detains personnel. JC can save data or stop the execution of an unarmed technician; that objection alone does not convert the campaign to the retail route.
 
-**SIMONS:** You’ll proceed to VersaLife under official authorization. Tong’s people penetrated their network; determine what they accessed, recover any compromised research and verify the shipping records while you’re there. If Tong manufactured the evidence, we’ll know soon enough.
+Simons authorizes the next investigation at VersaLife. The report describes what JC actually recovered or witnessed, with variants for Tong dead, an uncopied manifest and events resolved offscreen.
 
-> **End-state —** JC has not concluded that Paul was right. He has concluded that Simons concealed part of the operation, Maggie was an unreliable asset, and Special Projects cared about controlling information as much as capturing Tong.
+**End-state:** JC remains an active UNATCO agent. He has concrete records to verify and has personally enabled an operation whose orders differ from his own. The wider Gray Death proof belongs to the next mission.
 
 ## 5. Mission 2 — VersaLife: “Authorized Access”
 

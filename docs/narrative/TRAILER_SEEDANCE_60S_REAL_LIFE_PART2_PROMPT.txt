@@ -1,0 +1,28 @@
+Create a 30-second, 16:9 trailer clip: PART TWO of a 60-second trailer for UNATCO CONTINUES, an alternate Deus Ex campaign. This occupies seconds 30–60 of the final trailer; all timestamps below restart at 00. Part one ended on Gunther's boot as he entered the hotel. Continue with Paul escaping the search, Jock questioning JC, and JC's departure for Hong Kong.
+
+REFERENCE ROLES — use these exact uploaded image numbers:
+@Image 1: Paul's hotel apartment, room layout and window.
+@Image 2: Jock's helicopter and Battery Park setting.
+@Image 3: the 'Ton Hotel exterior and Hell's Kitchen street.
+@Image 4: Hong Kong environment and skyline.
+@Image 5: Jock's face and pilot clothing.
+@Image 6: Gunther Hermann's face, augmentations and massive build.
+@Image 7: UNATCO soldier uniform and helmet; use for both soldiers.
+@Image 10: Paul Denton's face and clothing, without sunglasses.
+@Image 11: JC Denton's face, dark sunglasses and trench coat.
+
+VISUAL STYLE — LIVE ACTION: reinterpret the game references as a believable live-action Deus Ex film. Use @Image 11, @Image 10, @Image 6 and @Image 5 to establish consistent human versions of JC, Paul, Gunther and Jock, preserving their recognizable facial proportions, hairstyles, clothing and silhouettes throughout. JC always wears his dark sunglasses; Paul does not. Gunther is a massive augmented man with believable integrated cybernetic implants. Use @Image 7 for realistic UNATCO armor and helmets. Translate the architecture, props and helicopter in @Image 1, @Image 2, @Image 3 and @Image 4 into physically believable locations and materials while preserving their recognizable design and spatial relationships. Natural skin, fabric and worn metal; restrained anamorphic film photography, motivated amber practical lights and cool nighttime shadows, subtle grain and selective shallow depth of field. Natural body weight and quiet acting. Exclude HUD and existing screenshot text. This version is live action, with realistic human movement and lip sync.
+
+English dialogue with natural pauses. JC's voice is low, slightly gravelly, dry and nearly monotone. Paul is exhausted and disappointed. Gunther is cold and suspicious. Jock is quietly concerned and conversational. Music stays below the voices. Keep each reference assigned to its stated role: Jock is @Image 5, while his helicopter is @Image 2. Match part one's character identities, visual style and sound.
+
+00–05s — THE NEAR MISS. In an alley continuing the architecture from @Image 3, open on a soldier's boot from @Image 7 planting on damp pavement: a match cut from Gunther's boot in part one. Continue the footstep and bass pulse. Cut wider: Paul from @Image 10 slips around a side-passage corner just before the soldier's flashlight reaches the wall he has left. The beam narrowly misses him. Paul remains concealed and uncaptured. Breathing and distant radios.
+
+05–14s — WHERE IS PAUL? Use @Image 2 for the helicopter, cockpit and Battery Park surroundings. Jock from @Image 5 sits in the pilot seat with the side door open and rotor running. JC from @Image 11 stands beside the cockpit. Jock looks beside JC, then at him: “Where's Paul?” Reverse shot of JC: “He's not coming.” Back to Jock: “Couldn't convince him?” Brief pause. JC: “He couldn't convince me.” Hold the silence after the answer. Keep the faces assigned to @Image 5 and @Image 11 consistent. Music and rotor remain below the dialogue.
+
+14–21s — THE ORDERS. Continue in the helicopter setting from @Image 2. Jock from @Image 5 glances down at the instrument panel, then looks at JC from @Image 11: “You're still going after Tong.” Pause. Close-up of JC: “Those are my orders.” JC moves toward the open door. Hold Jock's face for one second after JC answers. Let the pause and eye contact convey his concern.
+
+21–26s — THE DESTINATION. The helicopter from @Image 2 lifts from that same Battery Park setting. Then make a clear time-ellipsis cut: later, the SAME helicopter from @Image 2 approaches the Hong Kong rooftops and skyline from @Image 4. @Image 4 defines the destination environment; @Image 2 continues to define the helicopter. Keep the aircraft's design recognizable and its flight physically believable. Carry rotor sound across the cut. A short, solemn electronic motif recalls UNATCO, with unresolved tension.
+
+26–30s — FINAL TITLE SPACE. Hard cut to clean black and hold until the end. One deep musical impact and a restrained synth tail. Reserve this empty four-second space for titles added during editing: “WHAT IF JC STAYED WITH UNATCO?” followed by “UNATCO CONTINUES.” No further dialogue.
+
+Keep the scene order and the same references, voices and style as part one. End at 30 seconds: Paul remains a fugitive, JC continues serving UNATCO, and Hong Kong opens the new campaign.

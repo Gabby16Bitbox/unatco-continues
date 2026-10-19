@@ -5,6 +5,31 @@ Design: `docs\HONGKONG_DESIGN.md` (punti 1–23). Ricerche sul gioco originale:
 `docs\HK_WORLD_RESEARCH.md` (fazioni, trigger, sicurezza, passaggi fra mappe).
 Come per New York: un pezzo alla volta, provato in gioco prima di passare al successivo.
 
+## Revisione del 6 ottobre 2026 — integrata, helipad rinviato
+
+Il [nuovo copione](CAMPAIGN_REWRITE_2026_10_06.md), il [design Hong Kong](HONGKONG_DESIGN.md) e il [design dell'assalto](HONGKONG_ASSAULT_DESIGN.md) sostituiscono le vecchie indicazioni su Max come semplice rinvio a Maggie, tregua obbligatoria e raid causato dal tracciamento di JC. I registri sotto descrivono le versioni precedenti, non il completamento di questa revisione.
+
+| Fase | Lavoro | Condizione per considerarla completata |
+| --- | --- | --- |
+| RW-1 | Accorciare Gunther: rimprovero, ricerca, due approfondimenti volontari. | Nessuna catena automatica di G11–G15; varianti su Anna e incontro esterno saltato corrette. |
+| RW-2 | Briefing operativo e documenti di Paul / helibase. | Note leggibili; varianti di conoscenza e vecchi salvataggi corrette. |
+| RW-3 | Max e Maggie con offerte contrapposte; indagine su Queen's Tower. | Spada trovata, arma posseduta e prova su Yuen rappresentano stati diversi. |
+| RW-4 | Scambio dell'arma e accesso a Gordon tramite prove. | Rami Max / Gordon / reperto trattenuto funzionanti, anche senza Max o Maggie. |
+| RW-5 | Terminale di Tong e confronto degli identificativi. | Manifest consultabile e copiabile; nessun raid alla fine del dialogo. |
+| RW-6 | Muro appena incassato che scende nel pavimento sul retro del magazzino, casse, vano compatto arredato con materiali originali, scala a destra e cancello INF verso il caricamento esterno. | Prova in gioco del percorso e delle collisioni di JC; poligono originale; mappe originali conservate; luci confrontate. |
+| RW-7 | Rapporto manuale, ordine di Simons, apertura e ingresso squadra. | Raid impossibile prima del comando e dell'apertura fisica; save/load e cambio mappa corretti. |
+| RW-8 | Prigioniero, archivi, fuga e debriefing aggiornati. | Conseguenze coerenti e incarico VersaLife raggiungibile in tutti i rami. |
+| RW-9 | Aggiornare debug, VIDEO e fotografo alla nuova catena. | Presentazione e scorciatoie attraversano gli stessi eventi del gioco normale. |
+| RW-10 | Rigenerare soltanto le battute cambiate, verificare livelli e compilare. | Audio coerente, JC contenuto; InfoLink trattati con de-esser e limiter; verifica finale in gioco. |
+
+RW-1 e RW-3–10 sono implementate nei sorgenti, nella mappa di Tong e nelle 279 registrazioni correnti. RW-2 include il documento di Paul, la copia attribuita nell'archivio di Tong e il briefing operativo; collocazione del documento dell'helibase e interventi sull'helipad sono rinviati per richiesta di Gabby. I registri sotto sono storici. [STATUS.md](STATUS.md) distingue verifiche native, prove in gioco e copertura ancora da fare; l'implementazione non certifica da sola tutte le condizioni della tabella.
+
+Ordine pratico: RW-1/2, RW-3/4, RW-5, RW-6/7, RW-8/9, RW-10. Ogni fase si prova prima della successiva. L'assalto nuovo richiede RW-6: non sostituire la porta fisica con una scritta o un timer.
+
+Per la geometria: ponte in checkout separato, confronto prima/dopo, prova con `try`, rollback. Dopo ricostruzioni controllare `fix_brush_surfs.py`; niente `LIGHT APPLY` su tutta la mappa senza confronto.
+
+## Registro precedente — 3–5 ottobre 2026
+
 ## Regole di Gabby (3 ott 2026)
 - **Fino all'incontro con Tong si riusa il piu' possibile la logica originale**; il primo grande evento davvero nuovo e'
   l'assalto MJ12 al laboratorio di Tong (climax: "Wait... these aren't reinforcements."). Fino ad allora il giocatore deve

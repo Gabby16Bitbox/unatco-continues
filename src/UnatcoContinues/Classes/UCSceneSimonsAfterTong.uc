@@ -1,17 +1,4 @@
-//=============================================================================
-// UCSceneSimonsAfterTong - Hong Kong, fine della Missione 1 (HK-11).
-// Dopo l'assalto al laboratorio di Tong i dati recuperati da JC vanno da soli al suo
-// archivio UNATCO (TongEvidenceReportSent, nessuna battuta di JC) e Simons risponde
-// con un InfoLink a senso unico: Tong scappato, il sito "sanitizzato", i file su
-// VersaLife letti; JC va a VersaLife in via ufficiale. Nuovo goal REPORT TO VERSALIFE.
-// Le domande di JC ("Then the records should be easy to disprove", Maggie, i dati
-// cancellati) restano per il confronto di persona con Simons.
-// Varianti (non nel copione): Tong morto; JC ha sparato alla squadra (solo
-// l'avvertimento di Simons, senza risposta).
-// La lanciano UCSceneTongLab (dopo il comandante) e UCHKStory (JC uscito durante
-// l'assalto, operazione chiusa fuori scena).
-// Copione: "INFOLINK FIX PASS", punto 4.
-//=============================================================================
+// Explicit operation report after authorized entry; attachments retain their source.
 class UCSceneSimonsAfterTong extends UCScene;
 
 var bool bTongDead;     // Tong morto prima della fuga
@@ -21,21 +8,21 @@ var float d;
 
 function float CallLine(int i)
 {
-	switch (i)
-	{
-		case 0:
-			if (bTongDead)
-				return Say("WaltonSimons", "Denton. Tong is dead, and his facility and most of his local network have been compromised. Special Projects is sanitizing the site and preserving whatever intelligence is relevant.");
-			return Say("WaltonSimons", "Denton. Tong escaped during the operation, but his facility and most of his local network have been compromised. Special Projects is sanitizing the site and preserving whatever intelligence is relevant.");
-		case 1: return Say("WaltonSimons", "I've reviewed the material recovered from Tong's systems. Several files reference VersaLife, including Ambrosia shipping records and restricted research directories.") + 1.0;
-		case 2: return Say("WaltonSimons", "You'll proceed to VersaLife under official authorization. Tong's people penetrated their network; determine what they accessed, recover any compromised research and verify the shipping records while you're there.");
-		case 3: return Say("WaltonSimons", "If Tong manufactured the evidence, we'll know soon enough.") + 1.0;
-		// JC ha sparato alla squadra: un avvertimento, niente risposta via radio
-		case 4: if (!bFired) return 0; return Say("WaltonSimons", "I'm told you fired on Coalition personnel.");
-		case 5: if (!bFired) return 0; return Say("WaltonSimons", "We'll discuss your judgment when you return.") + 1.0;
-		case 6: return Say("WaltonSimons", "Report when you have something conclusive.");
-	}
-	return -1;
+    switch(i)
+    {
+        case 0:
+            if(bTongDead) return Say("WaltonSimons", "Tong's death has been confirmed. The recovery team has secured his facility.");
+            return Say("WaltonSimons", "Tong escaped during the operation. The recovery team has secured his facility.");
+        case 1:
+            if (GetF('UC_VLManifestCopied'))
+                return Say("WaltonSimons", "I have reviewed the transfer records you recovered. You will proceed to VersaLife under official authorization.");
+            return Say("WaltonSimons", "The recovery team extracted a transfer index from Tong's systems. You will proceed to VersaLife under official authorization.");
+        case 2:
+            return Say("WaltonSimons", "Verify the shipment identifiers and the Level Two access records. Recover any research Tong's people obtained from their systems. Your clearance will be waiting at reception.");
+        case 3: if (!bFired) return 0; return Say("WaltonSimons", "I'm told you fired on Coalition personnel.");
+        case 4: if (!bFired) return 0; return Say("WaltonSimons", "We'll discuss your judgment when you return.");
+    }
+    return -1;
 }
 
 function float InfoLine(int i)
@@ -43,17 +30,20 @@ function float InfoLine(int i)
 	return CallLine(i);
 }
 
-// I dati recuperati da JC vanno da soli al suo archivio UNATCO: Simons li ha letti.
+// Il rapporto esplicito distingue copia di JC ed estrazione di Special Projects.
 function UploadEvidence()
 {
-	local DeusExPlayer P;
-
-	P = Plr();
-	if (P == None)
-		return;
-	class'UCSceneTongLab'.static.AddFragment(P);
-	SetF('TongEvidenceReportSent', True);
-	Msg("Mission data uploaded to UNATCO.");
+    local DeusExPlayer P;
+    P=Plr(); if (P==None) return;
+    SetF('TongEvidenceReportSent',True);
+    if (GetF('UC_VLManifestCopied'))
+    {
+        class'UCSceneTongLab'.static.AddFragment(P);
+        P.AddNote("Operation report: independent copy of Tong's transfer index attached. Content and issuing authority still require verification at VersaLife.",False,True);
+    }
+    else
+        P.AddNote("Operation report: no independent field copy attached. Transfer index supplied by Special Projects. Compare this team extraction with the originals at VersaLife.",False,True);
+    Msg("Operation report transmitted; attachment provenance recorded.");
 }
 
 function NewAssignment()
@@ -64,6 +54,8 @@ function NewAssignment()
 	if (P == None)
 		return;
 	SetF('MJ12AssaultResolved', True);
+	if (P.FindGoal('UCSubmitOperationReport') != None)
+		P.GoalCompleted('UCSubmitOperationReport');
 	SetF('VersaLifeInvestigationAuthorized', True);
 	SetF('SimonsVersaLifeConcern', True);
 	if (P.FindGoal('UCSecureTong') != None)
@@ -71,7 +63,7 @@ function NewAssignment()
 	if (P.FindGoal('UCTongArchives') != None)
 		P.GoalCompleted('UCTongArchives');
 	if (P.FindGoal('UCReportVersaLife') == None)
-		P.GoalAdd('UCReportVersaLife', "Walton Simons has authorized an official investigation into the data recovered from Tracer Tong. Report to VersaLife and determine whether its systems or personnel were compromised.", True);
+		P.GoalAdd('UCReportVersaLife', "Walton Simons has authorized an official investigation into the data recovered from Tracer Tong. Compare the Ambrosia shipment identifiers and Special Projects access records with VersaLife's original systems.", True);
 	if (!GetF('UC_NoteVersaLifeCode'))
 	{
 		SetF('UC_NoteVersaLifeCode', True);
@@ -100,7 +92,7 @@ Wait:
 	NewAssignment();
 	SetF('UC_SimonsAfterTong', True);
 	InfoStart("WaltonSimons");
-	Sleep(1.0);
+	Sleep(1.5);
 	n = 0;
 Next:
 	d = CallLine(n);

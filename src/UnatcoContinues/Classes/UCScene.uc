@@ -11,6 +11,9 @@ class UCScene extends Actor
 	transient;
 
 var bool bHistoryOnly;   // Say() scrive solo nella cronologia (vedi InfoStart)
+var bool bHushTalks;     // no talking with people while its InfoLinks play (UCTalkHush, from InfoStart)
+var int infoVoiceId;     // Own channel only: cancelling a tutorial must not stop another speaker.
+var bool bInfoVoiceActive;
 var name openedDoors[16];  // porte gia' aperte dai PNG della scena (OpenDoorsNear)
 var int numOpened;
 
@@ -135,6 +138,7 @@ function float Say(string bindName, string text)
 	local DeusExRootWindow root;
 	local HUDInfoLinkDisplay win;
 	local Sound snd;
+	local Texture face;
 
 	P = Plr();
 	if (P == None)
@@ -155,23 +159,46 @@ function float Say(string bindName, string text)
 	if (win == None)
 		return 0;
 
+	class'UCInfoLinkFX'.static.Speaking(Self);     // the "incoming transmission" is over
 	win.SetSpeaker(bindName, DisplayName(bindName));
+	face = class'UCPortraits'.static.Find(bindName);    // a character of the mod (tools\make_portrait.py)
+	if (face != None)
+		win.speakerPortrait = face;
 	win.ShowPortrait();
 	win.ClearScreen();
 	win.DisplayText(text);
 
 	// voce registrata (se c'e'): la battuta dura quanto l'audio
-	snd = class'UCVoice'.static.Find(text, bindName, bindName != "JCDenton");
+	snd = class'UCVoiceBank'.static.Resolve(Self, bindName, text); // a user dub or original voice reference
+	if (snd == None)
+		snd = class'UCVoice'.static.Find(text, bindName, bindName != "JCDenton");
 	if (snd != None)
 	{
-		P.PlaySound(snd, SLOT_Talk, 1.0);
-		Log("UCVoice: InfoLink playback" @ snd @ "speaker=" $ bindName);
-		return GetSoundDuration(snd) + 0.5;
+		if (!(bindName ~= "EliasHale") || Level.Game.ParseOption(Level.GetLocalURL(), "DeusEdixHaleMuted") != "1")
+		{
+			// on a channel of its own (UCInfoVoice): on JC's SLOT_Talk another line played through him cut it
+			infoVoiceId = class'UCInfoVoice'.static.Get(Self).Speak(P, snd);
+			bInfoVoiceActive = True;
+		}
+		Log("UCVoice: InfoLink playback" @ snd @ "speaker=" $ bindName @ "duration=" $ GetSoundDuration(snd) @ "at=" $ Level.TimeSeconds @ "id=" $ infoVoiceId);
+		return class'UCInfoVoice'.static.GameSeconds(Self, GetSoundDuration(snd) + 0.5);   // the voice is real time
 	}
 	return 2.0 + Len(text) * 0.045;
 }
 
-function HideInfo()
+// Fine dell'InfoLink: "END TRANSMISSION..." lampeggia un secondo e la finestra si chiude, come nel
+// gioco (UCInfoLinkFX). bCut: chiusa di colpo (una chiamata interrotta).
+function StopInfoVoice()
+{
+	local DeusExPlayer P;
+
+	P = Plr();
+	if (bInfoVoiceActive && P != None)
+		class'UCInfoVoice'.static.Get(Self).StopVoice();
+	bInfoVoiceActive = False;
+}
+
+function HideInfo(optional bool bCut)
 {
 	local DeusExPlayer P;
 	local DeusExRootWindow root;
@@ -180,8 +207,15 @@ function HideInfo()
 	if (P == None)
 		return;
 	root = DeusExRootWindow(P.rootWindow);
-	if (root != None && root.hud != None)
+	if (root == None || root.hud == None)
+		return;
+	if (bCut)
+	{
+		class'UCInfoLinkFX'.static.Speaking(Self);
 		root.hud.DestroyInfoLinkWindow();
+	}
+	else
+		class'UCInfoLinkFX'.static.Close(Self);
 }
 
 function GoalNew(Name goalName, string text)
@@ -306,7 +340,9 @@ function float InfoLine(int i)
 	return -1;
 }
 
-// Inizio di un InfoLink. Le scene sono transient: se JC cambia zona a meta', la scena
+// Inizio di un InfoLink: come nel gioco (DataLinkPlay) la finestra si apre su "INCOMING
+// TRANSMISSION..." con l'icona DataLink che lampeggia per 1.5 s (UCInfoLinkFX): chi chiama
+// aspetta 1.5 s prima della prima battuta. Le scene sono transient: se JC cambia zona a meta', la scena
 // sparisce. Come fa il gioco originale (DeusExPlayer.PreTravel ->
 // DataLinkPlay.AbortAndSaveHistory) l'InfoLink vale allora come ascoltato: chi chiama
 // segna il suo flag "fatto" e ne applica gli effetti PRIMA di InfoStart, e qui tutto il
@@ -320,6 +356,9 @@ function InfoStart(string ownerBind)
 	local int i;
 
 	InfoSound();
+	class'UCInfoLinkFX'.static.Open(Self);
+	if (bHushTalks)
+		class'UCTalkHush'.static.Hold(Self);
 	P = Plr();
 	if (P == None)
 		return;
@@ -431,14 +470,15 @@ function CutsceneStart(vector camPos, Actor lookAt)
 		root.hud.Hide();
 }
 
-// La telecamera continua a guardare l'attore (chiamare ad ogni passo).
+// La telecamera segue l'attore a ogni fotogramma (UCCam.Track): basta chiamarla una volta, le
+// chiamate ripetute dai cicli delle scene non cambiano niente.
 function CamLookAt(Actor lookAt)
 {
 	local UCCam cam;
 
 	cam = FindCam();
-	if (cam != None && lookAt != None)
-		cam.SetShot(cam.shotPosition, lookAt.Location + vect(0,0,20));
+	if (cam != None && lookAt != None && cam.trackActor != lookAt)
+		cam.Track(lookAt, vect(0,0,20));
 }
 
 // Rimette tutto come prima (da chiamare PRIMA di cambiare mappa).
@@ -465,7 +505,7 @@ function CutsceneEnd()
 		cam.Destroy();
 }
 
-// Cambia mappa portando il giocatore in un punto preciso (vedi UCMod.DoArrival).
+// Cambia mappa portando il giocatore in un punto preciso (vedi UCCampaign.DoArrival).
 function TravelTo(string mapName, int arrival)
 {
 	local DeusExPlayer P;

@@ -1,26 +1,73 @@
 {
-  "revision": "band-deessed-dialogue-20261005",
+  "revision": "radio-deesser-dialogue-20261006",
   "channels": {
     "direct": -14.0,
     "radio": -14.5
   },
   "speakers": {
-    "JCDenton": -15.5
+    "JCDenton": -15.5,
+    "MaxChen": -12.5,
+    "VictorKwan": -16.0,
+    "UCHBLam": -16.0,
+    "UCHBPathLeader": -15.0,
+    "UCHBSmoker": -16.0
   },
   "tolerance_lu": 0.25,
   "limiter_ceiling_db": -2.0,
   "deesser": {
-    "frequency_hz": 5500, "threshold_db": -24, "ratio": 8,
-    "max_reduction_db": 3, "q": 1, "attack_ms": 2, "release_ms": 70
+    "enabled": false,
+    "frequency_hz": 5500,
+    "threshold_db": -24,
+    "ratio": 8,
+    "max_reduction_db": 3,
+    "q": 1,
+    "attack_ms": 2,
+    "release_ms": 70
   },
-  "speaker_channels": {
-    "WaltonSimons/radio": {
-      "deesser": {
-        "frequency_hz": 5000, "threshold_db": -27, "ratio": 12,
-        "max_reduction_db": 6, "q": 1, "attack_ms": 2, "release_ms": 70
-      },
-      "radio_presence_max_db": 2.0
+  "channel_deessers": {
+    "radio": {
+      "enabled": true,
+      "frequency_hz": 5500,
+      "threshold_db": -24,
+      "ratio": 8,
+      "max_reduction_db": 3,
+      "q": 1,
+      "attack_ms": 2,
+      "release_ms": 70
     }
   },
-  "reason": "Consistent perceived dialogue level across actors. JC remains 1.5 LU below direct interlocutors and 1 LU below radio callers. Native references continue to determine timbre and timing."
+  "speaker_channels": {
+    "MaxChen/direct": {
+      "processing_revision": "max-chen-presence-level-20261006",
+      "presence_eq_db": 1.0,
+      "presence_eq_hz": 1800
+    },
+    "WaltonSimons/radio": {
+      "deesser": {
+        "enabled": true,
+        "frequency_hz": 5000,
+        "threshold_db": -27,
+        "ratio": 12,
+        "max_reduction_db": 6,
+        "q": 1,
+        "attack_ms": 2,
+        "release_ms": 70
+      },
+      "radio_presence_max_db": 2.0
+    },
+    "VictorKwan/direct": {
+      "processing_revision": "hk-local-quieter-20261016"
+    },
+    "UCHBLam/direct": {
+      "processing_revision": "hk-local-quieter-20261016"
+    },
+    "UCHBPathLeader/direct": {
+      "processing_revision": "hk-leader-low-20261018",
+      "pitch_semitones": -1.0
+    },
+    "UCHBSmoker/direct": {
+      "processing_revision": "hk-smoker-20261018"
+    }
+  },
+  "reason": "Consistent perceived dialogue level across actors. JC remains 1.5 LU below ordinary direct interlocutors and 1 LU below radio callers. Max Chen has a targeted 1.5 LU lift and mild midrange presence after listener feedback; his bass-heavy clone sounded recessed at the uniform target. Native references continue to determine timbre and timing."
 }

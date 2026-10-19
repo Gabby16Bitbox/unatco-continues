@@ -1,8 +1,12 @@
-# Compila la mod: "ucc editor.make" ricompila solo i .u mancanti, quindi si cancellano
+# Compila la mod: "make" ricompila solo i .u mancanti, quindi si cancellano
 # prima UnatcoVoices.u (voci) e UnatcoContinues.u (codice). Risultato in dist\
-param([switch]$Isolated)
+# Il compilatore e' quello dentro Editor.dll del gioco, avviato dal motore dell'editor di mappe
+# (tools\mapkit\bin\UCMapKitHost.exe --make): non serve UCC.exe dell'SDK. -Ucc usa ancora UCC.exe.
+param([switch]$Isolated, [switch]$Ucc)
 . "$PSScriptRoot\config.ps1"
 $ErrorActionPreference = 'Stop'
+$HostExe = Join-Path $PSScriptRoot 'tools\mapkit\bin\UCMapKitHost.exe'
+$UseHost = (-not $Ucc) -and (Test-Path -LiteralPath $HostExe)
 # Il pacchetto delle voci (src\UnatcoVoices) e' facoltativo: l'audio non e' nel repository
 # pubblico. Senza, si compila solo la mod e le battute restano come testo.
 # UC_NO_VOICES=1 lo esclude anche quando c'e' (per provare la compilazione "da repository").
@@ -36,7 +40,7 @@ if ($Isolated) {
     New-Item -ItemType Junction -Path (Join-Path $BuildRoot $BuildSourcePackage) -Target (Join-Path $Root "src\$BuildSourcePackage") | Out-Null
   }
   $DevSystem = $BuildSystem
-  "Compilazione isolata: $BuildSystem"
+  "Isolated build: $BuildSystem"
   # Keep only the 3 newest Build-* folders (this one included). Junctions are
   # removed as links and never entered: they lead to src\ and the game assets.
   function Remove-IsolatedBuild([string]$Path) {
@@ -58,14 +62,14 @@ if ($Isolated) {
     # a check may still be running there (ucc.exe started from that folder)
     if (Get-Process -Name ucc, UnrealEd, Revision -ErrorAction SilentlyContinue |
         Where-Object { $_.Path -like "$($BuildOld.FullName)\*" }) { continue }
-    try { Remove-IsolatedBuild $BuildOld.FullName; "Eliminata compilazione vecchia: $($BuildOld.Name)" }
-    catch { Write-Warning "Compilazione vecchia non eliminata ($($BuildOld.Name)): $($_.Exception.Message)" }
+    try { Remove-IsolatedBuild $BuildOld.FullName; "Removed old build: $($BuildOld.Name)" }
+    catch { Write-Warning "Old build not removed ($($BuildOld.Name)): $($_.Exception.Message)" }
   }
 }
 # Il compilatore dell'SDK (anno 2000) va in crash, senza un messaggio utile, quando il
 # percorso della cartella System e' lungo: provato il 5 ott 2026 con un clone del
 # repository, funziona a 103 caratteri e si pianta a 125. Meglio dirlo subito.
-if ($DevSystem.Length -gt 105) {
+if (-not $UseHost -and $DevSystem.Length -gt 105) {
   throw ("Percorso troppo lungo per il compilatore dell'SDK ($($DevSystem.Length) caratteri: $DevSystem). " +
          "Sposta il progetto in una cartella dal percorso corto, per esempio C:\Dev\unatco-continues. / " +
          "The project folder path is too long for the SDK compiler: move the project to a short path.")
@@ -75,12 +79,22 @@ try {
   foreach ($BuildPackage in @('UnatcoVoices.u', "$ModName.u")) {
     if (Test-Path -LiteralPath $BuildPackage) { Remove-Item -LiteralPath $BuildPackage -Force }
   }
-  & .\ucc.exe 'editor.make'
-  if ($LASTEXITCODE -ne 0) { throw "Compilazione UCC fallita: $LASTEXITCODE" }
+  if ($UseHost) {
+    Copy-Item -LiteralPath $HostExe -Destination '.\UCMapKitHost.exe' -Force
+    try { & .\UCMapKitHost.exe --make DeusEx.ini; $MakeCode = $LASTEXITCODE }
+    finally { Remove-Item -LiteralPath '.\UCMapKitHost.exe' -Force -ErrorAction SilentlyContinue }
+    if ($MakeCode -ne 0) { throw "Script compiler failed: $MakeCode" }
+  } else {
+    & .\ucc.exe 'editor.make'
+    if ($LASTEXITCODE -ne 0) { throw "UCC build failed: $LASTEXITCODE" }
+  }
+  # DrawScale delle texture HD (l'import di ucc non ha l'opzione; in UnrealScript e' const)
+  & python "$PSScriptRoot\tools\set_texture_prop.py" "$ModName.u" UCSignElevators DrawScale 0.125
+  if ($LASTEXITCODE -ne 0) { throw "DrawScale of the ELEVATORS sign not set" }
 }
 finally { Pop-Location }
 New-Item -ItemType Directory -Force "$Root\dist" | Out-Null
 foreach ($p in $BuildPackages) {
   if (Test-Path "$DevSystem\$p.u") { Copy-Item "$DevSystem\$p.u" "$Root\dist\" -Force; "OK: dist\$p.u" }
-  else { throw "ERRORE: $p.u non compilato (vedi sopra)" }
+  else { throw "ERROR: $p.u not built (see above)" }
 }

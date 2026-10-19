@@ -1,12 +1,16 @@
 # UNATCO Continues
 
-**A story mod for [Deus Ex: Revision](https://store.steampowered.com/app/397550/Deus_Ex_Revision/).
+**A story mod for Deus Ex, for both the original game (Game of the Year Edition) and
+[Deus Ex: Revision](https://store.steampowered.com/app/397550/Deus_Ex_Revision/).
 What if JC Denton had said no to his brother, and stayed with UNATCO?**
+
+> **Work in progress.** The new route is playable from mission 4 to Hong Kong, and is still
+> being built. Follow it and talk about it on Discord: *coming soon*.
 
 In the original game JC leaves UNATCO in mission 4 whatever the player does. This mod
 makes that moment a real choice. Refuse Paul at the 'Ton hotel and the story goes on from
 there: Gunther arrives for your brother, Anna Navarre watches the subway, Jock flies you to
-Hong Kong as a UNATCO agent, the MJ12 helibase welcomes you, the Triads treat you as the
+Hong Kong as a UNATCO agent, a Special Projects liaison meets you on a civilian rooftop, the Triads treat you as the
 law, and Tracer Tong is no longer your rescuer. He is your assignment.
 
 ![Anna Navarre at the subway gate, with a presentation caption](docs/img/anna-variant.jpg)
@@ -23,7 +27,32 @@ anyone can read it, build it and continue it:
 - **tutorials** for the techniques that are reusable in other Deus Ex mods;
 - **the source**: UnrealScript, build scripts and tools.
 
-**Just want to play?** [PLAY.md](PLAY.md): build it once, install with a double-click, type one command.
+## Download and play
+
+There are two versions, for two games. Each has its own installer: it finds your game, makes the
+mod's maps from your own copy of the game and adds a console command to start the mod.
+Uninstall it from Windows' *Installed apps*.
+
+| Your game | Installer |
+|---|---|
+| **Deus Ex** (the original, Game of the Year Edition) | `UNATCO-Continues-DeusEx-Setup` on the [Releases page](https://github.com/Gabby16Bitbox/unatco-continues/releases) |
+| **Deus Ex: Revision** | `UNATCO-Continues-Revision-Setup` on the [Releases page](https://github.com/Gabby16Bitbox/unatco-continues/releases) |
+
+Then start the game, load or begin a game, open the console (**T**, delete `Say`) and type
+`exec unatcostart.txt` (original game) or `unatcostart` (Revision). Details, the jump menu and
+manual installation: [PLAY.md](PLAY.md).
+
+Windows may say *"Windows protected your PC"*: the installers are not signed. Click
+*More info*, then *Run anyway*.
+
+**No voices are included.** The mod's new lines appear as subtitles. You can make the voices
+yourself: see [Voices](#voices) below.
+
+## Made with DeusEdix
+
+The mod's maps, scenes, dialogues and InfoLinks are made with **DeusEdix**, a map and story editor for
+Deus Ex and Deus Ex: Revision that works in the browser, without UnrealEd. DeusEdix is a separate
+project: *coming soon*.
 
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
 [what works and what is next](docs/STATUS.md), and the
@@ -32,7 +61,11 @@ anyone can read it, build it and continue it:
 ## Status
 
 Work in progress. Playable from the fork at the 'Ton hotel (mission 4) to the end of the
-Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conversations.
+Tracer Tong sequence in Hong Kong. 324 dialogue lines in 70 conversations, plus 14 InfoLink lines.
+
+The [new Hong Kong arrival](docs/HONGKONG_ROOFTOP_FLOW.md) connects a small raised helipad
+to a Wan Chai service yard by freight lift. A raid targets a secured shipment;
+intervening, reading the cargo label and following the Red Arrow lead are separate choices.
 
 ## What is in the repository
 
@@ -44,21 +77,35 @@ Tracer Tong sequence in Hong Kong. Around 330 new lines of dialogue in 67 conver
 | `docs/tutorials/` | step-by-step guides |
 | `docs/*.md` in Italian | the working notes: designs, plans, playtest checklist |
 | `tools/` | scripts: game-data readers, map tools, automatic in-game photos, checks |
+| `maps/` | the mod's changes to the maps as patches: `maps/patches` for Revision, `maps/vanilla/patches` for the original game (no map is shipped) |
+| `installer/`, `tools/build_installers.py` | the two installers (Inno Setup) |
 | `tools/voices/` | the voice tools (no recordings, no key: you use your own) |
 | `build.ps1`, `install.ps1`, ... | build and install scripts (Windows, PowerShell) |
 
 **Not included, on purpose:**
 
-- anything that belongs to Deus Ex or Revision: game files, exported sources, the SDK and
-  editor binaries, and their maps, textures and packages, modified or not, or anything
-  made from them (see [NOTICE.md](NOTICE.md));
+- any game file: no file of Deus Ex or Revision is included. The maps are patches that are
+  applied to your own copy of the game, and the mod needs the original game to run. It is free
+  and not for sale (see [NOTICE.md](NOTICE.md));
 - the voice recordings, the samples and the voice identifiers. Every line is in the script
   as text; in game, a line without a recording is shown as a subtitle;
 - any key. `tools/voices/elevenlabs_key.example.txt` is a placeholder for your own.
 
+## Voices
+
+The mod's lines are written in the script and shown as subtitles; no recording is shipped. The
+voices heard in the videos were made with AI voices on ElevenLabs. To make your own, with your own
+ElevenLabs account:
+
+1. copy `tools/voices/elevenlabs_key.example.txt` to `tools/voices/elevenlabs_key.txt` and put your key in it;
+2. copy `tools/voices/voices.example.json` to `tools/voices/voices.json` and choose a voice for each character;
+3. run `tools/voices/voices.ps1` (it makes the audio and the `UnatcoVoices` package), then `build.ps1`.
+
+Use voices you are allowed to use.
+
 ## Requirements
 
-- Deus Ex: Game of the Year Edition and Deus Ex: Revision (Steam).
+- Deus Ex: Game of the Year Edition, and Deus Ex: Revision for the Revision version (Steam).
 - To build: the Deus Ex SDK installer, 7-Zip and Python 3, as described in
   [tutorial 1](docs/tutorials/01-setup-build-install.md).
 
@@ -73,8 +120,12 @@ path**, such as `C:\Dev\unatco-continues`: the 2000-era compiler crashes on long
 .\install.ps1            # game closed
 ```
 
-Then, in the game, type `ucstart` in the console once to start the mod, or `uc` for the
+Then, in the game, type `unatcostart` in the console once to start the mod, or `unatco` for the
 debug menu that jumps straight to a scene.
+
+## Narrative rewrite in progress
+
+The [6 October rewrite](docs/CAMPAIGN_REWRITE_2026_10_06.md) revises Gunther and Hong Kong: competing Triad offers, evidence with readable provenance, and an assault caused by the player opening Special Projects' access. It is a script and mission design awaiting implementation; the playable build and source-derived narrative document still describe the previous version.
 
 ## Documentation
 
@@ -90,6 +141,7 @@ debug menu that jumps straight to a scene.
    - [Automatic in-game photos](docs/tutorials/04-automatic-photos.md)
    - [Reading maps and game data without the editor](docs/tutorials/05-reading-game-data.md)
    - [The presentation mode used for the video](docs/tutorials/06-presentation-mode.md)
+   - [The map editor: maps, properties, dialogues, InfoLinks and events without UnrealEd](docs/tutorials/07-map-editor.md)
 
 ## Screenshots
 
@@ -104,8 +156,10 @@ Made by Gabby ([@Gabby16Bitbox](https://github.com/Gabby16Bitbox)) with AI codin
 (see the [workflow](docs/WORKFLOW.md)).
 
 This is an unofficial fan project. Deus Ex is a trademark of its owners; Deus Ex: Revision
-is the work of Caustic Creative. Nothing from the game or from Revision is distributed
-here, and you need to own the game to use the mod.
+is the work of Caustic Creative. No game files are included: the maps are patches applied to
+your own copy of Deus Ex, and the mod needs the original game to run. Free, not for sale.
+
+Discord: *coming soon* · DeusEdix: *coming soon*
 
 ## Licence
 

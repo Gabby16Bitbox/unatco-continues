@@ -42,6 +42,17 @@ static function string Profile(Actor speaker, string binding)
 		return "MJ12Troop";
 	if (binding ~= "UCPrisoner")
 		return "ScientistConsulting";
+	// Named cast takes precedence over the generic pawn's body class.
+	// In particular Kwan inherits Soldier, but is not an American soldier voice.
+	if (binding ~= "Eva" || binding ~= "VictorKwan" || binding ~= "UCHBLam"
+		|| binding ~= "UCHBGuard1" || binding ~= "UCHBGuard2"
+		|| binding ~= "UCHBGuardA" || binding ~= "UCHBGuardB" || binding ~= "UCHBGuardC"
+		|| binding ~= "UCHBGateGuard1" || binding ~= "UCBPBum"
+		|| binding ~= "UCBPCop1" || binding ~= "UCBPCop2"
+		|| binding ~= "UCHBPathLeader" || binding ~= "UCHBSmoker")
+		return binding;
+	if (binding ~= "UCHBPath")
+		return "TriadLumPath";
 	// BarkBindName is the native, saved voice identity. Temporary conversation
 	// bindings (UCBark / UCGreeter) must never choose a different actor's voice.
 	if (speaker != None && (speaker.IsA('UNATCOTroop') || speaker.IsA('Soldier')))
@@ -70,6 +81,8 @@ static function string Profile(Actor speaker, string binding)
 		return "MJ12Troop";
 	if (binding ~= "UCHKGuard")
 		return "MJ12TroopB";
+	if (Left(binding,12) ~= "UCYardRaider")
+		return "TriadLumPath";
 	return binding;
 }
 
@@ -80,11 +93,28 @@ static function int VoiceKey(string voiceName, string text, optional bool bRadio
 	return Key(voiceName $ "|direct|" $ text);
 }
 
+// The voice given to one line in the map editor (Story: recorded with the microphone, imported, or a
+// sound of the user's): the sound D<Key(speaker|text)> of the editor's sounds package (UCSounds,
+// tools/mapkit/editor/sounds.py; the same key in story.py). It comes before the generated voices. The
+// lips follow it like any line: it plays on the speaker's SLOT_Talk while bIsSpeaking.
+static function Sound Dub(string speaker, string text)
+{
+	if (speaker == "" || text == "")
+		return None;
+	return Sound(DynamicLoadObject("UCSounds.D" $ Key(speaker $ "|" $ text), class'Sound', True));
+}
+
 static function Sound Find(string text, optional string voiceName, optional bool bRadio)
 {
 	local string objectName;
 	local Sound snd;
 
+	if (voiceName ~= "EliasHale")
+	{
+		snd = Sound(DynamicLoadObject(string(class'UCVoice'.Outer.Name) $ ".HaleV" $ VoiceKey(voiceName, text, bRadio), class'Sound', True));
+		if (snd != None)
+			return snd;
+	}
 	if (voiceName == "")
 		objectName = "UnatcoVoices.V" $ Key(text);
 	else
@@ -94,7 +124,6 @@ static function Sound Find(string text, optional string voiceName, optional bool
 		Log("UCVoice: missing audio " $ objectName);
 	return snd;
 }
-
 defaultproperties
 {
 }

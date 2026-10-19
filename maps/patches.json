@@ -1,0 +1,16 @@
+{
+ "06_HongKong_TongBase": [
+  "06_HongKong_TongBase"
+ ],
+ "06_HongKong_WanChai_Street": [
+  "06_HongKong_WanChai_Street"
+ ],
+ "06_HongKong_WanChai_Rooftop": [
+  "06_HongKong_Helibase",
+  "06_HongKong_WanChai_Compound",
+  "06_HongKong_WanChai_Street",
+  "06_HongKong_WanChai_Market",
+  "06_HongKong_VersaLife",
+  "09_NYC_Dockyard"
+ ]
+}

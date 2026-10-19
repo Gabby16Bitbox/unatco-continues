@@ -105,28 +105,28 @@ function int Main(string Parms)
 	local UCCon c;
 
 	c = new(Self) class'UCCon';
-	class'UCMod'.static.JockParkTalk(c);
+	class'UCCampaign'.static.JockParkTalk(c);
 	CheckJock(c, 'UC_JockBP', True);
 	Check(c.con.flagRefList == None, "UC_JockBP senza requisiti");
 
 	// facoltativa (tornando dopo "Give me a minute"): una volta, con la stessa scelta
 	c = new(Self) class'UCCon';
-	class'UCMod'.static.JockExtraTalk(c);
+	class'UCCampaign'.static.JockExtraTalk(c);
 	CheckJock(c, 'UC_JockBPExtra', True);
 	Check(HasRequire(c, 'UC_JockBP_Played', True), "battute su Paul solo dopo la prima conversazione");
 
 	c = new(Self) class'UCCon';
-	class'UCMod'.static.JockReadyTalk(c);
+	class'UCCampaign'.static.JockReadyTalk(c);
 	CheckJock(c, 'UC_JockBPReady', False);
 	Check(HasRequire(c, 'UC_JockBP_Played', True), "Ready? solo dopo la prima conversazione");
 	Check(HasRequire(c, 'UC_JockBPExtra_Played', True), "Ready? solo dopo le battute su Paul");
 
 	// porte di Battery Park: aperte quelle sul percorso, chiuse le altre
-	Check(class'UCMod'.static.DistFromParkPath(vect(-5024, 2656, 8)) <= 220, "porta vicino alle scale della metro resta aperta");
-	Check(class'UCMod'.static.DistFromParkPath(vect(-5024, 3040, 6)) <= 220, "porta vicino all'arrivo resta aperta");
-	Check(class'UCMod'.static.DistFromParkPath(vect(-4528, 3424, -288)) > 220, "porta laterale della stazione chiusa");
-	Check(class'UCMod'.static.DistFromParkPath(vect(-3568, 2192, 320)) > 220, "cancello nel recinto chiuso");
-	Check(class'UCMod'.static.DistFromParkPath(vect(-2900, 1110, 340)) < 50, "il percorso arriva all'elicottero");
+	Check(class'UCCampaign'.static.DistFromParkPath(vect(-5024, 2656, 8)) <= 220, "porta vicino alle scale della metro resta aperta");
+	Check(class'UCCampaign'.static.DistFromParkPath(vect(-5024, 3040, 6)) <= 220, "porta vicino all'arrivo resta aperta");
+	Check(class'UCCampaign'.static.DistFromParkPath(vect(-4528, 3424, -288)) > 220, "porta laterale della stazione chiusa");
+	Check(class'UCCampaign'.static.DistFromParkPath(vect(-3568, 2192, 320)) > 220, "cancello nel recinto chiuso");
+	Check(class'UCCampaign'.static.DistFromParkPath(vect(-2900, 1110, 340)) < 50, "il percorso arriva all'elicottero");
 
 	Log("UCRouteCheck:" @ checked @ "checked," @ failed @ "failed.");
 	return failed;

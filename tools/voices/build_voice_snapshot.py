@@ -59,12 +59,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--publish', action='store_true')
     parser.add_argument('--install', action='store_true')
+    parser.add_argument('--compile-only', action='store_true', help='Check code syntax in a private snapshot before generating changed audio.')
     parser.add_argument('--resume', type=Path, help='Publish an already checked private System snapshot.')
     parser.add_argument('--game-system', type=Path, default=Path(
         'C:/Program Files (x86)/Steam/steamapps/common/Deus Ex/Revision/System'))
     args = parser.parse_args()
+    if args.compile_only and (args.publish or args.install or args.resume):
+        raise ValueError('--compile-only cannot publish, install or resume a checked voice build.')
     plan = json.loads(n.PLAN.read_text(encoding='utf-8'))
-    if set(plan['lines']) != {line['key'] for line in m.extract()}:
+    if not args.compile_only and set(plan['lines']) != {line['key'] for line in m.extract()}:
         raise ValueError('Refresh changed dialogue before building.')
     for key in plan['lines']:
         if n.sha(Path(m.OUT_SOUNDS) / (key + '.wav')) != n.sha(n.OUT / (key + '.wav')):
@@ -134,15 +137,25 @@ def main():
             m.SRC = str(build / 'UnatcoContinues/Classes')
             import prepare_voice_check
             prepare_voice_check.SRC = m.SRC
-            prepare_voice_check.main()
+            if not args.compile_only:
+                prepare_voice_check.main()
         finally:
             m.SRC = original_src
         run([system / 'ucc.exe', 'editor.make'], system, system / 'build.log')
+        run([sys.executable, ROOT / 'tools/set_texture_prop.py', 'UnatcoContinues.u',
+             'UCSignElevators', 'DrawScale', '0.125'], system, system / 'texture.log')
         n.save(system / 'voice-build-inputs.json', {'sources': expected, 'dist': previous_dist, 'game': previous_game})
+    if args.compile_only:
+        if signature(source_files(plan)) != expected:
+            raise ValueError('Sources changed while compiling; retry against current sources.')
+        print(json.dumps({'build_system': str(system), 'compiled': True,
+                          'audio_validation': 'not run', 'installed': False}, indent=2))
+        return
     checks = {}
     for commandlet, prefix in (('UCVoiceCheckCommandlet', 'UCVoiceCheck'),
                               ('UCDialogueCheckCommandlet', 'UCDialogueCheck'),
-                              ('UCRouteCheckCommandlet', 'UCRouteCheck')):
+                              ('UCRouteCheckCommandlet', 'UCRouteCheck'),
+                              ('UCRWCheckCommandlet', 'UCRWCheck')):
         log = system / (commandlet + '.log')
         if not args.resume:
             run([system / 'ucc.exe', 'UnatcoContinues.' + commandlet], system, log)

@@ -55,6 +55,8 @@ static function SpeakerShot(ConCamera camera, Actor speaker, Actor listener, boo
 	camera.bCameraLocationSaved = False;
 }
 
+//#if revision
+// Revision's own soundtrack (DXOgg): the original game plays its conversation music by itself
 function DXOggMusicManager FindMusicManager(DeusExPlayer P)
 {
 	local DXOggMusicManager manager;
@@ -135,6 +137,10 @@ function EndDialogueMusic(DeusExPlayer P)
 	bMusicOwned = False;
 	ownedMusicLoop = "";
 }
+//#else
+//function StartDialogueMusic(DeusExPlayer P) {}
+//function EndDialogueMusic(DeusExPlayer P) {}
+//#endif
 
 event Tick(float deltaTime)
 {

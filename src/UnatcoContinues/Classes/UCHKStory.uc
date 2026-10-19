@@ -11,7 +11,7 @@
 //  - Queen's Tower: Maggie Chow riscritta; Dragon's Tooth; ologramma di Simons
 //    riscritto (registrazione Simons/Maggie); poi JC chiama Simons;
 //  - compound: Gordon Quick; dopo la tregua "Tong will speak with you" (codice 1997).
-// UCMod lo crea nelle mappe 06 dopo la partenza da New York.
+// UCCampaign lo crea nelle mappe 06 dopo la partenza da New York.
 // Nessun puntatore a giocatore/flag tenuto fra un tick e l'altro.
 //=============================================================================
 class UCHKStory extends Actor
@@ -175,9 +175,9 @@ function Setup()
 // La parte che non ha bisogno del giocatore (la usa anche UCHKCheck, la verifica senza gioco).
 function SetupForMap()
 {
-	if (mapName == "06_HONGKONG_WANCHAI_MARKET")
+	if (mapName == MessengerMap())
 		SetupMessenger();
-	else if (mapName == "06_HONGKONG_WANCHAI_UNDERWORLD")
+	if (mapName == "06_HONGKONG_WANCHAI_UNDERWORLD")
 	{
 		SetF('MaxChenMeetingAvailable', True);
 		SetupMax();
@@ -186,6 +186,7 @@ function SetupForMap()
 	}
 	else if (mapName == "06_HONGKONG_WANCHAI_STREET")
 	{
+		SetupSpecialProjectsDoor();
 		SetupMaggie();
 		SetupHologram();
 		if (Tagged('UCSwordHook') == None)
@@ -195,10 +196,88 @@ function SetupForMap()
 		SetupGordon();
 }
 
-// --- mercato: messaggero Red Arrow (facoltativo, sacrificabile) --------------
+// --- Street: la porta di Special Projects -------------------------------------
+// The loading dock lies under the butcher's shop of Wan Chai Street (the roll-up grille DeusExMover36,
+// south of Queen's Tower). Its service stair comes up behind an old brown door in the back room
+// (UCStairsDoor): JC arrives in front of it (#UCSpecialProjects) and opening it takes him back down the
+// stair (UCSpecialProjectsDoor -> 06_HongKong_WanChai_Rooftop#UCStreetDoor). The level change is that
+// door: the grille is only the shop's front, opened from inside. Before the arrival on the rooftop the
+// door is locked and the shop is the shut shop of the original game.
+function SetupSpecialProjectsDoor()
+{
+	local DeusExMover M;
+	local Teleporter T;
+	local Trigger trig;
+	local bool bOpen;
+
+	bOpen = GetF('UCHongKongRooftopArrival');
+	foreach AllActors(class'DeusExMover', M, 'UCStairsDoor')
+	{
+		M.bLocked = !bOpen;
+		if (M.KeyNum != 0)
+			M.InterpolateTo(0, 0.01);
+	}
+	foreach AllActors(class'Teleporter', T, 'UCSpecialProjectsDoor')
+		T.bEnabled = False;             // only the door uses it (TickSpecialProjectsDoor)
+	if (!bOpen)
+		return;
+	foreach AllActors(class'DeusExMover', M)
+		if (VSize(M.BasePos - vect(-192, -2432, 64)) < 8)
+			M.bLocked = False;          // the grille opens from inside
+	// the original shop is out of bounds (the police hate whoever they see inside): JC belongs there now
+	foreach AllActors(class'Trigger', trig, 'LOSHateTrigger')
+		if (trig.Location.X > -450 && trig.Location.X < -120 && trig.Location.Y > -2600 && trig.Location.Y < -1930)
+		{
+			trig.SetCollision(False, False, False);
+			trig.Destroy();
+		}
+}
+
+function TickSpecialProjectsDoor()
+{
+	local DeusExMover M;
+	local Teleporter T;
+	local DeusExPlayer P;
+
+	P = Plr();
+	if (P == None || !GetF('UCHongKongRooftopArrival'))
+		return;
+	foreach AllActors(class'DeusExMover', M, 'UCStairsDoor')
+		if ((M.KeyNum != 0 || M.bInterpolating) && VSize(P.Location - M.Location) < 200)
+		{
+			M.InterpolateTo(0, 0.01);
+			foreach AllActors(class'Teleporter', T, 'UCSpecialProjectsDoor')
+			{
+				T.bEnabled = True;
+				T.Touch(P);
+			}
+			return;
+		}
+}
+
+// --- messaggero Red Arrow (facoltativo, sacrificabile) ----------------------
+// Route UNATCO (JC came through the Special Projects dock): he waits in Wan Chai Street, in
+// front of the butcher's grille JC comes out of. Older saves without the rooftop arrival: in the
+// market corridor of the freight lift (06_HongKong_WanChai_Market#cargoup).
+function string MessengerMap()
+{
+	if (GetF('UCHongKongRooftopArrival'))
+		return "06_HONGKONG_WANCHAI_STREET";
+	return "06_HONGKONG_WANCHAI_MARKET";
+}
+
 function vector MessengerSpot()
 {
+	if (mapName == "06_HONGKONG_WANCHAI_STREET")
+		return vect(150, -2380, 48);
 	return vect(-690, -1280, 48);
+}
+
+function int MessengerYaw()
+{
+	if (mapName == "06_HONGKONG_WANCHAI_STREET")
+		return 34500;      // across the street, toward the grille
+	return 35700;
 }
 
 function SetupMessenger()
@@ -206,19 +285,20 @@ function SetupMessenger()
 	local ScriptedPawn m;
 	local UCCon c;
 
-	// nel corridoio dell'ascensore merci, contro il muro nord a ~230 dalle porte,
+	// Street: dall'altra parte della strada, girato verso la saracinesca: JC lo vede appena esce.
+	// Mercato: nel corridoio dell'ascensore merci, contro il muro nord a ~230 dalle porte,
 	// girato verso l'ascensore: JC lo vede appena esce e per forza gli passa accanto
 	m = Tagged('UCMessenger');
 	if (m == None && !GetF('UC_MessengerPlaced'))
 	{
-		m = Place(class'TriadRedArrow', 'UCMessenger', "UCMessenger", MessengerSpot(), 35700);
+		m = Place(class'TriadRedArrow', 'UCMessenger', "UCMessenger", MessengerSpot(), MessengerYaw());
 		SetF('UC_MessengerPlaced', True);
 	}
 	else if (m != None && !GetF('UC_Messenger_Played') && VSize(m.Location - MessengerSpot()) > 60)
 	{
 		// versioni precedenti: era all'angolo del mercato o attaccato alle porte
 		m.SetLocation(MessengerSpot());
-		m.SetRotation(rot(0, 35700, 0));
+		m.SetRotation(rot(0, 1, 0) * MessengerYaw());
 		m.SetOrders('Standing', '', True);
 	}
 	if (m == None || m.Health <= 0 || HasCon(m, 'UC_Messenger'))
@@ -236,17 +316,21 @@ function SetupMessenger()
 	c.Once();   // la fa partire TickMessenger: solo quando JC e' uscito dall'ascensore e si vedono
 	c.Line("UCMessenger", "JCDenton", "Denton?");
 	c.Line("JCDenton", "UCMessenger", "Who's asking?");
-	c.Line("UCMessenger", "JCDenton", "Someone who knows why you're here. Max Chen wants to see you at the Lucky Money.");
+	c.Line("UCMessenger", "JCDenton", "Max Chen. He wants to see you before you speak to Miss Chow.");
 	c.Line("JCDenton", "UCMessenger", "Why?");
-	c.Line("UCMessenger", "JCDenton", "Ask him.");
+	c.IfFlag('UCHongKongRooftopArrival',False,"OldMessage");
+	c.Line("UCMessenger","JCDenton","Because Maggie Chow will tell you this was about Tong. Max thinks it was about the cargo.");
+	c.Label("OldMessage");
+	c.Line("UCMessenger", "JCDenton", "Ask him. The Lucky Money.");
 	c.SetFlag('RedArrowMessengerContacted', True);
 	c.SetFlag('MaxChenMeetingAvailable', True);
+	c.SetFlag('UC_HK_MessengerDone', True);
 	c.Done();
 	c.AttachTo(m);
 }
 
-// Il messaggero non si muove: parla quando JC gli passa accanto (entro ~180, fuori
-// dall'ascensore, niente muri in mezzo). Quando ha parlato, o non c'e' piu', o JC e' andato oltre, puo' chiamare Simons.
+// Il messaggero non si muove: parla quando JC gli passa accanto (entro ~200 nella Street;
+// al mercato entro ~180 e fuori dall'ascensore; niente muri in mezzo). Quando ha parlato, o non c'e' piu', o JC e' andato oltre, puo' chiamare Simons.
 function TickMessenger()
 {
 	local DeusExPlayer P;
@@ -264,7 +348,8 @@ function TickMessenger()
 			SetF('UC_HK_MessengerDone', True);
 		return;
 	}
-	if (P.conPlay != None || P.Location.X < -890 || VSize(P.Location - m.Location) > 180 || !m.LineOfSightTo(P))
+	if (P.conPlay != None || VSize(P.Location - m.Location) > 200 || !m.LineOfSightTo(P)
+		|| (mapName == "06_HONGKONG_WANCHAI_MARKET" && (P.Location.X < -890 || VSize(P.Location - m.Location) > 180)))
 		return;
 	for (item = ConListItem(m.ConListItems); item != None; item = item.next)
 		if (item.con != None && item.con.conName == 'UC_Messenger')
@@ -277,67 +362,13 @@ function TickMessenger()
 // --- Lucky Money: Max Chen ---------------------------------------------------
 function SetupMax()
 {
-	local ScriptedPawn max;
-	local UCCon c;
-
-	max = FindPawn('MaxChen');
-	if (max == None || HasCon(max, 'UC_MaxMeet'))
-		return;
-	RemoveCon(max, 'MeetMaxChen');
-	RemoveCon(max, 'Show_Chen');
-
-	c = new(Level) class'UCCon';
-	c.Begin('UC_MaxAfter', "MaxChen", False);
-	c.Require('MaxChenConvinced', True);
-	c.Line("MaxChen", "JCDenton", "I have called Gordon Quick. The Red Arrow will keep the truce. He is expecting you at the compound.");
-	c.Done();
-	c.AttachTo(max);
-
-	// con la prova (anche come primo incontro)
-	c = new(Level) class'UCCon';
-	c.Begin('UC_MaxEvidence', "MaxChen", False);
-	c.Once();
-	c.Radius(190);
-	c.Require('Have_Evidence', True);
-	c.Require('MaxChenConvinced', False);
-	c.Line("MaxChen", "JCDenton", "Miss Chow had the Dragon's Tooth?");
-	c.Line("JCDenton", "MaxChen", "Yes.");
-	c.Line("MaxChen", "JCDenton", "Then Yuen Kong was right to suspect her. He went to Queen's Tower because he believed Miss Chow was arranging the attacks that kept the Red Arrow and the Luminous Path at war. He never came back.");
-	c.Line("JCDenton", "MaxChen", "That's evidence of deception. Not murder.");
-	c.Line("MaxChen", "JCDenton", "You are careful with words.");
-	c.Line("JCDenton", "MaxChen", "Words are what you have until you get proof.");
-	c.Line("MaxChen", "JCDenton", "Hmmm. Perhaps. But if Miss Chow had the sword, the reason for this war is gone. I will call Gordon Quick.");
-	c.Line("JCDenton", "MaxChen", "Do it.");
-	c.Line("MaxChen", "JCDenton", "There is something I do not understand. You work for UNATCO. Miss Chow works with your people. Yet you bring me evidence against her.");
-	c.Line("JCDenton", "MaxChen", "I work for UNATCO. Not Maggie Chow.");
-	c.Line("MaxChen", "JCDenton", "Is there a difference?");
-	c.Line("JCDenton", "MaxChen", "There should be.");
-	c.SetFlag('MeetMaxChen_Played', True);
-	c.SetFlag('MadeChenAccusation', True);
-	c.SetFlag('MaxChenConvinced', True);
-	c.Done();
-	c.AttachTo(max);
-
-	c = new(Level) class'UCCon';
-	c.Begin('UC_MaxMeet', "MaxChen", False);
-	c.Once();
-	c.Radius(190);
-	c.Require('Have_Evidence', False);
-	// E' Max che ha mandato a chiamare JC (messaggero al mercato, accompagnatore alla
-	// porta): parla per primo e dice perche'. Voleva vederlo prima di Maggie Chow.
-	c.Line("MaxChen", "JCDenton", "Mr. Denton. I wanted to see you before the others do.");
-	c.Line("JCDenton", "MaxChen", "What others?");
-	c.Line("MaxChen", "JCDenton", "A UNATCO agent arrives in Hong Kong looking for Tracer Tong. Many people will want to tell him where to look.");
-	c.Line("JCDenton", "MaxChen", "And you?");
-	c.Line("MaxChen", "JCDenton", "I will tell you where not to look. This is the headquarters of the Red Arrow Triad. Mr. Tong works with the Luminous Path.");
-	c.Line("JCDenton", "MaxChen", "And Maggie Chow?");
-	c.Line("MaxChen", "JCDenton", "Miss Chow has interests everywhere. The Red Arrow, VersaLife, the police... perhaps even UNATCO.");
-	c.Line("JCDenton", "MaxChen", "She knows I'm coming.");
-	c.Line("MaxChen", "JCDenton", "Yes. That is why I sent for you first.");
-	c.SetFlag('MeetMaxChen_Played', True);
-	c.SetFlag('KnowsAboutTriads', True);
-	c.Done();
-	c.AttachTo(max);
+    local ScriptedPawn npc;
+    npc = FindPawn('MaxChen');
+    if (npc == None || HasCon(npc, 'UC_MaxMeet'))
+        return;
+    RemoveCon(npc, 'MeetMaxChen');
+    RemoveCon(npc, 'Show_Chen');
+    class'UCHKDialogue'.static.MaxTalks(npc);
 }
 
 // Accenno: due uomini governativi parlano con un Red Arrow davanti al Lucky Money e se
@@ -374,9 +405,9 @@ function TickForeshadow()
 			c.Begin('UC_LMForeshadow', "UCLMAgent1", True);
 			c.Once();
 			c.Passive();
-			c.Line("UCLMAgent1", "UCLMRedArrow", "The shipment was received. Chen accepted the money.");
-			c.Line("UCLMRedArrow", "UCLMAgent1", "Max never asked for the shipment.");
-			c.Line("UCLMAgent2", "UCLMRedArrow", "He accepted the money.");
+			c.Line("UCLMAgent1", "UCLMRedArrow", "The payment cleared.");
+			c.Line("UCLMRedArrow", "UCLMAgent1", "Max didn't authorize the shipment.");
+			c.Line("UCLMAgent2", "UCLMRedArrow", "He accepted the transfer.");
 			c.Line("UCLMAgent1", "UCLMRedArrow", "We'll continue this later.");
 			c.Done();
 			c.AttachTo(a);
@@ -704,59 +735,14 @@ function ScriptedPawn RealMaggie()
 
 function SetupMaggie()
 {
-	local ScriptedPawn maggie;
-	local UCCon c;
-
-	maggie = RealMaggie();
-	if (maggie == None || HasCon(maggie, 'UC_MaggieMeet'))
-		return;
-	RemoveCon(maggie, 'MeetMaggie');
-	RemoveCon(maggie, 'MeetMaggie2');
-	RemoveCon(maggie, 'MaggieBarks');
-
-	c = new(Level) class'UCCon';
-	c.Begin('UC_MaggieAgain', "MaggieChow", False);
-	c.Require('UC_MaggieMeet_Played', True);
-	c.Line("MaggieChow", "JCDenton", "Find the Dragon's Tooth, Mr. Denton, and you may find the path to Tong with it.");
-	c.Done();
-	c.AttachTo(maggie);
-
-	c = new(Level) class'UCCon';
-	c.Begin('UC_MaggieMeet', "MaggieChow", False);
-	c.Once();
-	c.Radius(120);
-	c.Line("MaggieChow", "JCDenton", "Mr. J. C. Denton... in the flesh. As dark and serious as his brother.");
-	c.Line("JCDenton", "MaggieChow", "You knew him?");
-	c.Line("MaggieChow", "JCDenton", "Everyone who dealt seriously with Tracer Tong knew Paul eventually. He spent a great deal of time in Hong Kong before UNATCO realized where his loyalties had shifted.");
-	c.Line("JCDenton", "MaggieChow", "That's not what I asked.");
-	c.Line("MaggieChow", "JCDenton", "Yes. I knew him.");
-	// la sua versione dei fatti
-	c.Line("MaggieChow", "JCDenton", "Paul came here looking for evidence that UNATCO was conspiring against him. Tong gave him exactly what he wanted to hear. That's what Tong does.");
-	c.Line("MaggieChow", "JCDenton", "He finds intelligent people who already distrust authority and convinces them that only he understands the truth.");
-	c.Line("JCDenton", "MaggieChow", "Paul didn't need much encouragement.");
-	c.Line("MaggieChow", "JCDenton", "Perhaps not. But Tong gave him contacts, protection and a cause. Look at the result. Your brother abandoned his career, his friends and his own government.");
-	c.Line("JCDenton", "MaggieChow", "What does that have to do with the Triads?");
-	c.Line("MaggieChow", "JCDenton", "Everything. The Red Arrow and Luminous Path were once capable of doing business together. Since Tong became involved, every disagreement has become ideological.");
-	c.Line("MaggieChow", "JCDenton", "Weapons disappear, shipments are attacked, people die, and Tong remains safely hidden while everyone else pays the price.");
-	// il Dragon's Tooth (chi non ha incontrato Max ha il nome da Simons)
-	c.IfFlag('MeetMaxChen_Played', True, "MaxMet");
-	c.Line("JCDenton", "MaggieChow", "Simons says you have contacts with both sides.");
-	c.Jump("Sword");
-	c.Label("MaxMet");
-	c.Line("JCDenton", "MaggieChow", "Max Chen says you have contacts with both sides.");
-	c.Label("Sword");
-	c.Line("MaggieChow", "JCDenton", "I try to keep this city from destroying itself. Unfortunately, the Luminous Path recently stole something that has made reconciliation almost impossible: a prototype weapon known as the Dragon's Tooth.");
-	c.Line("JCDenton", "MaggieChow", "Why would they steal it?");
-	c.Line("MaggieChow", "JCDenton", "Power. Prestige. Leverage against Red Arrow. Pick whichever motive you prefer; they're all true.");
-	c.Line("JCDenton", "MaggieChow", "And you want it recovered.");
-	c.Line("MaggieChow", "JCDenton", "I want the Triads talking again. If you find the weapon, you may find the path to Tong with it.");
-	c.SetFlag('MeetMaggie_Played', True);
-	c.SetFlag('KnowsAboutMaggie', True);
-	c.SetFlag('KnowsAboutTriads', True);
-	c.SetFlag('FoundMaggieChow', True);
-	c.Trigger('MaggieWanders');
-	c.Done();
-	c.AttachTo(maggie);
+    local ScriptedPawn npc;
+    npc = RealMaggie();
+    if (npc == None || HasCon(npc, 'UC_MaggieMeet'))
+        return;
+    RemoveCon(npc, 'MeetMaggie');
+    RemoveCon(npc, 'MeetMaggie2');
+    RemoveCon(npc, 'MaggieBarks');
+    class'UCHKDialogue'.static.MaggieTalks(npc);
 }
 
 // L'ologramma vanilla di Simons (M06WaltonHolo) riscritto: una registrazione
@@ -821,14 +807,12 @@ function SetupHologram()
 	c.Once();
 	c.Passive();
 	c.NoFrob();
-	c.Line("WaltonSimons", "UCMaggieHolo", "Ms. Chow. Denton should be arriving shortly. He's still following UNATCO orders, which makes him useful.");
-	c.Line("UCMaggieHolo", "WaltonSimons", "And if Paul changed his mind?");
-	c.Line("WaltonSimons", "UCMaggieHolo", "He didn't. Paul made the mistake of confronting his brother before Denton had seen enough evidence to doubt the institution.");
-	c.Line("UCMaggieHolo", "WaltonSimons", "You're very confident.");
-	c.Line("WaltonSimons", "UCMaggieHolo", "Denton believes in procedure. Give him a procedure to follow.");
-	c.Line("UCMaggieHolo", "WaltonSimons", "And Tong?");
-	c.Line("WaltonSimons", "UCMaggieHolo", "If Denton gets close enough, we'll know where to look.");
-	c.Line("JCDenton", "WaltonSimons", "Simons...");
+    c.Line("WaltonSimons", "UCMaggieHolo", "Ms. Chow. Denton is arriving under UNATCO orders. Give him what he needs to continue the investigation.");
+    c.Line("UCMaggieHolo", "WaltonSimons", "And if he questions my involvement?");
+    c.Line("WaltonSimons", "UCMaggieHolo", "His assignment is Tong. Keep it there.");
+    c.Line("UCMaggieHolo", "WaltonSimons", "The Red Arrow may approach him first.");
+    c.Line("WaltonSimons", "UCMaggieHolo", "Then you should be ready with your account of the dispute.");
+    c.Line("JCDenton", "WaltonSimons", "Simons.");
 	c.SetFlag('SimonsConvoPlaying', False);
 	c.SetFlag('UC_HoloSeen', True);
 	c.Done();
@@ -859,88 +843,17 @@ function TickHologram()
 // --- compound: Gordon Quick ----------------------------------------------------
 function SetupGordon()
 {
-	local ScriptedPawn gordon;
-	local UCCon c;
-
-	gordon = FindPawn('GordonQuick');
-	if (gordon == None || HasCon(gordon, 'UC_GordonMeet'))
-		return;
-	RemoveCon(gordon, 'Gate_Guard2');
-	RemoveCon(gordon, 'ConvinceQuick');
-	RemoveCon(gordon, 'QuickAfterMaggie');
-	RemoveCon(gordon, 'QuickFinalTalk');
-	RemoveCon(gordon, 'QuickWaiting');
-	RemoveCon(gordon, 'QuickWaiting_1_5');
-
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GordonWait', "GordonQuick", False);
-	c.Require('UC_GordonMeet_Played', True);
-	c.Require('Have_Evidence', False);
-	c.Line("GordonQuick", "JCDenton", "Ask Maggie Chow who killed Yuen Kong, Agent Denton.");
-	c.Done();
-	c.AttachTo(gordon);
-
-	// dopo la tregua: il permesso
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GordonFinal', "GordonQuick", False);
-	c.Once();
-	c.Radius(180);
-	c.Require('MaxChenConvinced', True);
-	c.Require('QuickLetPlayerIn', False);
-	c.Line("GordonQuick", "JCDenton", "You stopped a war you could have used to weaken both Triads. I did not expect that from UNATCO.");
-	c.Line("JCDenton", "GordonQuick", "Dead Triads don't tell me where Tong is.");
-	c.Line("GordonQuick", "JCDenton", "Maybe that is all it is.");
-	c.Line("JCDenton", "GordonQuick", "Does it matter?");
-	c.Line("GordonQuick", "JCDenton", "To Tong, yes.");
-	c.Line("GordonQuick", "JCDenton", "You have shown that you are willing to follow evidence even when it embarrasses your own contacts. Tong has agreed to speak with you.");
-	c.Line("JCDenton", "GordonQuick", "I didn't ask to speak with him.");
-	c.Line("GordonQuick", "JCDenton", "No. You came here to arrest him.");
-	c.Line("GordonQuick", "JCDenton", "Nineteen ninety-seven. The door in our sparring room. Keep your weapon down until someone gives you a reason not to.");
-	c.Line("JCDenton", "GordonQuick", "Good advice.");
-	c.SetFlag('Gate_Guard2_Played', True);
-	c.SetFlag('QuickConvinced', True);
-	c.SetFlag('QuickLetPlayerIn', True);
-	c.Done();
-	c.AttachTo(gordon);
-
-	// con la prova, prima della tregua
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GordonEvidence', "GordonQuick", False);
-	c.Once();
-	c.Require('Have_Evidence', True);
-	c.Require('MaxChenConvinced', False);
-	c.Line("JCDenton", "GordonQuick", "Maggie Chow had the Dragon's Tooth.");
-	c.Line("GordonQuick", "JCDenton", "Then you know who killed Yuen Kong.");
-	c.Line("JCDenton", "GordonQuick", "I know who had his sword.");
-	c.Line("GordonQuick", "JCDenton", "Show it to Max Chen. If he still wants war after that, nothing will stop it.");
-	c.SetFlag('Gate_Guard2_Played', True);
-	c.SetFlag('QuickConvinced', True);
-	c.Done();
-	c.AttachTo(gordon);
-
-	// primo incontro al cancello: ostile a parole, non attacca
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GordonMeet', "GordonQuick", False);
-	c.Once();
-	c.Radius(180);
-	c.Require('MaxChenConvinced', False);
-	c.Line("GordonQuick", "JCDenton", "Paul Denton trusted you.");
-	c.Line("JCDenton", "GordonQuick", "Paul made a mistake.");
-	c.Line("GordonQuick", "JCDenton", "Which one?");
-	c.Line("JCDenton", "GordonQuick", "Choosing terrorists over UNATCO.");
-	c.Line("GordonQuick", "JCDenton", "No. Trusting his brother.");
-	c.Line("GordonQuick", "JCDenton", "Paul worked with us. He took risks for people here, and he earned our confidence. You arrive with a UNATCO badge and orders to find Tong. Don't expect the same treatment.");
-	c.Line("JCDenton", "GordonQuick", "I don't need your trust. I need Tong.");
-	c.Line("GordonQuick", "JCDenton", "Then you need information, and information has a price.");
-	c.Line("JCDenton", "GordonQuick", "What's yours?");
-	c.Line("GordonQuick", "JCDenton", "Ask Maggie Chow who killed Yuen Kong.");
-	c.Line("JCDenton", "GordonQuick", "Why don't you tell me?");
-	c.Line("GordonQuick", "JCDenton", "Because you wouldn't believe me.");
-	c.SetFlag('Gate_Guard2_Played', True);
-	c.SetFlag('KnowsAboutMaggie', True);
-	c.SetFlag('KnowsAboutNanoSword', True);
-	c.Done();
-	c.AttachTo(gordon);
+    local ScriptedPawn npc;
+    npc = FindPawn('GordonQuick');
+    if (npc == None || HasCon(npc, 'UC_GordonMeet'))
+        return;
+    RemoveCon(npc, 'Gate_Guard2');
+    RemoveCon(npc, 'ConvinceQuick');
+    RemoveCon(npc, 'QuickAfterMaggie');
+    RemoveCon(npc, 'QuickFinalTalk');
+    RemoveCon(npc, 'QuickWaiting');
+    RemoveCon(npc, 'QuickWaiting_1_5');
+    class'UCHKDialogue'.static.GordonTalks(npc);
 }
 
 // ---------------------------------------------------------------------------
@@ -948,88 +861,57 @@ function SetupGordon()
 // ---------------------------------------------------------------------------
 function Goals()
 {
-	local DeusExPlayer P;
-
-	P = Plr();
-	if (P == None || P.conPlay != None)
-		return;
-
-	if (GetF('UC_Messenger_Played') || GetF('UC_MaxEscort_Played'))
-		Goal('UCMeetMaxChen', "Optional: Max Chen of the Red Arrow Triad wants to see you at the Lucky Money club.", False);
-	if (GetF('MeetMaxChen_Played'))
-		GoalDone('UCMeetMaxChen');
-
-	// Maggie (o Gordon, se Maggie non c'e'): il Luminous Path protegge Tong
-	if (GetF('UC_MaggieMeet_Played') || GetF('UC_GordonMeet_Played') || GetF('MaggieChow_Dead'))
-	{
-		Goal('UCInvestigateLumPath', "Investigate the Luminous Path. Gordon Quick will not let a UNATCO agent into their compound: you will have to earn his trust.", False);
-		Goal('UCYuenKong', "Optional: investigate the death of Red Arrow leader Yuen Kong.", False);
-	}
-	if (GetF('UC_MaggieMeet_Played') || GetF('MaggieChow_Dead'))
-		GoalDone('ContactMaggieChow');
-
-	// il Dragon's Tooth era da Maggie
-	if (GetF('Have_Evidence'))
-	{
-		GoalDone('UCYuenKong');
-		if (!GetF('MaxChenConvinced'))
-			Goal('UCShowMaxChen', "Show Max Chen what you found: the Dragon's Tooth was in Maggie Chow's apartment.", True);
-	}
-	// la tregua
-	if (GetF('MaxChenConvinced'))
-	{
-		GoalDone('UCShowMaxChen');
-		if (!GetF('QuickLetPlayerIn'))
-			Goal('UCTellGordon', "Max Chen has declared a truce and called Gordon Quick. Go to the Luminous Path compound.", True);
-	}
-	if (GetF('QuickLetPlayerIn'))
-	{
-		GoalDone('UCTellGordon');
-		GoalDone('UCInvestigateLumPath');
-		Note('UC_NoteTongLab', "Tracer Tong's laboratory is beneath the Luminous Path compound. The door is in the sparring room: code 1997.");
-	}
+    local DeusExPlayer P;
+    P = Plr();
+    if (P == None || P.conPlay != None)
+        return;
+    if (GetF('UC_Messenger_Played') || GetF('UC_MaxEscort_Played'))
+        Goal('UCMeetMaxChen', "Contact Max Chen at the Lucky Money. Special Projects believes the Red Arrow can identify Tong's local network.", False);
+    if (GetF('MeetMaxChen_Played'))
+        GoalDone('UCMeetMaxChen');
+    if (GetF('UC_MaxDealOffered') || GetF('UC_MaggieRWPlayed') || GetF('UC_GordonMeet_Played') || GetF('UC_ChowSwordVerified'))
+    {
+        Goal('UCInvestigateChow', "Check the claims about Maggie Chow, Yuen Kong and the Dragon's Tooth. Examine Queen's Tower and the police records.", False);
+        Goal('UCYuenKong', "Compare the Queen's Tower transcript with the police report concerning Yuen Kong's death.", False);
+        Goal('ContactMaggieChow', "Optional: question Maggie Chow at Queen's Tower about the Triad dispute. Verify her claims.", False);
+    }
+    if (GetF('UC_MaxDealOffered'))
+        Goal('UCRecoverForMax', "Optional: Max Chen offers an introduction to Gordon Quick in exchange for the Dragon's Tooth and evidence on Yuen Kong. Delivery is your decision.", False);
+    if (GetF('UC_MaggieRWPlayed'))
+        Goal('UCRecoverForChow', "Optional: Maggie Chow claims the Luminous Path stole the weapon. Verify her claim before acting on it.", False);
+    if (GetF('UC_MaggieRWPlayed') || GetF('MaggieChow_Dead'))
+        GoalDone('ContactMaggieChow');
+    if (GetF('UC_YuenCaseCorroborated'))
+        GoalDone('UCYuenKong');
+    if (GetF('UC_ChowSwordVerified'))
+    {
+        GoalDone('UCInvestigateChow');
+        GoalDone('UCRecoverForChow');
+        Goal('UCTellGordon', "Present your verified evidence to Gordon Quick at the compound. Delivering the weapon to Max is optional.", True);
+    }
+    if (GetF('UC_SwordGivenMax'))
+        GoalDone('UCRecoverForMax');
+    if (GetF('UC_LPMeetingGranted'))
+    {
+        GoalDone('UCTellGordon');
+        Note('UC_NoteTongLab', "Tong has agreed to a guarded meeting. Sparring room door: 1997. Permission to speak is not permission to search the compound.");
+    }
 }
 
-// Dragon's Tooth: il rapporto di JC parte da solo (nessuna battuta) quando esce dalla
-// stanza segreta di Queen's Tower, poi Simons risponde (UCSceneSimonsSword).
-//  - registrazione vista: appena JC si allontana (400) da dove era quando l'ha vista
-//    finire (o dalla teca, se ha preso la spada dopo);
-//  - non vista: quando lascia l'appartamento (lontano dalla teca o sceso con
-//    l'ascensore) o la mappa: fino ad allora puo' ancora vederla.
+// Risposta InfoLink soltanto al rapporto inviato da JC dal terminale.
 function SimonsCall()
 {
-	local UCSceneSimonsSword s;
-	local DeusExPlayer P;
-	local bool bHolo;
-
-	P = Plr();
-	if (bSimonsCall || GetF('UC_SimonsSwordCall') || !GetF('Have_Evidence') || P == None || P.conPlay != None)
-		return;
-	SetF('DragonToothEvidenceFound', True);
-	bHolo = GetF('M06WaltonHolo_Played');
-	if (mapName == "06_HONGKONG_WANCHAI_STREET")
-	{
-		if (bHolo)
-		{
-			if (!bHoloSpot)
-			{
-				bHoloSpot = True;
-				holoSpot = P.Location;
-			}
-			if (VSize(P.Location - holoSpot) < 400)
-				return;
-		}
-		else if (VSize((P.Location - vect(-1858, -159, 2052)) * vect(1,1,0)) < 1500 && Abs(P.Location.Z - 2052) < 600)
-			return;
-	}
-	bSimonsCall = True;
-	s = Spawn(class'UCSceneSimonsSword');
-	if (s != None)
-		s.bRecording = bHolo;
+    local UCSceneSimonsSword scene;
+    if (bSimonsCall || GetF('UC_SimonsSwordCall') || !GetF('ChowEvidenceReportSent') || Plr() == None || Plr().conPlay != None)
+        return;
+    bSimonsCall = True;
+    scene = Spawn(class'UCSceneSimonsSword');
+    if (scene != None)
+        scene.bRecording = GetF('SimonsMaggieRecordingSeen');
 }
 
-// JC ha lasciato la base di Tong durante l'assalto: l'operazione si chiude fuori scena
-// e Simons lo chiama dove si trova. La storia non si blocca.
+// Dopo l'ingresso autorizzato l'operazione puo proseguire fuori scena.
+// La risposta di Simons richiede comunque un rapporto manuale dal terminale.
 function AssaultOffscreen()
 {
 	local UCSceneSimonsAfterTong s;
@@ -1037,16 +919,33 @@ function AssaultOffscreen()
 
 	P = Plr();
 	if (bOffscreenCall || P == None || P.conPlay != None || !GetF('MJ12AssaultStarted') || GetF('MJ12AssaultResolved')
+		|| (!GetF('UC_SPEntryCrossed') && !GetF('UC_LegacyAssault'))
 		|| GetF('UC_SimonsAfterTong') || mapName == "06_HONGKONG_TONGBASE")
 		return;
-	bOffscreenCall = True;
 	SetF('MJ12AssaultResolvesOffscreen', True);
-	SetF('TongEscapedCompound', True);
-	SetF('TongLocationUnknown', True);
-	class'UCSceneTongLab'.static.AddFragment(P);
+	if (!GetF('TracerTong_Dead'))
+	{
+		SetF('TongEscapedCompound', True);
+		SetF('TongLocationUnknown', True);
+	}
+	SetF('UC_SweepComplete', True);
+	SetF('UC_SPTeamRecordsRecovered', True);
+	if (!GetF('UC_OffscreenResultsNoted'))
+	{
+		SetF('UC_OffscreenResultsNoted', True);
+		P.AddNote("Special Projects operation continued after I left the base. Personnel and archive results are team reports, not my eyewitness account."
+            $ " Submit the operation report from a secure terminal: the compound office, Wan Chai police station, Queen's Tower or Tong's archive.", False, True);
+	}
+	if (P.FindGoal('UCSubmitOperationReport') == None)
+		P.GoalAdd('UCSubmitOperationReport', "Submit the Special Projects operation report from a secure terminal: Tong's archive, the compound office, Queen's Tower or the Wan Chai police station.", True);
+	if (!GetF('UC_FinalReportRequested')) return;
+	bOffscreenCall = True;
 	s = Spawn(class'UCSceneSimonsAfterTong');
 	if (s != None)
+	{
+		s.bTongDead = GetF('TracerTong_Dead');
 		s.bFired = GetF('JCAttackedSpecialProjects');
+	}
 }
 
 function Timer()
@@ -1063,7 +962,7 @@ function Timer()
 		bSetup = True;
 		Setup();
 	}
-	if (mapName == "06_HONGKONG_WANCHAI_MARKET")
+	if (mapName == MessengerMap())
 		TickMessenger();
 	else if (Left(mapName, 3) == "06_" && mapName != "06_HONGKONG_HELIBASE")
 		SetF('UC_HK_MessengerDone', True);   // JC e' gia' altrove
@@ -1073,7 +972,10 @@ function Timer()
 		TickEscort();
 	}
 	if (mapName == "06_HONGKONG_WANCHAI_STREET")
+	{
 		TickHologram();
+		TickSpecialProjectsDoor();
+	}
 	Goals();
 	SimonsCall();
 	// laboratorio di Tong e assalto (HK-9/HK-10)

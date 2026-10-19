@@ -1,10 +1,10 @@
 # Comandi e tasti della mod in RevisionUser.ini:
-#   uc = menu di debug (anche tasto Home, se libero); e per la presentazione del video (UCTour):
+#   unatco = menu di debug (anche tasto Home, se libero; prima era 'uc': Revision 1.7.5 lo fa crashare); e per la presentazione del video (UCTour):
 #   uctour = parte dal primo capitolo, ucnext = capitolo successivo (anche tasto PagSu),
 #   uchide = togli la scritta (anche tasto PagGiu'), ucagain = ripeti il passo, ucstop = ferma.
 # Il gioco deve essere chiuso (quando esce riscrive il file). Copia di sicurezza:
 # RevisionUser.ini.bak_tour (solo la prima volta).
-#   -MenuOnly : solo il comando uc e il tasto Home (lo usa install.ps1: chi gioca non ha
+#   -MenuOnly : solo il comando unatco e il tasto Home (lo usa install.ps1: chi gioca non ha
 #               bisogno dei tasti della presentazione, e PagGiu' resta "guarda in basso")
 param([switch]$MenuOnly)
 . "$PSScriptRoot\..\config.ps1"
@@ -16,15 +16,15 @@ if (-not (Test-Path "$ini.bak_tour")) { Copy-Item -LiteralPath $ini "$ini.bak_to
 $text = Get-Content -LiteralPath $ini -Raw
 
 $aliases = [ordered]@{
-  uc      = 'UCDbgMenu'
-  ucstart = 'UCMod'
+  unatco      = 'UCDbgMenu'
+  unatcostart = 'UCCampaign'
   uctour  = 'UCDbgTour'
   ucnext  = 'UCDbgTourNext'
   ucagain = 'UCDbgTourAgain'
   ucstop  = 'UCDbgTourStop'
   uchide  = 'UCDbgTourHide'
 }
-if ($MenuOnly) { $aliases = [ordered]@{ uc = 'UCDbgMenu'; ucstart = 'UCMod' } }
+if ($MenuOnly) { $aliases = [ordered]@{ unatco = 'UCDbgMenu'; unatcostart = 'UCCampaign' } }
 foreach ($name in $aliases.Keys) {
   $line = '(Command="summon UnatcoContinues.' + $aliases[$name] + '",Alias=' + $name + ')'
   if ($text.Contains($line)) { continue }
@@ -32,17 +32,17 @@ foreach ($name in $aliases.Keys) {
   $m = [regex]::Match($text, '(?m)^(Aliases\[\d+\]=)\(Command="",Alias=None\)')
   if (-not $m.Success) { throw "Nessun alias libero in $ini" }
   $text = $text.Substring(0, $m.Index) + $m.Groups[1].Value + $line + $text.Substring($m.Index + $m.Length)
-  Write-Host "alias $name aggiunto"
+  Write-Host "alias $name added"
 }
 # Home apre il menu di debug: solo se non e' gia' usato per altro
 $m = [regex]::Match($text, '(?m)^Home=([^\r\n]*)')
 if ($m.Success -and $m.Groups[1].Value -eq '') {
-  $text = $text.Substring(0, $m.Index) + 'Home=uc' + $text.Substring($m.Index + $m.Length)
-  Write-Host 'tasto Home = uc'
+  $text = $text.Substring(0, $m.Index) + 'Home=unatco' + $text.Substring($m.Index + $m.Length)
+  Write-Host 'Home key = unatco'
 }
 if ($MenuOnly) {
   Set-Content -LiteralPath $ini -Value $text -NoNewline -Encoding Default
-  Write-Host 'Fatto.'
+  Write-Host 'Done.'
   return
 }
 # PagSu: solo se non e' gia' usato per altro
@@ -60,4 +60,4 @@ if ($m.Success -and $m.Groups[1].Value -ne 'uchide') {
   $text = $text.Substring(0, $m.Index) + 'PageDown=uchide' + $text.Substring($m.Index + $m.Length)
 }
 Set-Content -LiteralPath $ini -Value $text -NoNewline -Encoding Default
-Write-Host 'Fatto.'
+Write-Host 'Done.'

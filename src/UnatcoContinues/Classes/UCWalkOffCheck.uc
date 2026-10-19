@@ -29,18 +29,18 @@ function Prepare()
 	local UCCam cam;
 	local UCVoiceDriver voice;
 	local UCDialogueDirector director;
-	local UCMod mod;
+	local UCCampaign mod;
 	local vector side, destJC, destG, position, focus, proxy;
 	local int voices, directors, mods;
 	local bool route;
 
-	Spawn(class'UCMod');
-	Spawn(class'UCMod');
+	Spawn(class'UCCampaign');
+	Spawn(class'UCCampaign');
 	Spawn(class'UCVoiceDriver');
 	Spawn(class'UCVoiceDriver');
 	Spawn(class'UCDialogueDirector');
 	Spawn(class'UCDialogueDirector');
-	foreach AllActors(class'UCMod', mod) if (!mod.bDeleteMe) mods++;
+	foreach AllActors(class'UCCampaign', mod) if (!mod.bDeleteMe) mods++;
 	foreach AllActors(class'UCVoiceDriver', voice) if (!voice.bDeleteMe) voices++;
 	foreach AllActors(class'UCDialogueDirector', director) if (!director.bDeleteMe) directors++;
 	Check(mods == 1 && voices == 1 && directors == 1, "One route manager, voice driver and camera/music director");

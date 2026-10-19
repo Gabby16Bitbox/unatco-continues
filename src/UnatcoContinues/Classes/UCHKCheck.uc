@@ -232,7 +232,7 @@ function Compound()
 	Check(!HasCon(gordon, 'Gate_Guard2') && !HasCon(gordon, 'QuickFinalTalk') && !HasCon(gordon, 'ConvinceQuick'), "conversazioni vanilla di Gordon tolte");
 	foreach AllActors(class'Actor', A, 'LumpathPissed')
 		if (A.IsA('AllianceTrigger') || A.IsA('OrdersTrigger'))
-			Check(A.Event == '', "LumpathPissed spento:" @ A.Name);
+			Check(A.Event != '', "una intrusione senza permesso mantiene la reazione locale:" @ A.Name);
 	foreach AllActors(class'ScriptedPawn', sp)
 		if (sp.bInWorld && (sp.Alliance == 'LumPath' || sp.Alliance == 'triad_lum'))
 			Check(sp.GetAllianceType('Player') != ALLIANCE_Hostile, "Luminous Path non ostile:" @ sp.Name);
@@ -248,16 +248,16 @@ function NYCStreet()
 	local Actor hit;
 	local vector a, b, hitLoc, hitNorm;
 	local int i;
-	local UCMod m;
+	local UCCampaign m;
 	local DeusExMover gate;
 	local Actor pad;
 
 	// posto alla metro: grata aperta senza codice, Anna con tutte le sue conversazioni;
 	// se Anna e' morta, un soldato (qui si provano tutti e due nella stessa mappa)
-	foreach AllActors(class'UCMod', m)
+	foreach AllActors(class'UCCampaign', m)
 		break;
 	if (m == None)
-		m = Spawn(class'UCMod');
+		m = Spawn(class'UCCampaign');
 	Check(m != None, "gestore creato");
 	if (m != None)
 	{
@@ -326,16 +326,16 @@ function NYCStreet()
 
 function BatteryPark()
 {
-	local UCMod m;
+	local UCCampaign m;
 	local RoadBlock rb;
 	local BlockPlayer bp;
 	local ScriptedPawn sp;
 	local int roadblocks, robots, troops, closed;
 
-	foreach AllActors(class'UCMod', m)
+	foreach AllActors(class'UCCampaign', m)
 		break;
 	if (m == None)
-		m = Spawn(class'UCMod');
+		m = Spawn(class'UCCampaign');
 	Check(m != None, "gestore creato");
 	if (m == None)
 		return;
@@ -371,7 +371,7 @@ function BatteryPark()
 // Eliporto (route UNATCO): niente allarme, porte blindate aperte, base amica.
 function Helibase()
 {
-	local UCMod m;
+	local UCCampaign m;
 	local Dispatcher d;
 	local DeusExMover mv;
 	local ScriptedPawn sp;
@@ -386,10 +386,10 @@ function Helibase()
 	local int nFlicker;
 	local int blast, debris, nWall, nVan, nSwitch, nPanel;
 
-	foreach AllActors(class'UCMod', m)
+	foreach AllActors(class'UCCampaign', m)
 		break;
 	if (m == None)
-		m = Spawn(class'UCMod');
+		m = Spawn(class'UCCampaign');
 	Check(m != None, "gestore creato");
 	if (m == None)
 		return;
@@ -436,7 +436,13 @@ function Helibase()
 		if (fx.IsA('ControlPanel') && !fx.bDeleteMe && VSize((fx.Location - vect(-1240, -128, 500)) * vect(1,1,0)) < 160
 			&& fx.Location.Z < 10000)
 			Check(False, "quadro elettrico storto ancora li':" @ fx.Name);
-	// (la scritta ELEVATORS non e' piu' nel repository: era rifatta su una texture di Revision)
+	// la scritta sopra la porta: LOCKDOWN -> ELEVATORS
+	sign = Texture(DynamicLoadObject("HK_Helibase.Sn_HBLkdwn", class'Texture', True));
+	Check(sign != None && sign.AnimNext == Texture'UnatcoContinues.UCSignElevators'
+		&& sign.AnimCurrent == Texture'UnatcoContinues.UCSignElevators', "scritta ELEVATORS al posto di LOCKDOWN");
+	Check(Texture'UnatcoContinues.UCSignElevators'.USize == 1024 && Texture'UnatcoContinues.UCSignElevators'.VSize == 128
+		&& Texture'UnatcoContinues.UCSignElevators'.DrawScale == 0.125, "scritta ELEVATORS in alta risoluzione (1024x128, DrawScale 0.125): "
+		$ Texture'UnatcoContinues.UCSignElevators'.USize $ "x" $ Texture'UnatcoContinues.UCSignElevators'.VSize @ Texture'UnatcoContinues.UCSignElevators'.DrawScale);
 	// la mappa della mod (maps\): coperture UCWall nascoste e macerie UCVanilla presenti (gioco normale)
 	foreach AllActors(class'Mover', mo)
 	{
@@ -516,6 +522,9 @@ function TongBase()
 	local UCSceneTongLab lab;
 	local ScriptedPawn sp, tg;
 	local Trigger tr;
+	local UCInvestigation investigation;
+	local DeusExMover gate;
+	local UCFileCube record;
 
 	lab = Spawn(class'UCSceneTongLab');
 	Check(lab != None, "scena creata");
@@ -533,6 +542,20 @@ function TongBase()
 			Check(!tr.bCollideActors, "operazione del killswitch spenta:" @ tr.Name);
 	Check(FindClass('AlexJacobson') == None || !FindClass('AlexJacobson').bInWorld, "Alex non c'e'");
 
+	investigation=Spawn(class'UCInvestigation');
+	investigation.mapName="06_HONGKONG_TONGBASE";
+	investigation.SetupRecords();
+	foreach AllActors(class'UCFileCube',record,'UC_LabAccessRecord') break;
+	Check(record!=None && record.document=='TerminalAccess',"physical laboratory credentials datacube spawned");
+	investigation.StageOne('UCSPCommander',"UCSPCommander",class'UCServiceAccess'.static.Stage(0));
+	investigation.StageOne('UCSPEntry2',"UCSPCommando",class'UCServiceAccess'.static.Stage(1));
+	investigation.StageOne('UCSPEntry3',"UCSPCommando",class'UCServiceAccess'.static.Stage(2));
+	investigation.StageOne('UCSPEntry4',"UCSPCommando",class'UCServiceAccess'.static.Stage(3));
+	foreach AllActors(class'DeusExMover',gate,'UCNorthAccess') break;
+	Check(gate!=None && gate.KeyNum==0 && gate.bLocked,"real rear loading gate is closed and locked");
+	Check(CountTag('UCSPEntry2')==1 && CountTag('UCSPEntry3')==1 && CountTag('UCSPEntry4')==1,"all first-wave bodies staged on the service road");
+	foreach AllActors(class'ScriptedPawn',sp,'UCSPCommander')
+		Check(sp.bInitialized && sp.FindInventoryType(class'WeaponMJ12Commando')!=None,"staged commander has native initialized equipment before orders");
 	lab.Guards();
 	lab.Wave1();
 	Check(CountTag('UCSPCommander') == 1, "il comandante entra con la prima ondata");
@@ -546,12 +569,12 @@ function TongBase()
 			sp.LeaveWorld();
 		}
 	lab.Wave2();
-	Check(CountTag('UCSPCommando') == 5, "commando creati (" $ CountTag('UCSPCommando') $ "/5)");
+	Check(CountTag('UCSPCommando') == 2, "commando creati (" $ CountTag('UCSPCommando') $ "/2)");
 	Check(CountTag('UCSPTech') == 2, "tecnici Special Projects creati (" $ CountTag('UCSPTech') $ "/2)");
 	Check(CountTag('UCSPCommander') == 1 && CountTag('UCSPEscort') == 1 && CountTag('UCPrisoner') == 1, "scena del prigioniero creata (un solo comandante)");
 	foreach AllActors(class'ScriptedPawn', sp, 'UCSPCommander')
 		Check(sp.Orders == 'GoingTo' || VSize((sp.Location - lab.CmdPost()) * vect(1,1,0)) < 150, "il comandante va al suo posto nella sala operatoria");
-	// senza comandante (morto) ne arriva un altro direttamente al posto
+	// Un sostituto entra dallo stesso accesso; non nasce nella sala operatoria.
 	foreach AllActors(class'ScriptedPawn', sp, 'UCSPCommander')
 		sp.LeaveWorld();
 	foreach AllActors(class'ScriptedPawn', sp)
@@ -560,7 +583,7 @@ function TongBase()
 	lab.PrisonerScene();
 	foreach AllActors(class'ScriptedPawn', sp, 'UCSPCommander')
 		if (sp.bInWorld)
-			Check(VSize((sp.Location - lab.CmdPost()) * vect(1,1,0)) < 150, "comandante di riserva al suo posto");
+			Check(sp.IsA('UCSPCommando') && class'UCServiceAccess'.static.Outside(sp.Location) && sp.IsInState('UCEntry'), "comandante di riserva entra dalla corsia di servizio");
 	Check(CountTag('UCLPTech') == 3, "tecnici del Luminous Path creati (" $ CountTag('UCLPTech') $ "/3)");
 	foreach AllActors(class'ScriptedPawn', sp)
 	{
@@ -576,6 +599,75 @@ function TongBase()
 			Check(sp.GetAllianceType('Player') != ALLIANCE_Hostile, "guardia di Tong non ostile a JC:" @ sp.Name);
 		}
 	}
+	ServiceAccessProbe();
+}
+
+function ServiceAccessProbe()
+{
+    local UCSPCommando probe;
+    local DeusExMover boundary,door;
+    local Computers console;
+    local Teleporter exit;
+    local vector hitLoc,hitNormal;
+    local vector spot;
+    local Actor hit;
+    local int step;
+    probe=Spawn(class'UCSPCommando',,,vect(128,-1488,60));
+    Check(probe!=None,"loading yard probe spawned");
+    if (probe==None) return;
+    probe.SetCollision(False,False,False);
+    Check(probe.SetLocation(vect(128,-1112,56)) && VSize(probe.Location-vect(128,-1112,56))<1,
+          "commando capsule fits the rear storage doorway");
+    hit=Trace(hitLoc,hitNormal,vect(-497,650,56),vect(-472,900,56),False,vect(28,28,49));
+    Check(hit!=None,"original firing bench remains solid and uncut");
+    foreach AllActors(class'DeusExMover',door,'UCNorthAccess') break;
+    hit=Trace(hitLoc,hitNormal,vect(128,-1250,56),vect(128,-1090,56),True,vect(28,28,49));
+    Check(door!=None && hit==door && door.bBlockActors && door.bBlockPlayers,
+          "closed recessed panel has physical pawn collision");
+    Log("UCHKCheck collision hit" @ hit @ hitLoc @ door);
+    if (door!=None)
+    {
+        door.SetLocation(door.BasePos-vect(0,0,120));
+        hit=Trace(hitLoc,hitNormal,vect(128,-1250,56),vect(128,-1090,56),True,vect(28,28,49));
+        Check(hit==None,"descending wall clears the whole commando capsule");
+        hit=Trace(hitLoc,hitNormal,vect(128,-1040,56),vect(128,-1260,56),False,vect(28,28,49));
+        Check(hit==None,"open loading doorway connects to existing storage navigation");
+        door.SetLocation(door.BasePos);
+    }
+    for (step=0;step<8;step++)
+    {
+        spot=vect(464,-1488,0)+vect(32,0,20)*step+vect(0,0,20);
+        hit=Trace(hitLoc,hitNormal,spot-vect(0,0,4),spot+vect(0,0,80),False);
+        Check(hit!=None && Abs(hitLoc.Z-spot.Z)<1 && hitNormal.Z>0.9,
+              "service stair has solid correctly raised tread" @ step);
+    }
+    foreach AllActors(class'DeusExMover',boundary,'UCServiceBoundary') break;
+    Check(boundary!=None && boundary.bLocked && !boundary.bBreakable && !boundary.bPickable && boundary.NumKeys==1,
+          "outer service gate has infinite resistance and cannot be opened");
+    foreach AllActors(class'Teleporter',exit,'UCServiceExit') break;
+//#if revision
+    Check(exit!=None && exit.bEnabled && exit.URL=="06_HongKong_WanChai_Compound#compound",
+          "restricted stair exit uses the real compound map-loading destination");
+//#else
+//    Check(exit!=None && exit.bEnabled && exit.URL=="06_HongKong_WanChai_Market#compound",
+//          "restricted stair exit uses the compound of the market (the original game has no compound map)");
+//#endif
+    foreach AllActors(class'Computers',console,'UCNorthConsole') break;
+    Check(console!=None && console.ComputerNode==CN_HKNet,"Tong's service console uses HKNet without UNATCO branding");
+    probe.Destroy();
+}
+
+function NSFRecord()
+{
+    local UCInvestigation investigation;
+    local UCFileCube record;
+    investigation=Spawn(class'UCInvestigation');
+    investigation.mapName="04_NYC_NSFHQ";
+    investigation.SetupRecords();
+    foreach AllActors(class'UCFileCube',record,'UC_PaulRecord') break;
+    Check(record!=None && record.document=='Paul',"physical Paul shipping extract exists beside NSF records");
+    if (record!=None)
+        Check(Len(record.SpecialText)>100 && record.Location.Z<1000,"Paul extract contains actual readable text in the map");
 }
 
 function Timer()
@@ -623,6 +715,8 @@ function Timer()
 		BatteryPark();
 	else if (mapName == "04_NYC_STREET")
 		NYCStreet();
+	else if (mapName == "04_NYC_NSFHQ")
+		NSFRecord();
 	else if (mapName == "06_HONGKONG_HELIBASE")
 		Helibase();
 	else if (mapName == "06_HONGKONG_TONGBASE")

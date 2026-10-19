@@ -105,27 +105,18 @@ function SetupActors()
 	{
 		// G02: nessun saluto; la morte di Anna rende il tono piu' duro ma non e' una prova
 		c.Line("GuntherHermann", "JCDenton", "Denton. Agent Navarre is dead. Your brother has betrayed UNATCO. And now I find you leaving his hotel.");
-		c.Line("JCDenton", "GuntherHermann", "He asked me to join him. I refused.");
-		c.SetFlag('GuntherKnowsJCMetPaul', True);
-		c.Line("GuntherHermann", "JCDenton", "But you did not arrest him.");
-		c.Line("JCDenton", "GuntherHermann", "I'm not stopping you.");
-		c.Line("GuntherHermann", "JCDenton", "Manderley will hear about this. I do not forget the airfield.");
-		c.Line("JCDenton", "GuntherHermann", "Bring Paul in alive.");
-		c.Line("GuntherHermann", "JCDenton", "Get out of the way.");
+		c.Line("JCDenton", "GuntherHermann", "I spoke to Paul.");
 	}
 	else
 	{
 		// G01
 		c.Line("GuntherHermann", "JCDenton", "Denton. You should be on your way to Hong Kong. Did you see Paul?");
 		c.Line("JCDenton", "GuntherHermann", "I spoke to him.");
-		c.SetFlag('GuntherKnowsJCMetPaul', True);
-		c.Line("GuntherHermann", "JCDenton", "He is wanted by UNATCO. Why is he not in custody?");
-		// JC risponde sulla lealta', non sull'arresto: Gunther se ne accorge e insiste
-		c.Line("JCDenton", "GuntherHermann", "He tried to recruit me. I turned him down.");
-		c.Line("GuntherHermann", "JCDenton", "And then you left him here.");
-		c.Line("JCDenton", "GuntherHermann", "I'm not stopping you.");
-		c.Line("GuntherHermann", "JCDenton", "Manderley will hear about this. Get out of the way.");
 	}
+	c.SetFlag('GuntherKnowsJCMetPaul', True);
+	c.Line("GuntherHermann", "JCDenton", "And you left him here.");
+	c.Line("JCDenton", "GuntherHermann", "He tried to recruit me. I refused.");
+	c.Line("GuntherHermann", "JCDenton", "You should have arrested him. Manderley will hear about this. Get out of the way.");
 	c.SetFlag('GuntherReportedJCConduct', True);
 	c.SetFlag('SpecialAgentsSeenAtTon', True);
 	c.SetFlag('UC_PaulContactReportSent', True);
@@ -176,11 +167,20 @@ function vector WalkPoint(int i)
 	switch (i)
 	{
 		case 1: return vect(1232, 960, -456);   // ai piedi della scalinata
-		case 2: return vect(1040, 960, -344);   // in cima
-		case 3: return vect(828, 943, -344);    // portico
-		case 4: return vect(656, 944, -344);    // oltre il portone
+		case 2: return Porch(vect(1040, 960, -344));   // in cima
+		case 3: return Porch(vect(828, 943, -344));    // portico
+		case 4: return Porch(vect(656, 944, -344));    // oltre il portone
 	}
-	return vect(440, 897, -344);                // la porta dell'hotel
+	return Porch(vect(440, 897, -344));                // la porta dell'hotel
+}
+
+// Revision's 04_NYC_Street raised the 'Ton's porch 80 units (its steps); the original game's is at street level
+function vector Porch(vector v)
+{
+//#if vanilla
+//	v.Z -= 80;
+//#endif
+	return v;
 }
 
 function name WalkTag(int i)
@@ -335,7 +335,7 @@ WaitMeet:
 	SetF('GuntherTonEncounterPlayed', True);
 	SetF('GuntherTonSearchStarted', True);
 	bMet = True;
-	bAliveDone = Anna747();   // in G02 "Bring Paul in alive." e' gia' nel dialogo
+	bAliveDone = False;
 Leave:
 	SetupWalk();
 Going:

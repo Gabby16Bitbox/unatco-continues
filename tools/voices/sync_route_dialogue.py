@@ -84,6 +84,8 @@ def intent(line):
     if speaker == 'MJ12Commando':
         return 'Special Projects commander gives impersonal procedural orders. Controlled military authority, deliberate pauses, no combat shout.'
     if speaker in ('TriadLumPath', 'TriadRedArrow'):
+        if line.get('file') == 'UCSceneHKArrival.uc':
+            return 'A short urgent cargo-raid command, projected clearly across a loading yard. Firm and clipped; no theatrical scream, leave a brief pause between clauses.'
         return 'Tong guard warns a tolerated visitor. Low, wary and firm, at ordinary conversation volume.'
     if speaker == 'ScientistConsulting':
         return 'Unarmed technician fears being mistaken for security. An urgent plea with clear words; frightened but intelligible, no prolonged scream.'
@@ -106,11 +108,19 @@ def synchronize(plan):
     cfg = json.loads(Path(m.VOICES).read_text(encoding='utf-8'))
     receipts_path = n.OUT / 'receipts.json'
     receipts = json.loads(receipts_path.read_text(encoding='utf-8'))
-    old = list(receipts.values())
+    old = [{**candidate, '_source_cache': str(n.OUT)} for candidate in receipts.values()]
+    # Pre-generated rewrite takes remain isolated until their exact words,
+    # clone and request settings match an implemented runtime utterance.
+    draft_cache = n.HERE / 'campaign_rewrite_v4'
+    draft_receipts = draft_cache / 'receipts.json'
+    if draft_cache != n.OUT and draft_receipts.exists():
+        old.extend({**candidate, '_source_cache': str(draft_cache)}
+                   for candidate in json.loads(draft_receipts.read_text(encoding='utf-8')).values())
     reused = []
     new = []
     for key, line in plan['lines'].items():
-        line['intent'] = intent(line)
+        if not line.get('authored_delivery'):
+            line['intent'] = intent(line)
         # Directions remain short. Stability and clone samples carry the
         # understated original-game style; avoid stacking emotional tags.
         if line['speaker'] == 'AnnaNavarre' and line['text'] != 'Yes.':
@@ -142,20 +152,23 @@ def synchronize(plan):
             payload = {'voice_id': cfg[line['speaker']], 'text': line['tts_text'],
                        'settings': settings, 'seed': old_seed}
             fingerprint = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
-            raw = n.OUT / 'raw' / (old_key + '.mp3')
+            raw = Path(candidate['_source_cache']) / 'raw' / (old_key + '.mp3')
             if candidate.get('fingerprint') != fingerprint or not raw.exists() or candidate.get('raw_sha256') != n.sha(raw):
                 continue
             line['seed'] = old_seed
             destination = n.OUT / 'raw' / (key + '.mp3')
+            destination.parent.mkdir(parents=True, exist_ok=True)
             if destination != raw:
                 shutil.copy2(raw, destination)
-            receipts[key] = {**candidate, **line, 'fingerprint': fingerprint,
+            receipts[key] = {**{field: value for field, value in candidate.items() if field != '_source_cache'},
+                             **line, 'fingerprint': fingerprint,
                              'fingerprint_seed': old_seed, 'migrated_from': old_key}
             if (candidate.get('processing_fingerprint') != n.processing_fingerprint(line)
                     or old_key != key or candidate.get('channel') != line['channel']
                     or any(candidate.get(field) != line.get(field) for field in (
                         'processing_channel', 'processing_reference', 'target_lufs',
                         'loudness_tolerance_lu', 'duration_range', 'tempo_target'))
+                    or candidate['_source_cache'] != str(n.OUT)
                     or ('limiter_ceiling_db' in line and
                         candidate.get('limiter_ceiling_db', -1.5) != line['limiter_ceiling_db'])):
                 # Raw MP3 is the unprocessed TTS response. Channel filtering

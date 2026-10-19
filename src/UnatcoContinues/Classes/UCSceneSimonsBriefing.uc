@@ -21,19 +21,19 @@ var bool bRecovery;   // versione breve dopo un briefing interrotto (I02)
 
 function float SimonsLine(int i)
 {
-	if (bRecovery)
-	{
-		if (i == 0)
-			return Say("WaltonSimons", "Denton. Your orders are to locate Tracer Tong and identify his network. Start with Maggie Chow. Special Projects has cleared you to proceed.");
-		return -1;
-	}
-	switch (i)
-	{
-		case 0: return Say("WaltonSimons", "Denton. Special Projects personnel in Hong Kong have been instructed to cooperate with your investigation. Manderley's orders remain in effect: locate Tracer Tong and identify the people protecting him before you move against him.");
-		case 1: return Say("WaltonSimons", "Tong has survived this long because very few outsiders know where he operates. Start with Maggie Chow. She has contacts with both Triads and has cooperated with Coalition interests in the past.");
-		case 2: return Say("WaltonSimons", "Find Tong's network. Once we know where he is, we'll decide how to proceed.");
-	}
-	return -1;
+    if (bRecovery)
+    {
+        if (i == 0)
+            return Say("WaltonSimons", "Start with the Red Arrow. Your objective remains Tracer Tong.");
+        return -1;
+    }
+    switch (i)
+    {
+        case 0: return Say("WaltonSimons", "Denton. Tong's network intersects with both Triads, but most of the commercial traffic passes through Wan Chai. Special Projects has been monitoring several contacts in the district.");
+        case 1: return Say("WaltonSimons", "Start with the Red Arrow. Establish who is moving material for Tong and identify a route into the Luminous Path.");
+        case 2: return Say("WaltonSimons", "Your objective remains Tracer Tong.");
+    }
+    return -1;
 }
 
 function float InfoLine(int i)
@@ -46,8 +46,8 @@ function MaggieGoal()
 	local DeusExPlayer P;
 
 	P = Plr();
-	if (P != None && P.FindGoal('ContactMaggieChow') == None)
-		P.GoalAdd('ContactMaggieChow', "Contact Maggie Chow, a VersaLife executive with contacts in both Triads who has cooperated with Coalition interests in the past. She lives in Queen's Tower.", False);
+	if (P != None && P.FindGoal('UCMeetMaxChen') == None)
+		P.GoalAdd('UCMeetMaxChen', "Contact Max Chen at the Lucky Money. Special Projects believes the Red Arrow can identify Tong's local network.", False);
 }
 
 state Playing
@@ -61,12 +61,12 @@ Begin:
 	}
 	Sleep(1.0);
 	class'UCSceneHongKong'.static.TongGoal(Plr());
-	MaggieGoal();
+	// Max is an optional personal lead from the messenger after the cargo raid.
 	bRecovery = GetF('UC_HK_SimonsOpen') && !GetF('UC_HK_SimonsDone');
 	SetF('UC_HK_SimonsBriefing', True);
 	SetF('UC_HK_SimonsOpen', True);
 	InfoStart("WaltonSimons");
-	Sleep(1.0);
+	Sleep(1.5);
 	n = 0;
 Next:
 	d = SimonsLine(n);

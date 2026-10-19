@@ -1,118 +1,157 @@
-# Hong Kong — laboratorio di Tong e assalto MJ12 (design di Gabby, 3 ott 2026)
+# Hong Kong — accesso, prove e assalto MJ12
 
-Pezzi HK-9..HK-11 di `docs\HONGKONG_M1_PIANO.md`. Primo vero reveal operativo di MJ12: prima il giocatore ha visto
-Government Agents, uomini che rispondono a Simons, Maggie che mente, il collegamento Simons/Maggie, VersaLife apparentemente
-legittima — ma non MJ12 come forza armata separata.
+Revisione del 6 ottobre 2026, integrata nei sorgenti e nella copia modificata della base di Tong. Sostituisce il tracciamento automatico. Il [copione completo](CAMPAIGN_REWRITE_2026_10_06.md) contiene le battute; questo documento descrive il contratto di gameplay. Copertura delle prove e lavoro rinviato sull'helipad: [STATUS.md](STATUS.md).
 
-**Regola di tono**: JC non dice "Paul was right"; Simons non confessa nulla; MJ12 non spara a JC. JC puo' ancora dirsi:
-"qualcosa non va in questa operazione, ma non vuol dire che l'UNATCO sia il nemico". La Missione 2 rende difficile crederlo.
+## Il contratto della scena
 
-**Regola aggiunta da Gabby**: se JC impedisce un'esecuzione gli uomini di Simons NON diventano ostili (sarebbe la campagna
-vanilla): il comandante si ferma, prende nota dell'insubordinazione e continua l'operazione.
+L'assalto parte quando JC autorizza l'ingresso della squadra e apre materialmente l'accesso. Aver trovato Tong, aver ascoltato il dialogo o possedere il manifest non basta.
 
-## 1. Ingresso
-Dopo la tregua Gordon da' il codice. Il Luminous Path NON diventa amico: JC e' un ospite tollerato/scortato.
-Barks: "Tong agreed to see you. That doesn't make you welcome." / "Keep your weapon down and there won't be a problem."
+Prima dell'apertura JC è un investigatore ammesso con riluttanza. Dopo l'apertura ha contribuito all'operazione di Special Projects. La squadra riceve ordini diversi dai suoi, prende il controllo del laboratorio e distrugge selettivamente archivi. Il dubbio emerge dalle azioni visibili.
 
-## 2. Primo dialogo con Tong (Tong sa chi e' JC e perche' e' venuto)
-TONG: J.C. Denton. / JC: Tracer Tong. / TONG: Paul said you might come. / JC: Paul expected me to ask for your help. /
-TONG: And instead? / JC: You're coming with me. / (sorriso) TONG: To UNATCO. / JC: That's right. / TONG: Even after
-everything you've seen? / JC: I've seen Maggie Chow lie. / JC: I've seen Triads killing each other. / JC: Neither makes you
-innocent. / TONG: Good. / (pausa) TONG: Paul tried to give you a conclusion. / JC: He gave me his conclusion. /
-TONG: Then I will give you evidence.
+Gli InfoLink restano a senso unico. I rapporti sono comandi espliciti dei terminali. Simons non confessa il complotto e Tong non dimostra già la produzione della Gray Death.
 
-## 3. Tong non diventa subito amico
-JC: Why would you help me arrest you? / TONG: Because if you still believe in UNATCO after seeing this, Paul was wrong
-about you. / JC: And if I don't? / TONG: Then perhaps he was right.
+## Punti sostituiti nella versione precedente
 
-## 4. Terminale con le prove VersaLife (non tutta la Gray Death)
-Mostra: VERSALIFE + AMBROSIA DISTRIBUTION + NANOTECH RESEARCH + riferimenti a clearance UNATCO/governative. Grave, ma non
-risolve la cospirazione.
-JC: These shipment IDs match the Ambrosia records Paul showed me. / TONG: Yes. / JC: Where did you get them? /
-TONG: VersaLife. / JC: VersaLife manufactures pharmaceuticals. / TONG: Among other things. / JC: This doesn't prove UNATCO
-is involved. / TONG: Then continue your investigation. (Tong non convince JC: gli da' una direzione.)
+- `UCSceneTongLab.SetupBase` imposta `JCLedMJ12ToTong` all'arrivo.
+- Il percorso `Playing` passa dalle prove all'allarme e all'assalto senza input sulla sicurezza.
+- La morte di Tong può saltare direttamente ad `Assault`.
+- `TongFlees` e il blocco `Assault` avviano l'operazione; `Wave1` crea la squadra.
+- `UCHKStory.AssaultOffscreen` completa un'operazione già iniziata fuori campo.
+- `ShowTerminal` e `AddFragment` forniscono già identificativi Ambrosia, ma manca il confronto con un documento indipendente dell'helibase.
+- La base attuale non contiene un ingresso settentrionale verificato per la squadra. Non va presentato come un asset esistente.
 
-## 5. Tracciamento nascosto
-All'arrivo nel laboratorio: `JCLedMJ12ToTong = TRUE`. L'assalto parte solo dopo `TongEvidenceConversationComplete`.
-Come abbiano tracciato JC resta ambiguo (equipaggiamento, sorveglianza, elicottero, beacon).
+Questo elenco registra il comportamento precedente, ora sostituito. `UCInvestigation` gestisce documenti, custodia effettiva, rapporti e attraversamento. `UCSceneSPTransfer` comunica l'ordine; `UCSceneTongLab` avvia il raid solo dopo il passaggio osservato. La mappa aggiunge una porta sul retro del magazzino e una corsia di servizio esterna, conservando le lightmap originali. `UCNorthAccess` e `UCNorthConsole` restano nomi interni per compatibilità; l'accesso giocabile non è più al poligono. Leggere il manifest non salva automaticamente la copia; terminare il sweep non trasmette il rapporto finale.
 
-## 6. Tong capisce
-Un computer/sensore suona. TONG: Interesting. / JC: What? / TONG: Your friends are here. / JC: UNATCO? / TONG: You tell me.
+## Macchina degli stati
 
-## 7. Assalto
-MVP: 6–8 commando, 1 comandante, 2 tecnici, in ondate. Fazioni: MJ12 amico di JC, ostile al Luminous Path e alle guardie
-di Tong; Luminous Path ostile a MJ12 ma NON automaticamente a JC (JC puo' stare in mezzo).
-Nomi a schermo: non "MJ12 Commando" ma "Special Operations Trooper" / "Special Projects Commando". Un simbolo MJ12 puo'
-comparire per la prima volta (cassa, terminale, uniforme) senza commento di JC.
+```text
+TONG LOCATED
+    -> incontro o lettura degli archivi
+    -> manifest disponibile
+    -> JC seleziona REPORT LOCATION / REQUEST TRANSFER TEAM
+LOCATION REPORTED
+    -> InfoLink di Simons e obiettivo sulla porta
+TRANSFER ORDER RECEIVED
+    -> console di sicurezza raggiungibile, codice o hacking
+    -> JC seleziona OPEN REAR LOADING ACCESS / ADMIT TEAM
+OPENING REQUESTED
+    -> porta si muove
+    -> verifica varco percorribile e autorizzazione alla squadra
+ACCESS OPEN / ENTRY AUTHORIZED
+    -> squadra attraversa il varco
+    -> allarme, resistenza delle guardie, assalto
+ASSAULT STARTED
+    -> fuga di Tong se vivo
+    -> controllo dei server, prigioniero, eventuale obiezione di JC
+    -> debriefing, incarico VersaLife
+ASSAULT RESOLVED
+```
 
-## 8–9. Simons (InfoLink)
-SIMONS: Denton. / JC: There's a tactical team entering the compound. / SIMONS: Correct. / JC: They followed me. /
-SIMONS: They followed Tong. / JC: Through me. / (pausa) SIMONS: You completed your assignment.
-JC: I had Tong contained. / SIMONS: You had Tong talking. / JC: That's how interrogation works. / SIMONS: Not this one.
-Goal PRIMARY SECURE TRACER TONG: "A Special Projects recovery team has entered the compound. Assist in securing Tracer Tong."
+In qualsiasi stato precedente all'apertura, uscire dalla mappa conserva lo stato e non genera un raid fuori campo. La morte di Tong cambia il bersaglio in “archivi”, non elimina il requisito di accesso.
 
-## 10. Fuga di Tong (via di fuga scriptata semplice)
-Con `MJ12AssaultStarted` Tong va all'uscita d'emergenza: TONG: Come with me. / JC: No. / TONG: Then stay. / (pausa)
-TONG: And watch what your people do. Sparisce. `TongEscapedCompound`, `TongLocationUnknown`.
-Tong non puo' morire durante la fuga scriptata (prima dell'assalto si').
+Il manifest si può leggere e copiare senza inviare il rapporto. L'ordine di lettura dei documenti non è imposto; la richiesta di trasferimento richiede che JC abbia localizzato Tong o verificato i suoi archivi. L'ordine di aprire la porta arriva soltanto dopo il rapporto esplicito.
 
-## 11. Se Tong e' gia' morto
-L'assalto parte lo stesso. SIMONS: Tong is dead. / JC: That's usually what happens when somebody gets shot. /
-SIMONS: Then secure his data. Goal RECOVER TONG'S ARCHIVES. La storia continua attraverso i server: Tong non e' essenziale.
+Se il varco è stato aperto prima del rapporto, la console richiede comunque un comando esplicito di autorizzazione all'ingresso. Non attribuire a JC un'intenzione retroattiva e non far partire la squadra da un semplice `Mover` in posizione aperta.
 
-## 12. Cosa fa davvero MJ12 (a stadi)
-1) combatte le guardie armate; 2) entra nelle sale tecniche; 3) i tecnici copiano dati, distruggono dischi, piazzano
-cariche; 4) alcuni commando eliminano chi non e' piu' una minaccia. JC capisce che non e' un normale arresto.
+## Documenti e conoscenze
 
-## 13. Il prigioniero (facoltativo)
-TECHNICIAN: I'm unarmed! (il comandante punta l'arma) JC (se vicino): Hold your fire. / COMMANDER: Continue your
-assignment, Agent Denton. / JC: He's unarmed. / COMMANDER: He's part of Tong's operation. / JC: Then arrest him. / (pausa)
-COMMANDER: Our orders don't require prisoners.
-Niente scelta a menu: se JC se ne va `JCIgnoredMJ12Execution`. Se resta/insiste (MVP): JC: Mine do. / COMMANDER: This isn't
-your operation. / JC: Then stop giving me objectives. / COMMANDER: Take him. (un soldato porta via il prigioniero;
-`JCObjectedToMJ12Execution`; il comandante prende nota, nessun combattimento).
+Gli identificativi `AMB-2219-A`, `AMB-2219-B` e `AMB-2231-C` vengono conservati dal terminale attuale. Il codice di campo `SP-HK-0614` e il suo allegato `L2` sono nuove aggiunte narrative.
 
-## 14. I server
-JC: What are you doing? / TECH: Sanitizing compromised systems. / JC: Those systems are evidence. / TECH: Not anymore.
+| Documento | Provenienza | Evento di conoscenza |
+| --- | --- | --- |
+| Estratto Ambrosia di Paul | Indagine NSF prima del rifiuto; copia separata disponibile da Tong per vecchi salvataggi | Lettura effettiva della nota. |
+| Autorizzazione Special Projects | Terminale o datacube dell'helibase | Lettura effettiva; non soltanto ingresso nella mappa. |
+| Manifest VersaLife | Terminale del laboratorio di Tong | Lettura; copia manuale distinta. |
+| Spada a Queen's Tower | Teca, esame o acquisizione | Posizione verificata, distinta dalla custodia dell'arma. |
+| Trascrizione di Yuen Kong | `06_Datacube06` | Documento letto; non il semplice possesso della spada. |
+| Rapporto sulla morte | `06_Datacube22` o copia con provenienza indicata | Documento letto; il sospetto della polizia resta distinto dalla prova aggiuntiva. |
 
-## 15. Frammento VersaLife
-Prima della distruzione JC recupera (da solo o automaticamente) `VersaLifeEvidenceFragment`: VersaLife Level 2, ricerca
-nanotecnologica, riferimenti a laboratori riservati, rapporto Gray Death / Ambrosia accennato. Non prova definitiva.
+Non completare il caso Yuen per `Have_Evidence` o `NoticedMJ12ChowConnection`. Non dichiarare “hai visto il codice all'helibase” se manca il relativo evento. Il dossier può essere consultato nelle note anche dopo la scena; non è una finestra automatica di nove secondi.
 
-## 16–18. Simons dopo la fuga
-JC: Tong got away. / SIMONS: Unfortunate. / JC: Your team gave him the warning. / SIMONS: Our team prevented the
-destruction of sensitive intelligence. / JC: They're destroying it. / (pausa) SIMONS: They're containing it. /
-JC: Interesting distinction.
-JC: Tong showed me records from VersaLife. / (pausa) SIMONS: What records? (reazione immediata) / JC: Ambrosia shipments.
-Nanotechnology research. / SIMONS: Tong manufactures evidence as easily as weapons. / JC: Then it should be easy to
-disprove. / (pausa) JC: I'll check VersaLife. / SIMONS: That won't be necessary. / JC: Why? / (silenzio) SIMONS: Because
-you'll be granted access. / SIMONS: Report to VersaLife. / JC: Officially? / SIMONS: You're still an UNATCO agent,
-Denton. / JC: I noticed.
-Goal PRIMARY REPORT TO VERSALIFE: "Walton Simons has authorized an investigation of the information recovered from Tracer
-Tong. Report to VersaLife." JC non disobbedisce: l'indagine e' autorizzata ("il sistema puo' indagare su se stesso").
+I vecchi salvataggi non devono ricevere retroattivamente conoscenze. Una nota di recupero deve dire da dove arriva. Se JC non copia gli archivi prima della distruzione, può continuare con il materiale consegnato dalla squadra; quella provenienza resta esplicita e manca la sua copia indipendente.
 
-## 21. Il comandante dopo l'assalto
-COMMANDER: The facility is secure. / JC: Tong escaped. / COMMANDER: The facility is secure. / JC: You already said that. /
-COMMANDER: Then we're done.
+## Flag proposti
 
-## 22–23. Paracadute
-- JC se ne va durante l'assalto: `MJ12AssaultResolvesOffscreen`, `TongEscapedCompound`, `VersaLifeEvidenceFragment`;
-  Simons lo contatta all'uscita ("Tong escaped during the operation." ...). La storia non si blocca.
-- JC spara agli uomini di Simons: `JCAttackedSpecialProjects` (la campagna NON si ferma: forse reagiva a un'esecuzione).
-  Dopo: SIMONS: I understand you fired on Coalition personnel. / JC: They were executing prisoners. / SIMONS: We'll
-  discuss your judgment later. Solo un massacro sistematico: `UNATCORouteDisciplineViolation` (da gestire dopo).
+Flag introdotti nel runtime per questa revisione.
 
-## Flag
-TongMeetingStarted, TongMeetingComplete, TongEvidenceShown, VersaLifeEvidenceFragment, JCLedMJ12ToTong,
-MJ12AssaultStarted, MJ12AssaultResolved, TongEscapedCompound, TongLocationUnknown, JCIgnoredMJ12Execution,
-JCObjectedToMJ12Execution, JCAttackedSpecialProjects, SimonsVersaLifeConcern, VersaLifeInvestigationAuthorized.
+| Flag | Significato |
+| --- | --- |
+| `UC_PaulManifestRead` | JC ha letto la copia di Paul durante l'indagine iniziale. |
+| `UC_SPHelibaseAuthRead` | JC ha letto il documento amministrativo dell'helibase. |
+| `UC_ChowSwordVerified` | La posizione della spada è stata verificata. |
+| `UC_YuenTranscriptRead` | Trascrizione nella stanza segreta letta. |
+| `UC_YuenDeathReportRead` | Rapporto sulla morte di Yuen letto. |
+| `UC_YuenCaseCorroborated` | La trascrizione è stata confrontata con il rapporto di morte. |
+| `UC_MaxDealOffered` | Max ha proposto lo scambio. |
+| `UC_SwordGivenMax` | Consegna volontaria riuscita; arma trasferita realmente. |
+| `UC_SwordGivenGordon` | Eventuale consegna riuscita a Gordon. |
+| `UC_ChowEvidenceSentGordon` | Gordon ha ricevuto una copia dei reperti raccolti. |
+| `UC_LPMeetingGranted` | Il colloquio sorvegliato è stato autorizzato. |
+| `UC_VLManifestRead` | Manifest di Tong consultato. |
+| `UC_VLManifestCopied` | Copia indipendente salvata prima della distruzione. |
+| `UC_TongLocationReported` | Posizione o archivi verificati inviati dal terminale. |
+| `UC_TransferOrderReceived` | Chiamata di Simons consegnata; obiettivo creato. |
+| `UC_NorthAccessRequested` | JC ha attivato il comando di apertura autorizzata. |
+| `UC_NorthAccessOpened` | Movimento concluso, varco percorribile. |
+| `UC_SPEntryAuthorized` | Squadra autorizzata ad attraversare quel varco. |
 
-## Note tecniche (dalla ricerca, `docs\HK_WORLD_RESEARCH.md` sez. 6)
-- Base di Tong: ingresso dal seminterrato del compound (teletrasporto a (1240,-886,296), scala verso la sala grigliata);
-  laboratorio centrale con Tong (127,-83,46) e il PC "Illuminati Information Base" (274,-28,49); porta segreta
-  `Secretdoor01`; ala ovest con i portelli `hatch01`/`hatch02` (evento `hatch`) verso il magazzino: via di fuga di Tong.
-- Nessun MJ12, tecnico o server nella mappa: si creano da script. Allarmi `AlarmUnit` (senza Event) usabili per l'effetto.
-- Gli MJ12Troop creati non hanno alleanza: impostare `Alliance='mj12'` e le `ChangeAlly` (Player +1, Triad/Allies -1).
-- Tong, Paul, Alex, Jaime sono invincibili di classe; Tong e' bImportant (`TracerTong_Dead`).
-- L'IA del gioco basta (ordini, alleanze, fuga, combattimento): niente IA nuova. UnrealEd solo per cambiare la mappa
-  (nuovi passaggi, server fisici) se servira'.
+`UC_SwordGivenMax` e `UC_SwordGivenGordon` sono incompatibili per la stessa consegna. Il resto della custodia deriva dall'inventario e dallo stato persistente della spada: non è sufficiente un flag generico “arma trovata”. Se JC la perde, il dialogo non dice che l'ha ancora con sé.
+
+Riusare i flag esistenti per assalto, prigioniero, fuga e rapporto disciplinare quando il loro significato resta corretto. `MJ12AssaultStarted` si imposta una sola volta dopo il passaggio autorizzato. `JCLedMJ12ToTong` può documentare l'operazione dopo il rapporto, ma non deve essere un trigger.
+
+## Compatibilità con le Triadi e il vanilla
+
+`Have_Evidence` ha un significato troppo ampio per governare la nuova missione. Può rimanere come compatibilità circoscritta, senza diventare prova di omicidio, trasferimento dell'arma o permesso al laboratorio.
+
+`MaxChenConvinced` va usato solo per gli effetti vanilla che si vogliono davvero: accordo con Max e tregua pertinente. Il percorso Gordon senza Max non deve falsificare questo flag per aprire una porta.
+
+`QuickLetPlayerIn` può applicare il codice 1997 per il percorso con permesso, dopo `UC_LPMeetingGranted`. Non rende tutti i Luminous Path amici. Se Gordon è morto, una via alternativa di infiltrazione non deve fingere che abbia concesso il colloquio.
+
+Il raid vanilla al Lucky Money resta disabilitato. La nuova politica sulle alleanze deve sopravvivere a un ricaricamento senza cancellare una reazione locale a un attacco reale.
+
+Consegna della spada: verificare l'oggetto in inventario, presentare la scelta, effettuare il trasferimento, quindi impostare il flag e chiudere il goal. Il solo `Have_Evidence` non può togliere una spada mai presa. Gestire ritorno da un'altra mappa e tentativi ripetuti senza duplicazioni.
+
+## Il varco sul retro del magazzino
+
+La ricerca in `HK_WORLD_RESEARCH.md` documenta:
+
+- ingresso vanilla dalla parte meridionale e porta `Secretdoor01` fra atrio e laboratorio;
+- ala ovest con `hatch01` e `hatch02`, adatta alla fuga separata di Tong;
+- corridoio settentrionale senza uscita, nella fascia x -650..-400, y 800..1650.
+
+La versione del poligono è stata scartata dopo la richiesta di Gabby. Il checkout parte dalla mappa originale: il banco e il corridoio del poligono rimangono intatti. La sola cassa `BoxMedium1`, che ostruiva il nuovo varco, è spostata accanto agli altri colli nel magazzino mediante un piano separato del ponte. La porta è centrata a (128,-1152,56), con apertura verso il basso di 120 unità. Il passaggio è largo 128 unità (x 64..192) e profondo 160 (y -1264..-1104), collegato al vano di carico x -128..448, y -1600..-1232. A destra la scala sale fino al cancello (944,-1488,248), con resistenza infinita e senza comando di apertura. La console è del laboratorio, su HKNet; non è attrezzatura UNATCO. Le lightmap e le proprietà degli attori dell'input sono confrontate prima della pubblicazione; non si esegue `LIGHT APPLY`.
+
+La porta di carico ha il rivestimento del muro, è appena incassata e scompare nel pavimento quando si apre. Il vano riprende il legno grigio scuro e il soffitto del magazzino, con casse ai lati del passaggio, uno scaffale carico, un carrello e un bidone. A destra otto gradini salgono al cancello INF: dietro si trova un collegamento di caricamento alla mappa del complesso esterno. La squadra scende dalla scala, attraversa il vano e la porta, poi usa la navigazione del magazzino per raggiungere il laboratorio. Eventuali rinforzi e la scorta usano lo stesso percorso fisico. Il passaggio di Tong verso ovest resta distinto.
+
+Usare il ponte con checkout, inspect, plan, apply e undo. Dopo una ricostruzione, controllare i piani delle facce con `tools/fix_brush_surfs.py`. Non fare `LIGHT APPLY` su tutta la mappa: la precedente prova ha scurito l'eliporto. Confrontare prima/dopo; per ombre di geometria rimossa usare la procedura mirata `tools/lightbits.py unshadow` dove applicabile.
+
+Questo requisito di geometria è necessario per il nuovo climax: una finestra narrativa con “porta aperta” non lo sostituisce.
+
+## Salvataggi, interruzioni e fuori campo
+
+Persistenza degli stati, non una catena di pause temporali:
+
+- Save/load dopo il briefing: nessun goal duplicato e testo disponibile nella cronologia.
+- Save/load mentre la porta si muove: riprendere o verificare il mover, senza generare più squadre.
+- Ritorno al laboratorio prima dell'apertura: squadra ancora in attesa.
+- Uscita dopo l'apertura: solo allora è lecita una risoluzione fuori campo.
+- Tong morto: nessun suo monologo o ordine di fuga; archivi e accesso restano giocabili.
+- Conversazione o combattimento in corso: ritardare le battute, senza bloccare il controllo e senza saltare l'evento materiale.
+- Salvataggi con l'assalto già iniziato nella versione precedente: riconoscere lo stato legacy e terminarlo; non far riaprire una porta retroattivamente.
+
+Una chiamata interrotta non deve far sparire l'ordine dal diario. I flag del rapporto e dell'apertura sono distinti dall'esito audio.
+
+## Verifiche richieste all'integrazione
+
+1. Due minuti nel laboratorio dopo le prove, senza rapporto o apertura: nessun raid.
+2. Rapporto inviato e ordine ascoltato, porta chiusa: nessun raid.
+3. Apertura fisica con autorizzazione: la squadra entra dal varco una sola volta.
+4. Porta aperta prima del rapporto: nessuna autorizzazione implicita; il comando esplicito successivo funziona.
+5. Tong morto prima delle prove: consultazione archivi, ordine e apertura ancora richiesti.
+6. Save/load prima, durante e dopo l'apertura; attraversamento mappe in ciascun punto.
+7. Spada a Max, prove a Gordon, arma tenuta, arma lasciata nella teca, inventario pieno.
+8. Max, Maggie, Gordon o messaggero saltati o morti: nessun blocco e nessuna falsa conoscenza.
+9. Helibase documento letto / non letto, note di Paul presenti / assenti: varianti corrette.
+10. Prigioniero salvato / ignorato, JC lontano / vicino alla porta: conseguenze e dialoghi pertinenti.
+
+Usare i commandlet per gli stati e il fotografo del ponte per geometria e ingresso. `UCRWPlayCheck`, evocato solo nella prova privata, usa login e pulsanti nativi, inventario reale e attraversamento fisico. Le verifiche di stato non sostituiscono un playthrough di tutti i rami e dei salvataggi.

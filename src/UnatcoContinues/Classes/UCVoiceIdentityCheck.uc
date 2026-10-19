@@ -33,7 +33,7 @@ function CheckTroop(ScriptedPawn troop)
 	a = class'UCVoice'.static.Find("Agent Denton.", voice);
 	troop.BindName = "UCBark17";
 	Check(class'UCVoice'.static.Profile(troop, troop.BindName) == voice, string(troop.Name) @ "A bark same voice");
-	class'UCMod'.static.RestoreBarkBinding(troop);
+	class'UCCampaign'.static.RestoreBarkBinding(troop);
 	Check(class'UCVoice'.static.Profile(troop, troop.BindName) == voice, string(troop.Name) @ "A original binding same voice");
 
 	troop.BarkBindName = "UNATCOTroopB";
@@ -43,7 +43,7 @@ function CheckTroop(ScriptedPawn troop)
 	b = class'UCVoice'.static.Find("Agent Denton.", voice);
 	troop.BindName = "UCBark81";
 	Check(class'UCVoice'.static.Profile(troop, troop.BindName) == voice, string(troop.Name) @ "B bark same voice");
-	class'UCMod'.static.RestoreBarkBinding(troop);
+	class'UCCampaign'.static.RestoreBarkBinding(troop);
 	Check(class'UCVoice'.static.Profile(troop, troop.BindName) == voice, string(troop.Name) @ "B original binding same voice");
 	Check(a != None && b != None && a != b, "same text loads two distinct native soldier Sounds");
 	troop.BindName = oldBind;
@@ -70,6 +70,37 @@ function Timer()
 			troops++;
 		}
 	Check(troops > 0, "actual route map soldiers tested");
+	// Use an actual generic soldier body: named casting must win over class fallback.
+	foreach AllActors(class'ScriptedPawn', troop)
+		if (troop.IsA('UNATCOTroop'))
+			break;
+	if (troop != None)
+	{
+		Check(class'UCVoice'.static.Profile(troop, "VictorKwan") == "VictorKwan", "Kwan keeps named cast on soldier body");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBLam") == "UCHBLam", "Lam keeps named cast on soldier body");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGuard1") == "UCHBGuard1", "roof guard 1 keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGuard2") == "UCHBGuard2", "roof guard 2 keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGuardA") == "UCHBGuardA", "garage guard A keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGuardB") == "UCHBGuardB", "garage guard B keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGuardC") == "UCHBGuardC", "garage guard C keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCHBGateGuard1") == "UCHBGateGuard1", "gate guard keeps local cast");
+		Check(class'UCVoice'.static.Profile(troop, "Eva") == "Eva", "Eva keeps military female cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCBPBum") == "UCBPBum", "Battery Park witness keeps named cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCBPCop1") == "UCBPCop1", "Battery Park cop 1 keeps named cast");
+		Check(class'UCVoice'.static.Profile(troop, "UCBPCop2") == "UCBPCop2", "Battery Park cop 2 keeps named cast");
+	}
+	Check(class'UCVoice'.static.Profile(None, "UCSpecialAgent4") == "MIB", "new flare agent retains the MIB voice");
+	Check(class'UCVoice'.static.Find("Move, Agent.", "MIB") != None, "flare agent short warning loads");
+	Check(class'UCVoice'.static.Find("The helicopter, Agent Denton. Move. Don't waste our time.", "MIB") != None, "flare agent long warning loads");
+	Check(class'UCVoice'.static.Profile(None, "UCHBPathLeader") == "UCHBPathLeader", "leader has a distinct voice from fighters");
+	Check(class'UCVoice'.static.Profile(None, "UCHBPath") == "TriadLumPath", "fighters retain original Luminous Path voice");
+	Check(class'UCVoice'.static.Find("Charges on the cold containers, move!", "UCHBPathLeader") != None, "leader raid audio loads");
+	Check(class'UCVoice'.static.Find("Charges on the cold containers, move!", "TriadLumPath") != None, "fighter raid audio stays separate");
+	Check(class'UCVoice'.static.Find("The Path will remember this night.", "UCHBPathLeader") != None, "leader captive dialogue loads");
+	Check(class'UCVoice'.static.Profile(troop, "UCHBSmoker") == "UCHBSmoker", "smoker named cast wins over generic soldier body");
+	Check(class'UCVoice'.static.Find("Whatever it is, ask Lam. I'm smoking.", "UCHBSmoker") != None, "smoker Chinese-accented dialogue loads");
+	Check(class'UCVoice'.static.Find("JC, it's Jock. I'm on the pad at Battery Park, rotors warm.", "Jock", True) != None, "new Jock street radio loads");
+	Check(class'UCVoice'.static.Profile(None, "UCSpecialAgent3") == "MIB", "Battery Park third special agent uses MIB");
 	Check(class'UCVoice'.static.Profile(None, "UCHKOfficer") == "MJ12Troop", "HK officer uses MJ12 A");
 	Check(class'UCVoice'.static.Profile(None, "UCHKGuard") == "MJ12TroopB", "HK guard uses MJ12 B");
 	Check(class'UCVoice'.static.Profile(None, "UCSpecialAgent1") == "MIB", "special agent 1 alias uses MIB");
@@ -135,7 +166,7 @@ function Timer()
 		{
 			projection.BindName = "UCMaggieHolo";
 			Check(class'UCVoice'.static.Profile(projection, projection.BindName) == "MaggieChow", "generic hologram body uses Maggie voice");
-			Check(class'UCVoice'.static.Find("And if Paul changed his mind?", class'UCVoice'.static.Profile(projection, projection.BindName)) != None, "recorded Maggie audio loads through the hologram profile");
+			Check(class'UCVoice'.static.Find("And if he questions my involvement?", class'UCVoice'.static.Profile(projection, projection.BindName)) != None, "recorded Maggie audio loads through the hologram profile");
 			projection.SetCollision(False, False, False);
 			projection.Destroy();
 		}
@@ -146,7 +177,7 @@ function Timer()
 			Check(class'UCVoice'.static.Profile(messenger, messenger.BindName) == "Red_Arrow_01", "messenger uses the original Red Arrow actor clone");
 			Check(class'UCVoice'.static.Find("Denton?", class'UCVoice'.static.Profile(messenger, messenger.BindName)) != None, "messenger greeting audio loads through its actor profile");
 			messenger.BindName = "UCLMRedArrow";
-			Check(class'UCVoice'.static.Find("Max never asked for the shipment.", class'UCVoice'.static.Profile(messenger, messenger.BindName)) != None, "Lucky Money Red Arrow retains the same clone");
+			Check(class'UCVoice'.static.Find("Max didn't authorize the shipment.", class'UCVoice'.static.Profile(messenger, messenger.BindName)) != None, "Lucky Money Red Arrow retains the same clone");
 			messenger.BindName = "UCTongGuard";
 			messenger.BarkBindName = "TriadRedArrow";
 			Check(class'UCVoice'.static.Profile(messenger, messenger.BindName) == "TriadRedArrow", "Tong Red Arrow guard retains its native bark actor");
@@ -160,7 +191,7 @@ function Timer()
 			tongGuard.BindName = "UCTongGuard";
 			tongGuard.BarkBindName = "TriadLumPath";
 			Check(class'UCVoice'.static.Profile(tongGuard, tongGuard.BindName) == "TriadLumPath", "Tong Luminous Path guard retains its native bark actor");
-			Check(class'UCVoice'.static.Find("Tong agreed to see you. That doesn't make you welcome.", class'UCVoice'.static.Profile(tongGuard, tongGuard.BindName)) != None, "Tong Luminous Path guard audio loads");
+			Check(class'UCVoice'.static.Find("One wrong move and you don't leave this place.", class'UCVoice'.static.Profile(tongGuard, tongGuard.BindName)) != None, "Tong Luminous Path guard audio loads");
 			tongGuard.Destroy();
 		}
 		commander = Spawn(class'MJ12Commando',, 'UCSPCommander', testPosition + vect(0,0,24));
@@ -176,7 +207,7 @@ function Timer()
 		{
 			prisoner.BindName = "UCPrisoner";
 			Check(class'UCVoice'.static.Profile(prisoner, prisoner.BindName) == "ScientistConsulting", "unarmed technician uses an isolated scientist voice");
-			Check(class'UCVoice'.static.Find("I'm unarmed! I'm not security!", class'UCVoice'.static.Profile(prisoner, prisoner.BindName)) != None, "prisoner plea audio loads");
+			Check(class'UCVoice'.static.Find("I'm unarmed!", class'UCVoice'.static.Profile(prisoner, prisoner.BindName)) != None, "prisoner plea audio loads");
 			prisoner.Destroy();
 		}
 		Check(tongGuard != None && commander != None && prisoner != None, "actual Tong assault roles spawned for voice checks");
@@ -191,7 +222,5 @@ function Timer()
 
 defaultproperties
 {
-	bHidden=True
-	bCollideActors=False
-	bCollideWorld=False
+     bHidden=True
 }

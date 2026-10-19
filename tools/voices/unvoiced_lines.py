@@ -29,7 +29,7 @@ def main():
             rows.append((name, m.group(1), m.group(2)))
         for m in re.finditer(r'Say\(\s*' + STR + r',\s*' + STR + r'\)', t):
             rows.append((name, m.group(1), m.group(2)))
-        if name == 'UCMod.uc':
+        if name == 'UCCampaign.uc':
             body = t[t.index('function string BarkLine'):t.index('function BarkTick')]
             for m in re.finditer(r'return ' + STR + ';', body):
                 if m.group(1):

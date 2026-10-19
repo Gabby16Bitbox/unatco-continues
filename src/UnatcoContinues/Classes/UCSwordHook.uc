@@ -16,7 +16,7 @@ function Trigger(Actor Other, Pawn EventInstigator)
 	if (P == None || P.FlagBase == None)
 		return;
 	P.FlagBase.SetBool('Have_Evidence', True,, 99);
-	P.FlagBase.SetBool('NoticedMJ12ChowConnection', True,, 99);
+	P.FlagBase.SetBool('UC_SwordCaseOpened', True,, 99);
 	P.FlagBase.SetBool('UC_SwordFound', True,, 99);
 	Log("UnatcoContinues: teca del Dragon's Tooth aperta");
 }

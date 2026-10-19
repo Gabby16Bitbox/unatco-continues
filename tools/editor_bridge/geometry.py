@@ -287,8 +287,14 @@ def plan(identity, expected_sha256, operations):
             if process.returncode:
                 raise ValueError('Mover surface correction failed: ' + str(log))
             fixer_logs.append(str(log))
-        editor.execute(folder, ['MAP LOAD FILE="..\\Output\\' + source.name + '"',
-            'MAP EXPORT FILE="..\\after.t3d"'], 'reload.log')
+        reload_commands=['MAP LOAD FILE="..\\Output\\' + source.name + '"']
+        for item in recipe:
+            if item['operation']=='scale':
+                reload_commands.append('UC_MOVER bounds '+item['actor']+' 1 1 1')
+        if fixer_logs:
+            reload_commands.append('MAP SAVE FILE="..\\Output\\'+source.name+'"')
+        reload_commands.append('MAP EXPORT FILE="..\\after.t3d"')
+        editor.execute(folder,reload_commands,'reload.log')
         report.update(verify_output(source, output, folder, recipe))
         if core.sha(current) != expected_sha256 or core.sha(source) != expected_sha256:
             raise ValueError('Input changed during native recipe')

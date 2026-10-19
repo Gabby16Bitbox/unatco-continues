@@ -5,8 +5,9 @@
 //  - un ufficiale MJ12 arriva di corsa da JC e lo manda all'ascensore, poi torna al posto;
 //  - il tetto dell'hangar si apre (SequenceTrigger vanilla 'hangar_open'), Jock decolla
 //    in verticale e se ne va (intanto l'ufficiale parla).
-// L'elicottero si muove a passi con SetLocation (collisioni spente): niente
-// dipendenza dai percorsi vanilla, pensati per la sequenza dei missili.
+// L'elicottero si muove con SetLocation (collisioni spente) a ogni fotogramma, in Tick: niente
+// dipendenza dai percorsi vanilla, pensati per la sequenza dei missili. (Prima a passi di 0.05 s
+// dal codice di stato: a 60+ fps vibrava. Gabby, 15 ott.)
 //=============================================================================
 class UCSceneHongKong extends UCScene;
 
@@ -15,6 +16,7 @@ var vector vel;
 var int heliStage;      // 0 a terra, 1 sale, 2 se ne va, 3 sparito
 var int officerStage;   // 0 corre da JC, 1 parla, 2 torna al posto, 3 fatto
 var float officerT, tickT;
+var bool bHeliRun;      // il decollo e' partito: l'elicottero si muove in Tick
 
 function BlackHelicopter Chopper()
 {
@@ -56,7 +58,7 @@ function ScriptedPawn Officer()
 }
 
 // L'ufficiale MJ12 corre verso JC (un passo davanti a lui); quando e' vicino
-// parte da solo il suo dialogo (UC_HKOfficer, per vicinanza: vedi UCMod).
+// parte da solo il suo dialogo (UC_HKOfficer, per vicinanza: vedi UCCampaign).
 function OfficerFollow()
 {
 	local DeusExPlayer P;
@@ -109,7 +111,7 @@ function bool OfficerHome()
 static function TongGoal(DeusExPlayer P)
 {
 	if (P != None && P.FindGoal('FindTracerTong') == None)
-		P.GoalAdd('FindTracerTong', "Locate Tracer Tong, a principal contact for Paul Denton and several terrorist organizations in the region. Find his base and establish who is protecting him before Tong is taken out.", True);
+		P.GoalAdd('FindTracerTong', "Locate Tracer Tong, a principal contact for Paul Denton and several terrorist organizations in the region. Find his base, verify the records and report his location from a secure terminal to request a transfer team.", True);
 }
 
 // L'elicottero: 3 secondi a terra col tetto che si apre, 5 di salita, 6 per andarsene.
@@ -128,7 +130,8 @@ function HeliTick(float dt)
 	}
 	if (heliStage == 1 || heliStage == 2)
 		Step(dt);
-	if (heliStage == 2 && t >= 14.0)
+	// removed only when JC does not see it (never vanishes in view), at the latest after 30 s
+	if (heliStage == 2 && t >= 14.0 && (!SeenByJC(Chopper()) || t >= 30.0))
 	{
 		heliStage = 3;
 		if (Chopper() != None)
@@ -154,7 +157,7 @@ function OfficerTick()
 		if (Talking())
 			return;
 		OfficerBack();
-		// JC chiama Simons (UCSceneSimonsBriefing, avviata da UCMod)
+		// JC chiama Simons (UCSceneSimonsBriefing, avviata da UCCampaign)
 		SetF('UC_HK_SimonsDue', True);
 		officerStage = 2;
 		officerT = 0;
@@ -166,6 +169,14 @@ function OfficerTick()
 			Officer().SetOrders('Standing', '', True);
 		officerStage = 3;
 	}
+}
+
+event Tick(float dt)
+{
+	if (!bHeliRun || heliStage >= 3)
+		return;
+	t += dt;
+	HeliTick(dt);
 }
 
 state Playing
@@ -184,8 +195,8 @@ Begin:
 	FireTag('hangar_open');
 	t = 0;
 	tickT = 0;
+	bHeliRun = True;
 Run:
-	HeliTick(0.05);
 	tickT += 0.05;
 	if (tickT >= 0.5)
 	{
@@ -193,7 +204,6 @@ Run:
 		OfficerTick();
 	}
 	Sleep(0.05);
-	t += 0.05;
 	if (heliStage < 3 || officerStage < 3)
 		Goto('Run');
 	Destroy();

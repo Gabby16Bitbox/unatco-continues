@@ -11,7 +11,7 @@
 //    automatici. Se ci arriva da solo, giocando (un'uscita vera), va bene uguale;
 //  - la scritta resta a schermo finche' Gabby non la toglie: tasto PagGiu' (uchide). La
 //    sostituisce solo la scritta del momento successivo, quando arriva;
-//  - UCMod crea questo attore in ogni mappa finche' il flag UC_Tour e' acceso.
+//  - UCCampaign crea questo attore in ogni mappa finche' il flag UC_Tour e' acceso.
 // Stato nei flag (viaggiano con JC): UC_TourStep = capitolo, UC_TourCues = scritte gia'
 // mostrate (un bit ciascuna). Nessun puntatore a giocatore/finestre fra un tick e l'altro.
 //=============================================================================
@@ -96,8 +96,8 @@ function bool Cue(int n, int i, out string trig, out string title, out string bo
 		case 60: body = "If Anna had to kill Lebedev herself, she says this instead:"; return True;
 		case 70: body = "If Anna is dead, a trooper guards the gate:"; return True;
 
-		case 80: body = "At Battery Park, Jock is waiting to take you to Hong Kong:"; return True;
-		case 81: trig = "flag:UC_Takeoff_Started"; body = "Next stop: Hong Kong."; return True;
+		case 80: body = "At Battery Park, Jock was supposed to fly you to Hong Kong:"; return True;
+		case 81: trig = "flag:UC_EvaGo"; body = "Next stop: Hong Kong."; return True;
 
 		case 90: body = "In Hong Kong the MJ12 helibase is not a trap any more:"; return True;
 		case 91: trig = "flag:UC_JockHK_Played"; body = "An officer comes to welcome you:"; return True;
@@ -112,9 +112,10 @@ function bool Cue(int n, int i, out string trig, out string title, out string bo
 		case 122: trig = "con:UC_MaxMeet"; body = "Max Chen tells you why he sent for you:"; return True;
 
 		case 130: body = "Later, Tracer Tong agrees to see you:"; return True;
-		case 131: trig = "con:UC_TongEvidence"; body = "He shows you what Paul found:"; return True;
-		case 132: trig = "flag:UC_TongAlarmRang"; body = "Then Special Projects arrives. You led them here:"; return True;
-		case 133: trig = "flag:UC_SimonsAfterTong"; title = "UNATCO CONTINUES"; body = "To be continued."; return True;
+		case 131: trig = "con:UC_TongEvidence"; body = "Read the manifest and Paul's copy at the computer; compare the records:"; return True;
+		case 132: trig = "flag:UC_TransferOrderReceived"; body = "You requested the team. Use the storeroom's service console to authorize its entry:"; return True;
+		case 133: trig = "flag:UC_SPEntryCrossed"; body = "Your opened access lets Special Projects enter."; return True;
+		case 134: trig = "flag:UC_SimonsAfterTong"; title = "UNATCO CONTINUES"; body = "To be continued."; return True;
 	}
 	return False;
 }

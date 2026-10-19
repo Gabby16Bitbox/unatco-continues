@@ -85,9 +85,28 @@ static int editMover(const char* line) {
         GEditor->csgPrepMovingBrush(mover);
         mover->Brush->LightMap = savedMaps;
         mover->Brush->BuildBound();
+    } else if (!strcmp(operation, "bounds")) {
+        // fix_brush_surfs corrects serialized planes and drops obsolete hulls.
+        // Build fresh native extent-collision hulls after that correction.
+        GEditor->bspBuildBounds(mover->Brush);
+        mover->Brush->BuildBound();
     } else return 0;
     printf("UCEditorHost|mover|%s|%s|%d\n", name, operation, mover->Brush->Polys->Element.Num());
     return 1;
+}
+
+// Incremental CSG invalidates zone/leaf caches. Finalize collision and visibility
+// without rebuilding world geometry or invoking the lighting solver.
+static int finishWorld(const char* line) {
+    if (strcmp(line, "UC_WORLD finish") || !GEditor->Level || !GEditor->Level->Model) return 0;
+    UModel* model = GEditor->Level->Model;
+    GEditor->bspRefresh(model, 1);  // Preserve surface indexes and baked lightmaps.
+    GEditor->TestVisibility(GEditor->Level, model, 0, 0);
+    GEditor->bspBuildBounds(model);
+    // Lighting preservation runs against verified serialized data afterward.
+    // Do not write FBspSurf memory through cross-version SDK header layouts.
+    printf("UCEditorHost|world-finish|%d nodes|%d zones\n", model->Nodes.Num(), model->NumZones);
+    return model->NumZones > 0;
 }
 
 int main(int argc, char** argv) {
@@ -121,7 +140,8 @@ int main(int argc, char** argv) {
         for (i=0; line[i]; i++) wide[i] = (unsigned char)line[i];
         wide[i] = 0;
         printf("UCEditorHost|command|%s\n", line); fflush(stdout);
-        int success = !strncmp(line, "UC_MOVER ", 9) ? editMover(line)
+        int success = !strncmp(line, "UC_WORLD ", 9) ? finishWorld(line)
+            : !strncmp(line, "UC_MOVER ", 9) ? editMover(line)
             : GEditor->Exec((const TCHAR*)wide, feedback);
         if (!success) {
             fprintf(stderr, "Unrecognized editor command\n");

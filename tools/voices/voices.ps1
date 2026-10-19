@@ -1,7 +1,7 @@
 # Uses Codex's bundled Python when the Windows Store Python launcher is unavailable.
 param(
     [Parameter(Position=0)]
-    [ValidateSet('list','generate','voices','class','design','samples','clone','direct','natural','refresh','build')]
+    [ValidateSet('list','generate','voices','class','design','samples','clone','direct','natural','rewrite','refresh','build')]
     [string]$Command = 'list',
     [Parameter(ValueFromRemainingArguments=$true)]
     [string[]]$ExtraArgs
@@ -20,6 +20,7 @@ if ($Command -eq 'samples') { $VoiceScript = 'prepare_samples.py'; $VoiceArgs = 
 if ($Command -eq 'clone') { $VoiceScript = 'clone_voices.py'; $VoiceArgs = $ExtraArgs }
 if ($Command -eq 'direct') { $VoiceScript = 'direct_voices.py'; $VoiceArgs = $ExtraArgs }
 if ($Command -eq 'natural') { $VoiceScript = 'natural_voices.py'; $VoiceArgs = $ExtraArgs }
+if ($Command -eq 'rewrite') { $VoiceScript = 'prepare_campaign_rewrite.py'; $VoiceArgs = $ExtraArgs }
 if ($Command -eq 'refresh') { $VoiceScript = 'refresh_dialogue.py'; $VoiceArgs = $ExtraArgs }
 if ($Command -eq 'build') { $VoiceScript = 'build_voice_snapshot.py'; $VoiceArgs = $ExtraArgs }
 & $VoicePython (Join-Path $PSScriptRoot $VoiceScript) @VoiceArgs

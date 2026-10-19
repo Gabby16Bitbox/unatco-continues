@@ -7,6 +7,10 @@ The first part is written by hand. The second part, **The script**, is generated
 mod's source code, so it is always exactly what the game plays. Voice recordings are not
 part of this repository; every line is shown as text.
 
+## Narrative revision of 6 October 2026
+
+The [6 October rewrite](CAMPAIGN_REWRITE_2026_10_06.md) is integrated in the current source: competing Triad offers, actual weapon custody, independent records, manual reports and the physical north entry. Work on the helipad is deferred. The script below is generated from these sources; [STATUS.md](STATUS.md) records build, installation and playtest coverage.
+
 ## Premise
 
 In the original game JC Denton leaves UNATCO in mission 4: whatever the player does at the
@@ -172,21 +176,16 @@ Two versions, chosen when the scene is set up. Gunther never has proof that JC k
 
 *- if Anna Navarre died on the 747:*  
 **Gunther Hermann:** Denton. Agent Navarre is dead. Your brother has betrayed UNATCO. And now I find you leaving his hotel.  
-**JC Denton:** He asked me to join him. I refused.  
-**Gunther Hermann:** But you did not arrest him.  
-**JC Denton:** I'm not stopping you.  
-**Gunther Hermann:** Manderley will hear about this. I do not forget the airfield.  
-**JC Denton:** Bring Paul in alive.  
-**Gunther Hermann:** Get out of the way.  
+**JC Denton:** I spoke to Paul.  
 
 *- otherwise:*  
 **Gunther Hermann:** Denton. You should be on your way to Hong Kong. Did you see Paul?  
 **JC Denton:** I spoke to him.  
-**Gunther Hermann:** He is wanted by UNATCO. Why is he not in custody?  
-**JC Denton:** He tried to recruit me. I turned him down.  
-**Gunther Hermann:** And then you left him here.  
-**JC Denton:** I'm not stopping you.  
-**Gunther Hermann:** Manderley will hear about this. Get out of the way.  
+
+*- in every case:*  
+**Gunther Hermann:** And you left him here.  
+**JC Denton:** He tried to recruit me. I refused.  
+**Gunther Hermann:** You should have arrested him. Manderley will hear about this. Get out of the way.  
 
 *Sets:* `GuntherKnowsJCMetPaul`, `GuntherReportedJCConduct`, `SpecialAgentsSeenAtTon`, `UC_PaulContactReportSent`, `GuntherTonEncounterPlayed`.
 
@@ -245,8 +244,8 @@ Starts when JC is close enough to hear it.
 *- in every case:*  
 **Special Agent:** Bedroom clear. No sign of the subject.  
 **Gunther Hermann:** Unglaublich! He was here. We came too late.  
-**Special Agent:** I'll report to Mr. Simons.  
-**Gunther Hermann:** Tell him we need men at the subway exits. Then check the alley.  
+**Special Agent:** I will report to Mr. Simons.  
+**Gunther Hermann:** Then check the alley. We need men at the subway exits.  
 
 *Sets:* `SimonsConnectionHinted`.
 
@@ -265,101 +264,42 @@ Overheard when JC passes the desk after the agent has taken his post.
 
 **After the search**, JC can question Gunther. One exchange per click, in this order; each plays once.
 
-#### If JC avoided Gunther outside (G07)
+#### Gunther, after the search
 
-*Conversation `UC_GuntherG07` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
+*Conversation `UC_GuntherRW1` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
 
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); `GuntherKnowsJCMetPaul` is false (not: Gunther knows JC spoke to Paul).
+Optional click. If JC avoided Gunther outside, the missing operational exchange plays here.
 
-**Gunther Hermann:** Denton. Were you here with Paul?  
-**JC Denton:** I spoke to him. He wanted me to join him. I refused.  
-**Gunther Hermann:** You left him free. Manderley will hear about this. Go to Hong Kong.  
+*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over).
 
-*Sets:* `GuntherKnowsJCMetPaul`, `UC_PaulContactReportSent`, `GuntherReportedJCConduct`.
-
-#### The reproach (G10)
-
-*Conversation `UC_GuntherReproach` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); `GuntherKnowsJCMetPaul` is true (Gunther knows JC spoke to Paul).
-
-**Gunther Hermann:** You spoke to him and walked away. Now we have to search the city.  
+*(if `GuntherKnowsJCMetPaul` is true (Gunther knows JC spoke to Paul), skip to **[Reproach]**)*  
+**Gunther Hermann:** Were you here with Paul?  
+**JC Denton:** I spoke to Paul.  
+**[Reproach]**  
+**Gunther Hermann:** You spoke to him and walked away. Now we search the city.  
 **JC Denton:** I didn't help him escape.  
 **Gunther Hermann:** You did nothing to stop him.  
 
-#### G11
+*Sets:* `GuntherKnowsJCMetPaul`, `UC_PaulContactReportSent`, `GuntherReportedJCConduct`.
 
-*Conversation `UC_GuntherG11` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
+#### Paul's channels and the assignment
 
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); `GuntherKnowsJCMetPaul` is true (Gunther knows JC spoke to Paul).
+*Conversation `UC_GuntherRW2` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
 
-**Gunther Hermann:** Did you warn him we were coming?  
-**JC Denton:** I didn't know you were coming.  
-**Gunther Hermann:** He knows our methods. That will not save him.  
+Optional second click.
 
-#### G12 - who the agents are
+*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); `UC_GuntherRW1_Played` is true.
 
-*Conversation `UC_GuntherG12` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over).
-
-**JC Denton:** Who are the men with you?  
-**Gunther Hermann:** Mr. Simons sent them. They are supposed to assist with the arrest.  
-**JC Denton:** Are they UNATCO?  
-**Gunther Hermann:** They have clearance. That is all I was told.  
-
-*Sets:* `SimonsConnectionHinted`.
-
-#### G13 - who gave the address
-
-*Conversation `UC_GuntherG13` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over).
-
-**JC Denton:** Who told you Paul was here?  
-**Gunther Hermann:** Command gave me the address.  
-**JC Denton:** Did they say who saw him?  
-**Gunther Hermann:** No. The report was correct. They should have sent it sooner.  
-
-#### G14 - Paul's claim (Anna alive)
-
-*Conversation `UC_GuntherG14` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); otherwise.
-
-**JC Denton:** Paul thinks UNATCO has been compromised.  
-**Gunther Hermann:** He swore to serve the Coalition. Then he joined the NSF. That is what I know about your brother.  
-**JC Denton:** You won't even look at what he found?  
-**Gunther Hermann:** He gave information to our enemies. I do not need his explanation for that.  
-
-#### G16 - the airfield (Anna died on the 747)
-
-*Conversation `UC_GuntherG16` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-Replaces G14.
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); if Anna Navarre died on the 747 and Manderley debriefed JC after the airfield.
-
-**Gunther Hermann:** You were sent into that aircraft. Agent Navarre did not come back. You still owe me an explanation.  
-**JC Denton:** I gave Manderley my report.  
-**Gunther Hermann:** I will find out what happened, Denton. Do not think this is over.  
-
-#### G15
-
-*Conversation `UC_GuntherG15` - cinematic dialogue; when JC talks to Gunther Hermann; plays once.*
-
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over).
-
-**JC Denton:** You still want this assignment?  
-**Gunther Hermann:** Yes. I warned them about Paul, and they waited. Again I am sent after he has gone.  
-**JC Denton:** What now?  
-**Gunther Hermann:** Now I find him. You have your own orders.  
+**JC Denton:** Paul says UNATCO is compromised.  
+**Gunther Hermann:** His clearance is revoked. He gave classified information to the NSF and ran.  
+**Gunther Hermann:** If he had evidence, he had channels. He chose terrorists.  
+**Gunther Hermann:** Put whatever he showed you in your report. Then go to Hong Kong.  
 
 #### G17 - repeat line
 
 *Conversation `UC_GuntherG17` - overheard (first person, no camera); started by the scene script; repeatable.*
 
-*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over).
+*Only if:* `GuntherTonSearchComplete` is true (the search of Paul's room is over); `UC_GuntherRW2_Played` is true.
 
 **Gunther Hermann:** Go to Hong Kong, Denton.  
 
@@ -386,13 +326,22 @@ the subway to Battery Park open for UNATCO personnel. One trooper recognises JC.
 **JC Denton:** Looking for Paul?  
 **UNATCO Trooper:** Among others.  
 
+#### Jock calls from Battery Park (InfoLink)
+
+*InfoLink (one-way: only the caller speaks), `UCSceneJockStreet`.*
+
+As soon as JC is out of the 'Ton and walking the street towards the subway, after Gunther (or after the window exit). Jock is still calm, just uneasy: men in suits around the park. New goal: meet Jock in Battery Park, fast.
+
+**Jock:** JC, it's Jock. I'm on the pad at Battery Park, rotors warm.  
+**Jock:** Something's off down here. Cars I don't know, guys in suits walking the park like they own it.  
+**Jock:** I don't like it. Grab the subway and get here fast. We need to be in the air.  
+
 #### Patrol lines
 
 *Friendly UNATCO troopers say one of these when JC walks by.*
 
 - "They've got every unit in Manhattan looking for your brother."
 - "Didn't expect to see you here, Agent Denton."
-- "Your pilot's waiting past the fort, Agent Denton."
 - "Heard you're shipping out to Hong Kong. Good luck."
 
 ### The subway gate
@@ -553,132 +502,356 @@ He does not know who killed Anna and does not mention the 747.
 
 ### 5. Battery Park
 
-Jock waits in the helicopter. JC resumes the assignment he had before Paul: Hong Kong.
+JC was supposed to fly to Hong Kong with Jock. Jock calls as JC comes up from the subway and is
+shot mid-call by the Men in Black (shown as "Special Agent"), who hold his helicopter with the police at the
+perimeter. His body lies under a tarp behind the vine wall, with Paul's datacube and his flask: finding it is
+optional and unlocks the confrontation. The agent who shot him guards it, pistol in hand, and walks up to JC to
+send him away. A replacement pilot, Eva, flies JC out: she lands at a flare in the clearing south of the
+subway, coming down only when JC comes near. Flags for Missions 6/7: UC_JockDead,
+UC_BP_JockBodyFound, UC_BP_PaulCubeRead, UC_BP_MIBConfronted, UC_BP_EvaWallLine.
 
-#### Jock (first talk)
+#### Jock's call, cut by the gunshot (InfoLink)
 
-*Conversation `UC_JockBP` - cinematic dialogue; starts by itself when JC comes within 620 units of Jock (or when JC talks to Jock); plays once.*
+*InfoLink (one-way: only the caller speaks), `UCSceneBatteryPark`.*
 
-**Jock:** Where's Paul?  
-**JC Denton:** He's not coming.  
-**Jock:** Couldn't convince him?  
-**JC Denton:** He couldn't convince me.  
-**Jock:** So what now?  
-**JC Denton:** Hong Kong.  
-**Jock:** You're still going after Tong.  
-**JC Denton:** Those are my orders.  
-**Jock:** Yeah.  
-**Jock:** All right. Get in.  
-*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
-**[Ready]**  
-**JC Denton:** Let's go.  
+Automatic a second and a half after JC is out of the subway kiosk. When the call ends JC hears the gunshot; the pad is out of sight until JC rounds the vine wall, so nobody sees it. A player who runs to the pad cuts the call: the shot comes at once. New goal: reach Jock's helicopter.
+
+**Jock:** JC! Thank God. Listen, I'm at the pad, there's cops all over the chopper--  
+**Jock:** They pulled me out of the cockpit. Said it's routine. It's not routine, JC, they've got guys in suits with them--  
+**Jock:** [muffled] Hey, I'm talking to an agent, you can't-- [muffled] What are you doing with that--  
+
+#### A bum at the barrel fire north of the pad, before the shot
+
+*Conversation `UC_BPBumBefore` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_JockDead` is false.
+
+**Bum:** Cold night, friend. Cops everywhere tonight.  
+
+#### The bum, after the shot
+
+*Conversation `UC_BPBum` - overheard (first person, no camera); started by the scene script; plays once.*
+
+Said as JC passes, once; it points behind the wall.
+
+*Only if:* `UC_JockDead` is true.
+
+**Bum:** Heard a shot by the chopper. Then them suits dragged somebody off south, behind the wall. I ain't seen nothing, friend.  
+
+#### The bum, clicked again
+
+*Conversation `UC_BPBumMore` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_BPBum_Played` is true.
+
+**Bum:** Told you what I heard. I ain't seen nothing else.  
+
+#### Police at the end of the vine wall
+
+*Conversation `UC_BPCop1` - overheard (first person, no camera); started by the scene script; plays once.*
+
+Said as JC passes, once.
+
+**Police Officer:** Feds took over. We're just holding the tape.  
+
+#### The same officer, clicked again
+
+*Conversation `UC_BPCop1More` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_BPCop1_Played` is true.
+
+**Police Officer:** Talk to the suits, Agent. It's their show.  
+
+#### Police at the plaza
+
+*Conversation `UC_BPCop2` - overheard (first person, no camera); started by the scene script; plays once.*
+
+Said as JC passes, once.
+
+**Police Officer:** Since when do feds wear sunglasses at night?  
+
+#### The same officer, clicked again
+
+*Conversation `UC_BPCop2More` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_BPCop2_Played` is true.
+
+**Police Officer:** Keep moving, sir. Nothing for you here.  
+
+#### The agent who shot Jock, as JC comes round the vine wall
+
+*Conversation `UC_BPShooterStop` - overheard (first person, no camera); started by the scene script; plays once.*
+
+He walks up to JC, pistol in hand.
+
+*Only if:* `UC_BP_JockBodyFound` is false.
+
+**Special Agent (the shooter):** Nothing to see here, Denton.  
+
+#### The same agent, if JC goes on to the body
+
+*Conversation `UC_BPShooterBack` - overheard (first person, no camera); started by the scene script; plays once.*
+
+*Only if:* `UC_BPShooterStop_Played` is true; `UC_BP_JockBodyFound` is false.
+
+**Special Agent (the shooter):** Your mission is at the helicopter, Agent. Get back to it.  
+
+#### The same agent, clicked again before the body
+
+*Conversation `UC_BPShooterMore` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_BPShooterBack_Played` is true; `UC_BP_JockBodyFound` is false.
+
+**Special Agent (the shooter):** Move along, Agent.  
+
+#### The same agent, once JC has seen the body
+
+*Conversation `UC_BPShooterBody` - overheard (first person, no camera); started by the scene script; plays once.*
+
+*Only if:* `UC_BP_JockBodyFound` is true.
+
+**Special Agent (the shooter):** He was a terrorist, Denton. Go to work.  
+
+#### The same agent, clicked again after the body
+
+*Conversation `UC_BPShooterBodyMore` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_BPShooterBody_Played` is true.
+
+**Special Agent (the shooter):** Go to work, Agent Denton.  
+
+#### The Special Agents at the helicopter
+
+*Conversation `UC_BPAgents1` - cinematic dialogue; starts by itself when JC comes within 260 units of Special Agent (or when JC talks to Special Agent); plays once.*
+
+Starts when JC comes near.
+
+*Only if:* `UC_JockDead` is true; `UC_BP_MIBMet` is false.
+
+**Special Agent:** Agent Denton. The pilot has been neutralized.  
+*JC can answer:* "Neutralized. Is he alive?" (go to **[Alive]**)  
+*JC can answer:* "On whose orders?" (go to **[Orders]**)  
+*JC can answer:* "I'll wait." (go to **[Wait]**)  
+**[Alive]**  
+**JC Denton:** Neutralized. Is he alive?  
+**Special Agent:** ...  
+*(end)*  
+**[Orders]**  
+**JC Denton:** On whose orders?  
+**Special Agent:** Yours are to stand by. Your transport has been reassigned.  
 *(end)*  
 **[Wait]**  
-**JC Denton:** Give me a minute.  
-**Jock:** Make it fast.  
+**JC Denton:** I'll wait.  
+**Special Agent:** Correct.  
 
-*Sets:* `UC_JockGo`.
+*Sets:* `UC_BP_MIBMet`.
 
-#### Jock (if JC asked for a minute)
+#### The agents again, before the body
 
-*Conversation `UC_JockBPExtra` - cinematic dialogue; starts by itself when JC comes within 560 units of Jock (or when JC talks to Jock); plays once.*
+*Conversation `UC_BPAgentsAgain1` - cinematic dialogue; when JC talks to owner; plays once.*
 
-*Only if:* `UC_JockBP_Played` is true.
+*Only if:* `UC_BP_MIBMet` is true; `UC_BP_JockBodyFound` is false; `UC_BP_EvaLanded` is false.
 
-**Jock:** Paul put a lot on the line getting that information.  
-**JC Denton:** That doesn't make him right.  
-**Jock:** No.  
-**Jock:** Guess it doesn't.  
-*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
-**[Ready]**  
-**JC Denton:** Let's go.  
+**Special Agent:** Stand by, Agent Denton.  
+
+#### The agents, any later time
+
+*Conversation `UC_BPAgentsAgain2` - cinematic dialogue; when JC talks to owner; repeatable.*
+
+*Only if:* `UC_BPAgentsAgain1_Played` is true; `UC_BP_JockBodyFound` is false; `UC_BP_EvaLanded` is false.
+
+**Special Agent:** There is nothing here for you.  
+
+#### The confrontation, only after the body
+
+*Conversation `UC_BPAgentsWall` - cinematic dialogue; starts by itself when JC comes within 260 units of Special Agent (or when JC talks to Special Agent); plays once.*
+
+The last answer appears only if JC read the datacube. Nothing he says changes anything.
+
+*Only if:* `UC_BP_JockBodyFound` is true.
+
+**Special Agent:** You went behind the wall, Agent Denton.  
+*JC can answer:* "He was one of ours. You shot him and hid him behind a wall." (go to **[Ours]**)  
+*JC can answer:* "Who gave the order? Manderley? Simons?" (go to **[Order]**)  
+*JC can answer:* "He was a pilot, not a terrorist." (go to **[Pilot]**) - only if `UC_BP_PaulCubeRead` is false  
+*JC can answer:* "He flew Paul out. You could have arrested him." (go to **[Arrest]**) - only if `UC_BP_PaulCubeRead` is true  
+**[Ours]**  
+**JC Denton:** He was one of ours. You shot him and hid him behind a wall.  
+**Special Agent:** Pilot Flanagan assisted a fugitive. The matter is closed.  
+*(go to **[Close]**)*  
+**[Order]**  
+**JC Denton:** Who gave the order? Manderley? Simons?  
+**Special Agent:** The order was given. That is sufficient.  
+*(go to **[Close]**)*  
+**[Pilot]**  
+**JC Denton:** He was a pilot, not a terrorist.  
+**Special Agent:** He chose a side. You chose another. We noted both.  
+*(go to **[Close]**)*  
+**[Arrest]**  
+**JC Denton:** He flew Paul out. You could have arrested him.  
+**Special Agent:** Arrests generate records, Agent Denton.  
+**[Close]**  
+**Special Agent:** Your loyalty has been noted. Do not give us reason to note anything else.  
+
+*Sets:* `UC_BP_MIBMet`, `UC_BP_MIBConfronted`.
+
+#### Alex, cut off by Simons (InfoLink)
+
+*InfoLink (one-way: only the caller speaks), `UCSceneBatteryPark`.*
+
+After the first talk with the agents; the replacement helicopter flies in over the bay meanwhile and holds high over the clearing south of the subway. It comes down when JC comes near.
+
+**Alex Jacobson:** JC... I just heard about Jock. I don't-- He was--  
+**Walton Simons:** Agent Jacobson, clear this channel.  
+**Alex Jacobson:** ...Yes, sir.  
+**Walton Simons:** Agent Denton. A replacement pilot is inbound. Hong Kong hasn't moved. Neither has your target.  
+
+#### The Special Agent with the flare, at the clearing
+
+*Conversation `UC_BPFlareAgent1` - overheard (first person, no camera); when JC talks to UCSpecialAgent4; plays once.*
+
+A fourth agent marks the landing zone: when JC comes near he strikes a flare and holds it up high, arm straight. Clicked, he sends JC on.
+
+**UCSpecialAgent4:** The helicopter, Agent Denton. Move. Don't waste our time.  
+
+#### The same agent, clicked again
+
+*Conversation `UC_BPFlareAgent2` - overheard (first person, no camera); when JC talks to UCSpecialAgent4; repeatable.*
+
+*Only if:* `UC_BPFlareAgent1_Played` is true.
+
+**UCSpecialAgent4:** Move, Agent.  
+
+#### The agents, after Simons's call, until Eva has landed
+
+*Conversation `UC_BPAgentsPilot` - cinematic dialogue; when JC talks to owner; repeatable.*
+
+Where the new pilot is setting down, if JC asks.
+
+*Only if:* `UC_BP_EvaCall` is true; `UC_BP_EvaLanded` is false.
+
+*JC can answer:* "Where is it setting down?" (go to **[Where]**)  
+*JC can answer:* "Understood." (go to **[Ok]**)  
+**[Where]**  
+**JC Denton:** Where is it setting down?  
 *(end)*  
-**[Wait]**  
-**JC Denton:** Give me a minute.  
-**Jock:** Make it fast.  
+**[Ok]**  
+**JC Denton:** Understood.  
 
-*Sets:* `UC_JockGo`.
+#### Eva at the helicopter door
 
-#### Jock (ready to leave)
+*Conversation `UC_BPEva` - cinematic dialogue; when JC talks to Eva; plays once.*
 
-*Conversation `UC_JockBPReady` - cinematic dialogue; starts by itself when JC comes within 560 units of Jock (or when JC talks to Jock); repeatable.*
+JC clicks the helicopter. The extra answer needs the body found. Every answer ends with the takeoff.
 
-*Only if:* `UC_JockBP_Played` is true; `UC_JockBPExtra_Played` is true.
-
-**Jock:** Ready?  
-*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
-**[Ready]**  
-**JC Denton:** Let's go.  
+**Eva:** Strand. I'm your pilot now.  
+*JC can answer:* "You knew Jock?" (go to **[Knew]**)  
+*JC can answer:* "That was fast." (go to **[Fast]**) - only if `UC_BP_JockBodyFound` is false  
+*JC can answer:* "They left him behind a wall." (go to **[Wall]**) - only if `UC_BP_JockBodyFound` is true  
+*JC can answer:* "[Get in without a word]" (go to **[Silent]**)  
+**[Knew]**  
+**JC Denton:** You knew Jock?  
+**Eva:** I know his file. Get in.  
 *(end)*  
-**[Wait]**  
-**JC Denton:** Give me a minute.  
-**Jock:** Make it fast.  
+**[Fast]**  
+**JC Denton:** That was fast.  
+**Eva:** I was told to be ready. Get in.  
+*(end)*  
+**[Wall]**  
+**JC Denton:** They left him behind a wall.  
+**Eva:** ... Then don't give them a reason to do the same with you.  
+*(end)*  
+**[Silent]**  
 
-*Sets:* `UC_JockGo`.
+*Sets:* `UC_EvaGo`, `UC_BP_EvaWallLine`.
 
 ## Part II - Hong Kong
 
-### 6. The helibase
+### 6. Civilian rooftop and freight arrival
 
-In the original game the helibase is an MJ12 trap for a fugitive. Here JC is a UNATCO
-agent on duty: no alarm, no assault team, the blast doors are open. The base calls itself
-"Special Projects"; nobody explains Majestic 12 to him.
+Eva lands on a civilian Wan Chai roof temporarily requisitioned by
+Coalition Special Projects. The original MJ12 helibase is a separate later site. A physical freight lift
+connects the roof to the service yard through a matching cabin and map transition.
 
-#### Jock, on landing
+#### Eva, the new pilot, on landing
 
-*Conversation `UC_JockHK` - cinematic dialogue; starts by itself when JC comes within 640 units of Jock (or when JC talks to Jock); plays once.*
+*Conversation `UC_EvaRooftop` - cinematic dialogue; starts by itself when JC comes within 680 units of Eva (or when JC talks to Eva); plays once.*
 
-**Jock:** Looks like they cleared us.  
-**JC Denton:** Who?  
-**Jock:** Hong Kong operations.  
-**JC Denton:** You've been here before.  
-**Jock:** I've landed here before.  
-**JC Denton:** There's a difference?  
-**Jock:** In this business? Usually.  
+**Eva:** Harbourline Tower. I'm dropping you here and staying with the chopper.  
+**JC Denton:** Copy that.  
+**Eva:** My orders are to log when you come back. And who with.  
+**JC Denton:** Simons' orders?  
+**Eva:** Orders. Get out, Denton.  
 
-#### The welcoming officer (H01-H05)
+#### Eva, if JC goes back to her
 
-*Conversation `UC_HKOfficer` - cinematic dialogue; starts by itself when JC comes within 220 units of MJ12 Officer (or when JC talks to MJ12 Officer); plays once.*
+*Conversation `UC_EvaRooftopAgain` - cinematic dialogue; when JC talks to Eva; plays once.*
 
-He runs to JC as soon as Jock has finished. The middle of the exchange depends on what JC already knows about Majestic 12.
+*Only if:* `UC_EvaRooftop_Played` is true.
 
-**MJ12 Officer:** Agent Denton. Welcome to Hong Kong.  
-**JC Denton:** Who's in charge here?  
-**MJ12 Officer:** Special Projects handles this facility.  
-*(if `UC_HeardLebedevMJ12` is true (JC heard Lebedev name Majestic 12), skip to **[H02]**)*  
-*(if `UC_MJ12NameKnown` is true (JC knows the name Majestic 12), skip to **[H03]**)*  
-**JC Denton:** MJ12. What is that?  
-**MJ12 Officer:** Special Projects. This facility operates under Coalition authority.  
-*(go to **[H05]**)*  
-**[H02]**  
-**JC Denton:** MJ12. Lebedev mentioned Majestic 12.  
-**MJ12 Officer:** This facility operates under Coalition authority. Further details are classified.  
-*(go to **[H05]**)*  
-**[H03]**  
-**JC Denton:** MJ12. Majestic 12?  
-**MJ12 Officer:** Special Projects. This facility operates under Coalition authority.  
-**[H05]**  
-**JC Denton:** Part of UNATCO?  
-**MJ12 Officer:** Your clearance covers the transit level. Mr. Simons will brief you on the assignment.  
+**Eva:** I've got nothing to say to you, Denton.  
 
-#### The officer, repeat line
+#### Eva, the second time
 
-*Conversation `UC_HKOfficerAgain` - cinematic dialogue; when JC talks to MJ12 Officer; repeatable.*
+*Conversation `UC_EvaRooftopLast` - cinematic dialogue; when JC talks to Eva; repeatable.*
 
-*Only if:* `UC_HKOfficer_Played` is true.
+*Only if:* `UC_EvaRooftopAgain_Played` is true.
 
-**MJ12 Officer:** The lift at the far end of the hangar, Agent Denton. It will take you down to the market.  
+**Eva:** Go. It's your brother's clock that's running, not mine.  
+
+#### The liaison at the checkpoint
+
+*Conversation `UC_RoofLiaison` - cinematic dialogue; starts by itself when JC comes within 180 units of Special Projects Liaison (or when JC talks to Special Projects Liaison); plays once.*
+
+No early Majestic 12 explanation.
+
+**Special Projects Liaison:** Agent Denton? Hong Kong Operations. Your briefing is downstairs.  
+**JC Denton:** UNATCO?  
+**Special Projects Liaison:** Coalition Special Projects.  
+**JC Denton:** Never heard of it.  
+**Special Projects Liaison:** Most people haven't. Use the freight lift beyond the checkpoint.  
+
+*Sets:* `UC_RoofLiaisonMet`.
 
 #### Simons' briefing (InfoLink I01 / I02)
 
 *InfoLink (one-way: only the caller speaks), `UCSceneSimonsBriefing`.*
 
-One-way InfoLink: only the caller speaks. It starts right after the officer. The single-line version is the recovery if JC changed map before the briefing ended.
+One-way InfoLink: only the caller speaks. It starts near the freight lift. The single-line version is the recovery if JC changed map before the briefing ended.
 
-*(recovery version, in place of the three lines below)* **Walton Simons:** Denton. Your orders are to locate Tracer Tong and identify his network. Start with Maggie Chow. Special Projects has cleared you to proceed.  
-**Walton Simons:** Denton. Special Projects personnel in Hong Kong have been instructed to cooperate with your investigation. Manderley's orders remain in effect: locate Tracer Tong and identify the people protecting him before you move against him.  
-**Walton Simons:** Tong has survived this long because very few outsiders know where he operates. Start with Maggie Chow. She has contacts with both Triads and has cooperated with Coalition interests in the past.  
-**Walton Simons:** Find Tong's network. Once we know where he is, we'll decide how to proceed.  
+*(recovery version, in place of the three lines below)* **Walton Simons:** Start with the Red Arrow. Your objective remains Tracer Tong.  
+**Walton Simons:** Denton. Tong's network intersects with both Triads, but most of the commercial traffic passes through Wan Chai. Special Projects has been monitoring several contacts in the district.  
+**Walton Simons:** Start with the Red Arrow. Establish who is moving material for Tong and identify a route into the Luminous Path.  
+**Walton Simons:** Your objective remains Tracer Tong.  
+
+#### The liaison in the loading yard
+
+*Conversation `UC_YardBriefing` - cinematic dialogue; starts by itself when JC comes within 200 units of Special Projects Liaison (or when JC talks to Special Projects Liaison); plays once.*
+
+*Only if:* `UCHongKongRaidStarted` is false.
+
+**Special Projects Liaison:** We have a convoy moving through the service yard. Your local intelligence package is being transferred with it.  
+**JC Denton:** What's in the shipment?  
+**Special Projects Liaison:** Restricted equipment.  
+**JC Denton:** For the Tong operation?  
+**Special Projects Liaison:** Among other things.  
+**JC Denton:** You people like that phrase.  
+
+*Sets:* `UC_YardBriefingHeard`.
+
+*(conversation `UC_CargoRaidBark` is no longer in the code)*
+
+#### The liaison after the diversion
+
+*Conversation `UC_YardAfter` - cinematic dialogue; when JC talks to Special Projects Liaison; repeatable.*
+
+*Only if:* `UCHongKongRaidResolved` is true.
+
+**Special Projects Liaison:** They were going for the secured case. The local investigation is still your assignment.  
+**JC Denton:** What was worth the risk?  
+**Special Projects Liaison:** That equipment is restricted. Find Tong. He can explain why his people want it.  
+
+*(conversation `UC_WoundedRaider` is no longer in the code)*
 
 ### 7. Wan Chai market
 
@@ -688,15 +861,18 @@ Same Hong Kong, reversed relations: to the Triads JC is a UNATCO agent, not a fu
 
 *Conversation `UC_Messenger` - cinematic dialogue; when JC talks to Red Arrow Messenger; plays once.*
 
-He stands in the corridor outside the freight lift and speaks when JC walks past. Optional: everything he says can be learned elsewhere.
+He arrives at the exit toward the Market after the cargo raid and speaks when JC walks past. Optional: everything he says can be learned elsewhere.
 
 **Red Arrow Messenger:** Denton?  
 **JC Denton:** Who's asking?  
-**Red Arrow Messenger:** Someone who knows why you're here. Max Chen wants to see you at the Lucky Money.  
+**Red Arrow Messenger:** Max Chen. He wants to see you before you speak to Miss Chow.  
 **JC Denton:** Why?  
-**Red Arrow Messenger:** Ask him.  
+*(if `UCHongKongRooftopArrival` is false, skip to **[OldMessage]**)*  
+**Red Arrow Messenger:** Because Maggie Chow will tell you this was about Tong. Max thinks it was about the cargo.  
+**[OldMessage]**  
+**Red Arrow Messenger:** Ask him. The Lucky Money.  
 
-*Sets:* `RedArrowMessengerContacted`, `MaxChenMeetingAvailable`.
+*Sets:* `RedArrowMessengerContacted`, `MaxChenMeetingAvailable`, `UC_HK_MessengerDone`.
 
 #### The messenger, repeat line
 
@@ -716,9 +892,9 @@ Max Chen sent for JC, so nobody asks him for the entry fee and someone takes him
 
 Two "government agents" lean on a Red Arrow at the entrance and leave when JC approaches. A hint, not a fight.
 
-**Government Agent:** The shipment was received. Chen accepted the money.  
-**Red Arrow:** Max never asked for the shipment.  
-**Second Government Agent:** He accepted the money.  
+**Government Agent:** The payment cleared.  
+**Red Arrow:** Max didn't authorize the shipment.  
+**Second Government Agent:** He accepted the transfer.  
 **Government Agent:** We'll continue this later.  
 
 #### The Red Arrow who takes JC to Max
@@ -767,63 +943,92 @@ The same Red Arrow. Then he leads the way: running through the club, walking in 
 
 #### Max Chen (first meeting)
 
-*Conversation `UC_MaxMeet` - cinematic dialogue; starts by itself when JC comes within 190 units of Max Chen (or when JC talks to Max Chen); plays once.*
+*Conversation `UC_MaxMeet` - cinematic dialogue; starts by itself when JC comes within 190 units of Max Chen (or when JC talks to Max Chen); repeatable.*
 
-Max speaks first and says why he sent for JC: he wanted to see him before Maggie Chow did.
+Max offers a transaction. JC can investigate, decline, or take the evidence directly to Gordon.
 
-*Only if:* `Have_Evidence` is false (not: JC found the Dragon's Tooth in Maggie Chow's apartment).
+*Only if:* `UC_MaxDealOffered` is false.
 
-**Max Chen:** Mr. Denton. I wanted to see you before the others do.  
-**JC Denton:** What others?  
-**Max Chen:** A UNATCO agent arrives in Hong Kong looking for Tracer Tong. Many people will want to tell him where to look.  
-**JC Denton:** And you?  
-**Max Chen:** I will tell you where not to look. This is the headquarters of the Red Arrow Triad. Mr. Tong works with the Luminous Path.  
-**JC Denton:** And Maggie Chow?  
-**Max Chen:** Miss Chow has interests everywhere. The Red Arrow, VersaLife, the police... perhaps even UNATCO.  
-**JC Denton:** She knows I'm coming.  
-**Max Chen:** Yes. That is why I sent for you first.  
+*(if `UCHongKongRaidStarted` is false, skip to **[OldArrival]**)*  
+**Max Chen:** Mr. Denton. You arrive with government men, and within minutes the Luminous Path is shooting at them.  
+**JC Denton:** They attacked a shipment.  
+**Max Chen:** Yes. A shipment Maggie Chow arranged through Red Arrow channels.  
+**JC Denton:** What was in it?  
+**Max Chen:** If I knew that, I would not need you. Yuen Kong wanted those transfers stopped. Now he is dead, and the Dragon's Tooth is missing.  
+*(go to **[Suspect]**)*  
+**[OldArrival]**  
+**Max Chen:** Mr. Denton. You want Tong. I want this war finished.  
+**JC Denton:** What's the connection?  
+**Max Chen:** Miss Chow. Yuen Kong went to Queen's Tower to question her about the attacks. He never returned.  
+**[Suspect]**  
+**JC Denton:** That makes her a suspect.  
+**Max Chen:** The Dragon's Tooth passed through the same building. The Luminous Path claims they never took it.  
+**JC Denton:** And you believe them?  
+**Max Chen:** I believe someone benefits while we kill each other.  
+**Max Chen:** Bring me the sword and evidence of what happened to Yuen Kong. Then I will arrange a meeting with Gordon Quick.  
+**JC Denton:** You're asking a UNATCO agent to rob Maggie Chow.  
+**Max Chen:** I am asking Paul Denton's brother how badly he wants to find Tong.  
+*JC can answer:* "I'll investigate. No promise to deliver the weapon." (go to **[Investigate]**) or "I want information, not a job." (go to **[Decline]**)  
+**[Investigate]**  
+**JC Denton:** I'll look into Chow. I haven't agreed to hand you a weapon.  
+**Max Chen:** Then investigate. We will discuss the weapon when you have it.  
+*(end)*  
+**[Decline]**  
+**JC Denton:** I want information, not a job.  
+**Max Chen:** Then ask Miss Chow why Yuen Kong never came home.  
 
-*Sets:* `MeetMaxChen_Played`, `KnowsAboutTriads`.
+*Sets:* `UC_MaxDealOffered`, `MeetMaxChen_Played`, `KnowsAboutTriads`.
+
+#### Max, while JC investigates
+
+*Conversation `UC_MaxWait` - cinematic dialogue; when JC talks to Max Chen; repeatable.*
+
+*Only if:* `UC_MaxDealOffered` is true; `UC_SwordGivenMax` is false.
+
+**Max Chen:** Bring me the sword and evidence of what happened to Yuen Kong. Then I will arrange a meeting with Gordon Quick.  
 
 ### 9. Queen's Tower
 
 #### Maggie Chow
 
-*Conversation `UC_MaggieMeet` - cinematic dialogue; starts by itself when JC comes within 120 units of Maggie Chow (or when JC talks to Maggie Chow); plays once.*
+*Conversation `UC_MaggieMeet` - cinematic dialogue; starts by itself when JC comes within 120 units of Maggie Chow (or when JC talks to Maggie Chow); repeatable.*
 
-**Maggie Chow:** Mr. J. C. Denton... in the flesh. As dark and serious as his brother.  
-**JC Denton:** You knew him?  
-**Maggie Chow:** Everyone who dealt seriously with Tracer Tong knew Paul eventually. He spent a great deal of time in Hong Kong before UNATCO realized where his loyalties had shifted.  
-**JC Denton:** That's not what I asked.  
-**Maggie Chow:** Yes. I knew him.  
-**Maggie Chow:** Paul came here looking for evidence that UNATCO was conspiring against him. Tong gave him exactly what he wanted to hear. That's what Tong does.  
-**Maggie Chow:** He finds intelligent people who already distrust authority and convinces them that only he understands the truth.  
-**JC Denton:** Paul didn't need much encouragement.  
-**Maggie Chow:** Perhaps not. But Tong gave him contacts, protection and a cause. Look at the result. Your brother abandoned his career, his friends and his own government.  
-**JC Denton:** What does that have to do with the Triads?  
-**Maggie Chow:** Everything. The Red Arrow and Luminous Path were once capable of doing business together. Since Tong became involved, every disagreement has become ideological.  
-**Maggie Chow:** Weapons disappear, shipments are attacked, people die, and Tong remains safely hidden while everyone else pays the price.  
+*Only if:* `UC_MaggieRWPlayed` is false.
+
+**Maggie Chow:** Mr. Denton. Mr. Simons said you would be coming.  
+**JC Denton:** I'm looking for Tong.  
+**Maggie Chow:** Then you need Gordon Quick. Unfortunately, his people are keeping the Triads at war.  
+**JC Denton:** Over the Dragon's Tooth.  
+**Maggie Chow:** A weapon the Luminous Path stole. Recover it, and I can persuade the Red Arrow to negotiate.  
 *(if `MeetMaxChen_Played` is true (JC met Max Chen), skip to **[MaxMet]**)*  
-**JC Denton:** Simons says you have contacts with both sides.  
-*(go to **[Sword]**)*  
+**JC Denton:** Why would the Red Arrow listen to you?  
+**Maggie Chow:** Because I have done business with both sides. They still need someone they can speak to.  
+*(go to **[Yuen]**)*  
 **[MaxMet]**  
-**JC Denton:** Max Chen says you have contacts with both sides.  
-**[Sword]**  
-**Maggie Chow:** I try to keep this city from destroying itself. Unfortunately, the Luminous Path recently stole something that has made reconciliation almost impossible: a prototype weapon known as the Dragon's Tooth.  
-**JC Denton:** Why would they steal it?  
-**Maggie Chow:** Power. Prestige. Leverage against Red Arrow. Pick whichever motive you prefer; they're all true.  
-**JC Denton:** And you want it recovered.  
-**Maggie Chow:** I want the Triads talking again. If you find the weapon, you may find the path to Tong with it.  
+**JC Denton:** Chen thinks the sword came through this building.  
+**Maggie Chow:** It did. Before it was stolen. Mr. Chen has chosen to forget that distinction.  
+**[Yuen]**  
+**JC Denton:** What happened to Yuen Kong?  
+**Maggie Chow:** He died in a conflict Gordon Quick could have ended.  
+*(if `MeetMaxChen_Played` is false (not: JC met Max Chen), skip to **[MaxAbsent]**)*  
+**JC Denton:** Max says he came here.  
+*(go to **[Grave]**)*  
+**[MaxAbsent]**  
+**JC Denton:** Did he come here?  
+**[Grave]**  
+**Maggie Chow:** He came here often. That does not make this his grave.  
+**JC Denton:** Where should I start?  
+**Maggie Chow:** The police have records of the dispute. You may find them more useful than Mr. Chen's suspicions.  
 
-*Sets:* `MeetMaggie_Played`, `KnowsAboutMaggie`, `KnowsAboutTriads`, `FoundMaggieChow`.
+*Sets:* `UC_MaggieRWPlayed`, `UC_MaggieMeet_Played`, `MeetMaggie_Played`, `KnowsAboutMaggie`, `KnowsAboutTriads`, `FoundMaggieChow`.
 
 #### Maggie, repeat line
 
 *Conversation `UC_MaggieAgain` - cinematic dialogue; when JC talks to Maggie Chow; repeatable.*
 
-*Only if:* `UC_MaggieMeet_Played` is true (JC met Maggie Chow).
+*Only if:* `UC_MaggieRWPlayed` is true.
 
-**Maggie Chow:** Find the Dragon's Tooth, Mr. Denton, and you may find the path to Tong with it.  
+**Maggie Chow:** The police have records of the dispute. You may find them more useful than Mr. Chen's suspicions.  
 
 #### The recording in the hidden room
 
@@ -831,37 +1036,27 @@ Max speaks first and says why he sent for JC: he wanted to see him before Maggie
 
 The original Simons hologram, rewritten as a recording of Simons and Maggie. It is suspicious only because JC finds it there.
 
-**Walton Simons:** Ms. Chow. Denton should be arriving shortly. He's still following UNATCO orders, which makes him useful.  
-**Maggie Chow (recording):** And if Paul changed his mind?  
-**Walton Simons:** He didn't. Paul made the mistake of confronting his brother before Denton had seen enough evidence to doubt the institution.  
-**Maggie Chow (recording):** You're very confident.  
-**Walton Simons:** Denton believes in procedure. Give him a procedure to follow.  
-**Maggie Chow (recording):** And Tong?  
-**Walton Simons:** If Denton gets close enough, we'll know where to look.  
-**JC Denton:** Simons...  
+**Walton Simons:** Ms. Chow. Denton is arriving under UNATCO orders. Give him what he needs to continue the investigation.  
+**Maggie Chow (recording):** And if he questions my involvement?  
+**Walton Simons:** His assignment is Tong. Keep it there.  
+**Maggie Chow (recording):** The Red Arrow may approach him first.  
+**Walton Simons:** Then you should be ready with your account of the dispute.  
+**JC Denton:** Simons.  
 
 *Sets:* `SimonsConvoPlaying` = false, `UC_HoloSeen`.
 
-#### Simons answers JC's report (JC saw the recording)
+#### Simons answers the explicit Queen's Tower report
 
 *InfoLink (one-way: only the caller speaks), `UCSceneSimonsSword`.*
 
-JC reports the Dragon's Tooth when he leaves the hidden room; the report itself is not spoken.
+Requires the player to transmit from a secure terminal. Finding the weapon or leaving the room does not send a report.
 
-**Walton Simons:** Denton. I received your report from Queen's Tower. Secure the Dragon's Tooth.  
-**Walton Simons:** Maggie Chow is a Coalition intelligence asset. Her relationship with Special Projects predates your assignment, and portions of that relationship are classified. Intelligence assets are not required to tell you everything they know.  
-**Walton Simons:** Whatever else you found, don't let it distract you from the objective. Chow's activities can be reviewed after Tong is in custody.  
-**Walton Simons:** Locate Tracer Tong.  
+**Walton Simons:** Your report from Queen's Tower has been received. Chow's account will be reviewed.  
+**Walton Simons:** Secure the weapon if you can. Do not let either Triad decide how you conduct the investigation. Your objective remains Tong.  
 
-#### Simons answers JC's report (JC did not see the recording)
+### 10. Evidence, custody and access
 
-*InfoLink (one-way: only the caller speaks), `UCSceneSimonsSword`.*
-
-**Walton Simons:** Denton. I received your report on the Dragon's Tooth. Secure the weapon and continue your investigation.  
-**Walton Simons:** Maggie Chow is a Coalition intelligence asset. Assets sometimes withhold information when they believe it protects their position. That doesn't make everything they've provided useless.  
-**Walton Simons:** Don't lose sight of the assignment. Resolve the Triad situation and locate Tracer Tong. We'll review Chow afterward.  
-
-### 10. The truce
+Weapon custody, evidence against Maggie, and permission to enter the compound are separate states.
 
 #### Gordon Quick at the compound gate
 
@@ -869,20 +1064,18 @@ JC reports the Dragon's Tooth when he leaves the hidden room; the report itself 
 
 Hostile in words; he does not attack.
 
-*Only if:* `MaxChenConvinced` is false (not: Max Chen declared the truce).
+*Only if:* `UC_ChowSwordVerified` is false; `UC_LPMeetingGranted` is false.
 
-**Gordon Quick:** Paul Denton trusted you.  
-**JC Denton:** Paul made a mistake.  
-**Gordon Quick:** Which one?  
-**JC Denton:** Choosing terrorists over UNATCO.  
-**Gordon Quick:** No. Trusting his brother.  
-**Gordon Quick:** Paul worked with us. He took risks for people here, and he earned our confidence. You arrive with a UNATCO badge and orders to find Tong. Don't expect the same treatment.  
-**JC Denton:** I don't need your trust. I need Tong.  
-**Gordon Quick:** Then you need information, and information has a price.  
-**JC Denton:** What's yours?  
-**Gordon Quick:** Ask Maggie Chow who killed Yuen Kong.  
-**JC Denton:** Why don't you tell me?  
-**Gordon Quick:** Because you wouldn't believe me.  
+**Gordon Quick:** Paul came here as a friend. You came here with orders.  
+**JC Denton:** I'm looking for Tong.  
+**Gordon Quick:** We know.  
+*(if `UC_MaggieRWPlayed` is false, skip to **[MaggieAbsent]**)*  
+**JC Denton:** Chow says your people stole the Dragon's Tooth.  
+*(go to **[Answer]**)*  
+**[MaggieAbsent]**  
+**JC Denton:** I need to know what happened to the Dragon's Tooth.  
+**[Answer]**  
+**Gordon Quick:** Then ask her why Yuen Kong went to Queen's Tower. Bring an answer, not another accusation.  
 
 *Sets:* `Gate_Guard2_Played`, `KnowsAboutMaggie`, `KnowsAboutNanoSword`.
 
@@ -890,70 +1083,122 @@ Hostile in words; he does not attack.
 
 *Conversation `UC_GordonWait` - cinematic dialogue; when JC talks to Gordon Quick; repeatable.*
 
-*Only if:* `UC_GordonMeet_Played` is true (JC met Gordon Quick); `Have_Evidence` is false (not: JC found the Dragon's Tooth in Maggie Chow's apartment).
+*Only if:* `UC_GordonMeet_Played` is true (JC met Gordon Quick); `UC_ChowSwordVerified` is false.
 
-**Gordon Quick:** Ask Maggie Chow who killed Yuen Kong, Agent Denton.  
+**Gordon Quick:** Then ask her why Yuen Kong went to Queen's Tower. Bring an answer, not another accusation.  
+
+#### Gordon, while investigating
+
+*Conversation `UC_GordonAgain` - cinematic dialogue; when JC talks to Gordon Quick; repeatable.*
+
+*Only if:* `UC_LPMeetingGranted` is true.
+
+**Gordon Quick:** He has agreed to a meeting. Nothing more. Nineteen ninety-seven. The door in our sparring room.  
 
 #### Gordon, with the evidence
 
-*Conversation `UC_GordonEvidence` - cinematic dialogue; when JC talks to Gordon Quick; plays once.*
+*Conversation `UC_GordonEvidence` - cinematic dialogue; when JC talks to Gordon Quick; repeatable.*
 
-*Only if:* `Have_Evidence` is true (JC found the Dragon's Tooth in Maggie Chow's apartment); `MaxChenConvinced` is false (not: Max Chen declared the truce).
+*Only if:* `UC_ChowSwordVerified` is true; `UC_SwordGivenMax` is false; `UC_LPMeetingGranted` is false.
 
-**JC Denton:** Maggie Chow had the Dragon's Tooth.  
-**Gordon Quick:** Then you know who killed Yuen Kong.  
-**JC Denton:** I know who had his sword.  
-**Gordon Quick:** Show it to Max Chen. If he still wants war after that, nothing will stop it.  
+*JC can answer:* "Share the records with the Red Arrow." (go to **[Copy]**) or "Retain the weapon; submit the records." (go to **[Retain]**)  
+**[Copy]**  
+*(if `UC_YuenCaseCorroborated` is false, skip to **[OnlySword]**)*  
+**JC Denton:** The sword was in Chow's apartment. These are her records on Yuen Kong.  
+**Gordon Quick:** And Chen has seen them?  
+**JC Denton:** He can have a copy. He doesn't need the weapon to read it.  
+**Gordon Quick:** Then he can decide whether he wants an answer or an excuse to keep fighting.  
+*(go to **[Permit]**)*  
+**[OnlySword]**  
+**JC Denton:** I can prove she had the sword. Not that she killed him.  
+*(go to **[Permit]**)*  
+**[Retain]**  
+*(if `UC_HasSword` is false, skip to **[SwordAbsent]**)*  
+**JC Denton:** I'm retaining the weapon as evidence.  
+**Gordon Quick:** UNATCO gets the sword. What do we get?  
+*(go to **[Records]**)*  
+**[SwordAbsent]**  
+*(if `UC_SwordAtChow` is false, skip to **[OnlySword]**)*  
+*(if `UC_YuenCaseCorroborated` is false, skip to **[OnlySword]**)*  
+**JC Denton:** The sword is still at Queen's Tower. I brought the records.  
+**[Records]**  
+*(if `UC_YuenCaseCorroborated` is false, skip to **[OnlySword]**)*  
+**JC Denton:** Chow's records. And a chance to tell Tong what I'm actually here to do.  
+**Gordon Quick:** He already knows. He wants to hear it from you.  
+**[Permit]**  
+**Gordon Quick:** You expose Chow and expect us to forget why you're here.  
+**JC Denton:** I'm here for Tong.  
+**Gordon Quick:** Exactly.  
+**Gordon Quick:** Paul came here as a friend. You came here with orders.  
+**JC Denton:** Then let Tong hear them himself.  
+**Gordon Quick:** He has agreed to a meeting. Nothing more. Nineteen ninety-seven. The door in our sparring room.  
 
-*Sets:* `Gate_Guard2_Played`, `QuickConvinced`.
+*Sets:* `UC_ChowEvidenceSentGordon`, `UC_LPMeetingGranted`, `QuickLetPlayerIn`, `Gate_Guard2_Played`.
 
 #### Max Chen, with the evidence
 
-*Conversation `UC_MaxEvidence` - cinematic dialogue; starts by itself when JC comes within 190 units of Max Chen (or when JC talks to Max Chen); plays once.*
+*Conversation `UC_MaxEvidence` - cinematic dialogue; when JC talks to Max Chen; repeatable.*
 
-*Only if:* `Have_Evidence` is true (JC found the Dragon's Tooth in Maggie Chow's apartment); `MaxChenConvinced` is false (not: Max Chen declared the truce).
+*Only if:* `UC_ChowSwordVerified` is true; `UC_HasSword` is true; `UC_SwordGivenMax` is false; `UC_SwordGivenGordon` is false.
 
-**Max Chen:** Miss Chow had the Dragon's Tooth?  
-**JC Denton:** Yes.  
-**Max Chen:** Then Yuen Kong was right to suspect her. He went to Queen's Tower because he believed Miss Chow was arranging the attacks that kept the Red Arrow and the Luminous Path at war. He never came back.  
-**JC Denton:** That's evidence of deception. Not murder.  
-**Max Chen:** You are careful with words.  
-**JC Denton:** Words are what you have until you get proof.  
-**Max Chen:** Hmmm. Perhaps. But if Miss Chow had the sword, the reason for this war is gone. I will call Gordon Quick.  
-**JC Denton:** Do it.  
-**Max Chen:** There is something I do not understand. You work for UNATCO. Miss Chow works with your people. Yet you bring me evidence against her.  
-**JC Denton:** I work for UNATCO. Not Maggie Chow.  
-**Max Chen:** Is there a difference?  
-**JC Denton:** There should be.  
+*JC can answer:* "Deliver the Dragon's Tooth to Max Chen." (go to **[Deliver]**) or "Keep the weapon as evidence." (go to **[Keep]**)  
+**[Keep]**  
+**JC Denton:** I'll look into Chow. I haven't agreed to hand you a weapon.  
+**Max Chen:** Then investigate. We will discuss the weapon when you have it.  
+*(end)*  
+**[Deliver]**  
+*(if `UC_SwordGivenMax` is true, skip to **[Transferred]**)*  
+*(end)*  
+**[Transferred]**  
+**Max Chen:** You brought it.  
+*(if `UC_YuenCaseCorroborated` is false, skip to **[Incomplete]**)*  
+**JC Denton:** And the records on Yuen Kong.  
+**Max Chen:** Miss Chow will answer for him.  
+*(go to **[Agreement]**)*  
+**[Incomplete]**  
+**JC Denton:** I can prove she had the sword. Not that she killed him.  
+**[Agreement]**  
+**JC Denton:** Gordon first. That was the agreement.  
+**Max Chen:** I will call him. The Red Arrow will suspend its attacks.  
+**JC Denton:** And after I leave?  
+**Max Chen:** That depends on Gordon Quick.  
 
-*Sets:* `MeetMaxChen_Played`, `MadeChenAccusation`, `MaxChenConvinced`.
-
-#### Max Chen, after the truce
+#### Max Chen, after voluntary delivery
 
 *Conversation `UC_MaxAfter` - cinematic dialogue; when JC talks to Max Chen; repeatable.*
 
-*Only if:* `MaxChenConvinced` is true (Max Chen declared the truce).
+*Only if:* `UC_SwordGivenMax` is true.
 
-**Max Chen:** I have called Gordon Quick. The Red Arrow will keep the truce. He is expecting you at the compound.  
+**Max Chen:** I will call him. The Red Arrow will suspend its attacks.  
 
-#### Gordon, after the truce
+#### Gordon, after granting local access
 
-*Conversation `UC_GordonFinal` - cinematic dialogue; starts by itself when JC comes within 180 units of Gordon Quick (or when JC talks to Gordon Quick); plays once.*
+*Conversation `UC_GordonFinal` - cinematic dialogue; when JC talks to Gordon Quick; repeatable.*
 
-*Only if:* `MaxChenConvinced` is true (Max Chen declared the truce); `QuickLetPlayerIn` is false (not: Gordon Quick gave JC access to Tong).
+*Only if:* `UC_SwordGivenMax` is true; `UC_LPMeetingGranted` is false.
 
-**Gordon Quick:** You stopped a war you could have used to weaken both Triads. I did not expect that from UNATCO.  
-**JC Denton:** Dead Triads don't tell me where Tong is.  
-**Gordon Quick:** Maybe that is all it is.  
-**JC Denton:** Does it matter?  
-**Gordon Quick:** To Tong, yes.  
-**Gordon Quick:** You have shown that you are willing to follow evidence even when it embarrasses your own contacts. Tong has agreed to speak with you.  
-**JC Denton:** I didn't ask to speak with him.  
-**Gordon Quick:** No. You came here to arrest him.  
-**Gordon Quick:** Nineteen ninety-seven. The door in our sparring room. Keep your weapon down until someone gives you a reason not to.  
-**JC Denton:** Good advice.  
+**Gordon Quick:** You expose Chow and expect us to forget why you're here.  
+**JC Denton:** I'm here for Tong.  
+**Gordon Quick:** Exactly.  
+**Gordon Quick:** Paul came here as a friend. You came here with orders.  
+**JC Denton:** Then let Tong hear them himself.  
+**Gordon Quick:** He has agreed to a meeting. Nothing more. Nineteen ninety-seven. The door in our sparring room.  
 
-*Sets:* `Gate_Guard2_Played`, `QuickConvinced`, `QuickLetPlayerIn`.
+*Sets:* `UC_LPMeetingGranted`, `QuickLetPlayerIn`, `Gate_Guard2_Played`.
+
+#### Optional delivery to Gordon
+
+*Conversation `UC_GordonCustody` - cinematic dialogue; when JC talks to Gordon Quick; repeatable.*
+
+Transfers the actual inventory weapon; it does not create a global truce.
+
+*Only if:* `UC_LPMeetingGranted` is true; `UC_HasSword` is true; `UC_SwordGivenGordon` is false; `UC_SwordGivenMax` is false.
+
+*JC can answer:* "Transfer the Dragon's Tooth to Gordon." (go to **[Give]**) or "Keep the weapon as evidence." (go to **[Keep]**)  
+**[Give]**  
+*(end)*  
+**[Keep]**  
+**JC Denton:** I'm retaining the weapon as evidence.  
 
 ### 11. Tracer Tong
 
@@ -963,7 +1208,7 @@ Hostile in words; he does not attack.
 
 
 *- one time:*  
-**Luminous Path Guard:** Tong agreed to see you. That doesn't make you welcome.  
+**Luminous Path Guard:** One wrong move and you don't leave this place.  
 
 *- the next time:*  
 **Luminous Path Guard:** Keep your weapon down and there won't be a problem.  
@@ -972,23 +1217,38 @@ Hostile in words; he does not attack.
 
 *Conversation `UC_TongMeet` - cinematic dialogue; starts by itself when JC comes within 220 units of Tracer Tong (or when JC talks to Tracer Tong); plays once.*
 
-**Tracer Tong:** J.C. Denton.  
-**JC Denton:** Tracer Tong.  
-**Tracer Tong:** Paul believed you would come here eventually. I don't think this is what he had in mind.  
-**JC Denton:** Paul expected me to ask for your help.  
-**Tracer Tong:** And instead you have orders to remove me.  
-**JC Denton:** Identify your network first. Then take you out.  
-**Tracer Tong:** A useful phrase. 'Take out.' It allows a bureaucrat to postpone deciding whether a man is a prisoner or a corpse.  
-**JC Denton:** You're still here.  
-**Tracer Tong:** Because you came to talk first.  
-**JC Denton:** Paul says UNATCO is compromised.  
-**Tracer Tong:** And you do not believe him.  
-**JC Denton:** I believe he found evidence. I don't believe joining the NSF made the evidence more true.  
-**Tracer Tong:** That is the difference between you and your brother. Paul reached the end of the argument before he showed you the beginning. He asked you to accept his conclusions because you trusted him.  
-**JC Denton:** I don't.  
-**Tracer Tong:** Good. Trust is useful between friends. It is a poor substitute for evidence.  
-**JC Denton:** Then show me yours.  
-**Tracer Tong:** Exactly.  
+**Tracer Tong:** Paul said you might come.  
+**JC Denton:** Paul expected me to ask for help.  
+**Tracer Tong:** Instead you brought an arrest order.  
+**JC Denton:** You're coming with me.  
+*(if `UCHongKongRaidStarted` is false, skip to **[PaulRecords]**)*  
+*(if `UCHongKongShipmentDefended` is false, skip to **[ObservedShipment]**)*  
+**Tracer Tong:** You protected a shipment when you arrived in Hong Kong.  
+*(go to **[ShipmentQuestion]**)*  
+**[ObservedShipment]**  
+**Tracer Tong:** You were at the shipment when you arrived in Hong Kong.  
+**[ShipmentQuestion]**  
+**JC Denton:** Your people attacked it.  
+**Tracer Tong:** Yes. Did you ever ask why?  
+*(if `HongKongShipmentInspected` is false, skip to **[UninspectedShipment]**)*  
+**JC Denton:** VersaLife.  
+**Tracer Tong:** Good.  
+**JC Denton:** What's in the container?  
+**Tracer Tong:** That's the right question. Compare the identifiers with the records in the archive.  
+*(go to **[PaulRecords]**)*  
+**[UninspectedShipment]**  
+**JC Denton:** Why?  
+**Tracer Tong:** Because your people were moving something they did not want examined. Their transfer records are in the archive.  
+**[PaulRecords]**  
+**Tracer Tong:** You can try. First, look at what brought your brother here.  
+*(if `UC_PaulManifestRead` is false, skip to **[Unread]**)*  
+**JC Denton:** I've already seen his records.  
+**Tracer Tong:** Then compare them.  
+*(go to **[Ready]**)*  
+**[Unread]**  
+**JC Denton:** Then show me his records.  
+**Tracer Tong:** There is a copy in the archive. Read it for yourself.  
+**[Ready]**  
 
 *Sets:* `TongMeetingStarted`.
 
@@ -996,81 +1256,92 @@ Hostile in words; he does not attack.
 
 *Conversation `UC_TongEvidence` - cinematic dialogue; when JC talks to Tracer Tong; plays once.*
 
-**Tracer Tong:** These are shipping records Paul obtained before he left UNATCO. Compare the identifiers with these.  
-**JC Denton:** Same Ambrosia shipments.  
-**Tracer Tong:** Rerouted through VersaLife subsidiaries. Here are the corresponding laboratory authorizations.  
-**JC Denton:** Nanotechnology.  
-**Tracer Tong:** Restricted research, below the publicly listed facilities.  
-**JC Denton:** This proves VersaLife is involved with the shipments. It doesn't prove UNATCO is.  
-**Tracer Tong:** No. So keep looking.  
-**JC Denton:** Why give this to me?  
-**Tracer Tong:** Because Paul tried to change your allegiance. I'm interested in changing your information.  
+*(if `UC_PaulManifestRead` is false, skip to **[TongCopy]**)*  
+**JC Denton:** These shipment IDs match Paul's records.  
+*(go to **[Compare]**)*  
+**[TongCopy]**  
+**JC Denton:** This copy has the same shipment identifiers.  
+**[Compare]**  
+**Tracer Tong:** The receiving accounts belong to VersaLife.  
+**JC Denton:** Level Two. Restricted nanotechnology.  
+**Tracer Tong:** Below the laboratories they show their visitors.  
+*(if `UC_SPHelibaseAuthRead` is false, skip to **[UnknownAuthorization]**)*  
+**JC Denton:** These are the same authorization codes I saw at the helibase.  
+**Tracer Tong:** Special Projects.  
+*(go to **[Limits]**)*  
+**[UnknownAuthorization]**  
+**JC Denton:** What is this authorization?  
+**Tracer Tong:** Special Projects. Compare it with the field authorization your hosts issued.  
+**[Limits]**  
+**JC Denton:** Your records say Simons has access to VersaLife. They don't prove UNATCO is involved.  
+**Tracer Tong:** I didn't say they did.  
+**JC Denton:** I want the originals.  
+**Tracer Tong:** Then keep looking.  
 
-*Sets:* `TongEvidenceShown`.
+*Sets:* `TongEvidenceShown`, `TongEvidenceConversationComplete`.
 
-#### Simons calls: the assault
+Read the manifest and Paul's attributed archive copy at the terminal. Saving an independent copy and transmitting Tong's location are separate commands.
 
-*InfoLink (one-way: only the caller speaks), `UCSceneTongLab`.*
+#### Simons authorizes the transfer (InfoLink)
 
-**Walton Simons:** Denton. Hold your position. A Special Projects recovery team is entering the compound.  
-*(if Tong is dead)* **Walton Simons:** Tong's death has been confirmed. Do not interfere with the sweep. Secure any intelligence you've already recovered and assist the team only if requested.  
-**Walton Simons:** Tong's location has been confirmed. Do not interfere with the sweep. Secure any intelligence you've already recovered and assist the team only if requested.  
-**Walton Simons:** You've completed the locating phase of your assignment.  
+*InfoLink (one-way: only the caller speaks), `UCSceneSPTransfer`.*
+
+After the explicit location report. The rear loading door stays closed until JC opens it at the laboratory service console.
+
+
+#### The team crosses the rear storeroom loading door
+
+*Conversation `UC_EntryWarning` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+Only physical entry starts the assault. A timer, map exit or Tong's death cannot substitute for opening the gate.
+
+
+*- if guard is not None and guard.IsA('TriadLumPath') and guard.Health>0:*  
+**Luminous Path Guard:** Stop. This is Luminous Path territory.  
+
+*- in every case:*  
+**Special Projects Commander:** Separate the personnel from the systems.  
+
+*Sets:* `UC_EntryWarning_Played`.
 
 #### The alarm
 
-*Conversation `UC_TongAlarm` - cinematic dialogue; when JC talks to Tracer Tong; plays once.*
+*Conversation `UC_TongAlarm` - overheard (first person, no camera); started by the scene script; repeatable.*
 
-**JC Denton:** What happened?  
-**Tracer Tong:** Several armed teams just entered the upper compound. Coalition weapons, coordinated movement.  
-**Tracer Tong:** Your friends.  
-**JC Denton:** UNATCO?  
-**Tracer Tong:** You tell me.  
+**Tracer Tong:** They didn't send you to kill me.  
+**Tracer Tong:** They sent you to open the door.  
+**Tracer Tong:** Now watch what comes through it.  
+
+*Sets:* `JCWasTheAuthentication`.
 
 #### Tong understands
 
-*Conversation `UC_TongUnderstands` - cinematic dialogue; when JC talks to Tracer Tong; plays once.*
+*Conversation `UC_TongUnderstands` - overheard (first person, no camera); started by the scene script; repeatable.*
 
-**Tracer Tong:** There is your answer.  
-**JC Denton:** To what?  
-**Tracer Tong:** Why they let you find me.  
-**Tracer Tong:** They did not send you here because they trusted you to kill me. They sent you because I would allow Paul Denton's brother through a door I would close to any other UNATCO agent.  
-**JC Denton:** They could have followed me from the market.  
-**Tracer Tong:** And found another safehouse. Another basement. Another empty room.  
-**Tracer Tong:** You were the authentication.  
 **Tracer Tong:** Come with me.  
 **JC Denton:** No.  
-**Tracer Tong:** Then stay here.  
-**Tracer Tong:** Paul wanted you to believe him. I don't.  
-**Tracer Tong:** Watch what your people do.  
-
-*Sets:* `JCWasTheAuthentication`.
+**Tracer Tong:** Then watch.  
 
 #### The Special Projects commander
 
 *Conversation `UC_SPCommanderMeet` - cinematic dialogue; when JC talks to Special Projects Commander; plays once.*
 
-**Special Projects Commander:** Agent Denton. Special Projects. We'll secure the facility from here.  
-*(if `TongEscapedCompound` is true, skip to **[Fled]**)*  
-**JC Denton:** Tong is dead.  
-**Special Projects Commander:** Then his data is what matters. Your orders are to preserve any intelligence you recovered and stay clear of the sweep.  
+**Special Projects Commander:** Agent Denton. We have the facility from here.  
+*(if `TracerTong_Dead` is true, skip to **[Dead]**)*  
+**JC Denton:** Tong is supposed to be taken alive.  
 *(go to **[Orders]**)*  
-**[Fled]**  
-**JC Denton:** Tong's moving through the rear section.  
-**Special Projects Commander:** Teams are covering the exits. Your orders are to preserve any intelligence you recovered and stay clear of the sweep.  
+**[Dead]**  
+**JC Denton:** Tong is dead.  
 **[Orders]**  
-**JC Denton:** Simons told me to secure the facility.  
-**Special Projects Commander:** Then we have compatible objectives.  
+**Special Projects Commander:** Our orders include his network. Keep clear of the sweep.  
 
 #### A Special Projects technician
 
 *Conversation `UC_SPTechTalk` - cinematic dialogue; starts by itself when JC comes within 220 units of Special Projects Technician (or when JC talks to Special Projects Technician); plays once.*
 
-**JC Denton:** What are you doing?  
-**Special Projects Technician:** Sanitizing the network. Tong's people had access to restricted Coalition material.  
 **JC Denton:** Those systems are evidence.  
-**Special Projects Technician:** Anything relevant has already been copied.  
-**JC Denton:** By who?  
+**Special Projects Technician:** The authorized copies have been secured.  
+**JC Denton:** Authorized by whom?  
 **Special Projects Technician:** Special Projects.  
 
 *Sets:* `JCSawDataSanitized`.
@@ -1079,18 +1350,18 @@ Hostile in words; he does not attack.
 
 *Conversation `UC_PrisonerBark` - overheard (first person, no camera); started by the scene script; repeatable.*
 
-**Prisoner:** I'm unarmed! I'm not security!  
+**Prisoner:** I'm unarmed!  
 
 #### The prisoner
 
 *Conversation `UC_PrisonerTalk` - cinematic dialogue; when JC talks to Special Projects Commander; plays once.*
 
 **JC Denton:** Hold your fire.  
-**Special Projects Commander:** He's part of Tong's technical staff.  
-**JC Denton:** Then arrest him.  
-**Special Projects Commander:** We weren't instructed to process prisoners.  
-**JC Denton:** You are now.  
-**Special Projects Commander:** Take him upstairs.  
+**Special Projects Commander:** Step back, Agent Denton.  
+**JC Denton:** Arrest him.  
+**Special Projects Commander:** He is not cleared for transfer.  
+**JC Denton:** Then clear him.  
+**Special Projects Commander:** Take him.  
 
 *Sets:* `JCObjectedToMJ12Execution`.
 
@@ -1098,18 +1369,9 @@ Hostile in words; he does not attack.
 
 *Conversation `UC_SPCommanderAfter` - cinematic dialogue; when JC talks to Special Projects Commander; plays once.*
 
-*(if `TongEscapedCompound` is true, skip to **[Fled]**)*  
-**Special Projects Commander:** The facility is secure. The network, personnel and data are ours.  
-**JC Denton:** Nobody told me that was the objective.  
-*(go to **[Door]**)*  
-**[Fled]**  
-**JC Denton:** Tong got out.  
 **Special Projects Commander:** The facility is secure.  
-**JC Denton:** Tong was the objective.  
-**Special Projects Commander:** Tong was one objective. The network, personnel and data were the others.  
-**JC Denton:** Nobody told me that.  
-**[Door]**  
-**Special Projects Commander:** You weren't part of this operation until you found the door.  
+**JC Denton:** Those systems are evidence.  
+**Special Projects Commander:** The authorized copies have been secured. Submit your report from the terminal.  
 
 #### The commander, repeat line
 
@@ -1119,18 +1381,431 @@ Hostile in words; he does not attack.
 
 **Special Projects Commander:** Stay clear of the sweep, Agent Denton.  
 
-#### Simons, after the operation
+#### Simons, after the explicit operation report
 
 *InfoLink (one-way: only the caller speaks), `UCSceneSimonsAfterTong`.*
 
-*(if Tong is dead)* **Walton Simons:** Denton. Tong is dead, and his facility and most of his local network have been compromised. Special Projects is sanitizing the site and preserving whatever intelligence is relevant.  
-**Walton Simons:** Denton. Tong escaped during the operation, but his facility and most of his local network have been compromised. Special Projects is sanitizing the site and preserving whatever intelligence is relevant.  
-**Walton Simons:** I've reviewed the material recovered from Tong's systems. Several files reference VersaLife, including Ambrosia shipping records and restricted research directories.  
-**Walton Simons:** You'll proceed to VersaLife under official authorization. Tong's people penetrated their network; determine what they accessed, recover any compromised research and verify the shipping records while you're there.  
-**Walton Simons:** If Tong manufactured the evidence, we'll know soon enough.  
+The reply distinguishes JC's independent copy from Special Projects' extraction. Either requires a manual upload before the VersaLife assignment.
+
+**Walton Simons:** Tong escaped during the operation. The recovery team has secured his facility.  
+*(if flag UC_VLManifestCopied)* **Walton Simons:** I have reviewed the transfer records you recovered. You will proceed to VersaLife under official authorization.  
+**Walton Simons:** The recovery team extracted a transfer index from Tong's systems. You will proceed to VersaLife under official authorization.  
+**Walton Simons:** Verify the shipment identifiers and the Level Two access records. Recover any research Tong's people obtained from their systems. Your clearance will be waiting at reception.  
 **Walton Simons:** I'm told you fired on Coalition personnel.  
 **Walton Simons:** We'll discuss your judgment when you return.  
-**Walton Simons:** Report when you have something conclusive.  
+
+### Not placed yet
+
+*Conversations found in the code but not yet given a place in this document.*
+
+#### UC_JockHK
+
+*Conversation `UC_JockHK` - cinematic dialogue; starts by itself when JC comes within 640 units of Jock (or when JC talks to Jock); plays once.*
+
+**Jock:** Looks like they cleared us.  
+**JC Denton:** Who?  
+**Jock:** Hong Kong operations.  
+**JC Denton:** You've been here before.  
+**Jock:** I've landed here before.  
+**JC Denton:** There's a difference?  
+**Jock:** In this business? Usually.  
+
+#### UC_HKOfficerAgain
+
+*Conversation `UC_HKOfficerAgain` - cinematic dialogue; when JC talks to Special Projects Liaison; repeatable.*
+
+*Only if:* `UC_HKOfficer_Played` is true.
+
+**Special Projects Liaison:** The lift at the far end of the hangar, Agent Denton. It will take you down to the market.  
+
+#### UC_HKOfficer
+
+*Conversation `UC_HKOfficer` - cinematic dialogue; starts by itself when JC comes within 220 units of Special Projects Liaison (or when JC talks to Special Projects Liaison); plays once.*
+
+**Special Projects Liaison:** Agent Denton. Welcome to Hong Kong.  
+**JC Denton:** Who's in charge here?  
+**Special Projects Liaison:** Special Projects handles this facility.  
+*(if `UC_HeardLebedevMJ12` is true (JC heard Lebedev name Majestic 12), skip to **[H02]**)*  
+*(if `UC_MJ12NameKnown` is true (JC knows the name Majestic 12), skip to **[H03]**)*  
+**JC Denton:** MJ12. What is that?  
+**Special Projects Liaison:** Special Projects. This facility operates under Coalition authority.  
+*(go to **[H05]**)*  
+**[H02]**  
+**JC Denton:** MJ12. Lebedev mentioned Majestic 12.  
+**Special Projects Liaison:** This facility operates under Coalition authority. Further details are classified.  
+*(go to **[H05]**)*  
+**[H03]**  
+**JC Denton:** MJ12. Majestic 12?  
+**Special Projects Liaison:** Special Projects. This facility operates under Coalition authority.  
+**[H05]**  
+**JC Denton:** Part of UNATCO?  
+**Special Projects Liaison:** Your clearance covers the transit level. Mr. Simons will brief you on the assignment.  
+
+#### UC_JockBP
+
+*Conversation `UC_JockBP` - cinematic dialogue; starts by itself when JC comes within 620 units of Jock (or when JC talks to Jock); plays once.*
+
+**Jock:** Where's Paul?  
+**JC Denton:** He's not coming.  
+**Jock:** Couldn't convince him?  
+**JC Denton:** He couldn't convince me.  
+**Jock:** So what now?  
+**JC Denton:** Hong Kong.  
+**Jock:** You're still going after Tong.  
+**JC Denton:** Those are my orders.  
+**Jock:** Yeah.  
+**Jock:** All right. Get in.  
+*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
+**[Ready]**  
+**JC Denton:** Let's go.  
+*(end)*  
+**[Wait]**  
+**JC Denton:** Give me a minute.  
+**Jock:** Make it fast.  
+
+*Sets:* `UC_JockGo`.
+
+#### UC_JockBPExtra
+
+*Conversation `UC_JockBPExtra` - cinematic dialogue; starts by itself when JC comes within 560 units of Jock (or when JC talks to Jock); plays once.*
+
+*Only if:* `UC_JockBP_Played` is true.
+
+**Jock:** Paul put a lot on the line getting that information.  
+**JC Denton:** That doesn't make him right.  
+**Jock:** No.  
+**Jock:** Guess it doesn't.  
+*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
+**[Ready]**  
+**JC Denton:** Let's go.  
+*(end)*  
+**[Wait]**  
+**JC Denton:** Give me a minute.  
+**Jock:** Make it fast.  
+
+*Sets:* `UC_JockGo`.
+
+#### UC_JockBPReady
+
+*Conversation `UC_JockBPReady` - cinematic dialogue; starts by itself when JC comes within 560 units of Jock (or when JC talks to Jock); repeatable.*
+
+*Only if:* `UC_JockBP_Played` is true; `UC_JockBPExtra_Played` is true.
+
+**Jock:** Ready?  
+*JC can answer:* "Let's go." (go to **[Ready]**) or "Give me a minute." (go to **[Wait]**)  
+**[Ready]**  
+**JC Denton:** Let's go.  
+*(end)*  
+**[Wait]**  
+**JC Denton:** Give me a minute.  
+**Jock:** Make it fast.  
+
+*Sets:* `UC_JockGo`.
+
+#### UC_HBLamGreet
+
+*Conversation `UC_HBLamGreet` - overheard (first person, no camera); started by the scene script; plays once.*
+
+**UCHBLam:** Agent Denton. Mr. Kwan is waiting for you on the ground floor. The elevator is past the control room.  
+
+#### UC_HBLam
+
+*Conversation `UC_HBLam` - cinematic dialogue; when JC talks to UCHBLam; repeatable.*
+
+*(if `UC_HBLamGreet_Played` is true, skip to **[Ask]**)*  
+**UCHBLam:** Agent Denton. Mr. Kwan is waiting for you on the ground floor. The elevator is past the control room.  
+**[Ask]**  
+*JC can answer:* "What are you shipping?" (go to **[Cargo]**) - only if `UC_HBLamAskedCargo` is false  
+*JC can answer:* "How long have you worked here?" (go to **[Years]**) - only if `UC_HBLamAskedYears` is false  
+*JC can answer:* "Thanks." (go to **[Thanks]**)  
+**[Cargo]**  
+**JC Denton:** What are you shipping?  
+**UCHBLam:** Refrigerated goods. Medicine, I think. I watch the roof, not the containers.  
+*(go to **[Ask]**)*  
+**[Years]**  
+**JC Denton:** How long have you worked here?  
+**UCHBLam:** Long enough not to ask questions. I'd recommend the same, agent.  
+*(go to **[Ask]**)*  
+**[Thanks]**  
+**JC Denton:** Thanks.  
+**UCHBLam:** Enjoy your stay in Hong Kong.  
+
+*Sets:* `UC_HBLamGreet_Played`, `UC_HBLamAskedCargo`, `UC_HBLamAskedYears`.
+
+#### UC_HBGuard1Line
+
+*Conversation `UC_HBGuard1Line` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_HBGuardsTalk_Played` is true.
+
+**UCHBGuard1:** Hear those drums down at the market? The Path's been holding ceremonies for three nights.  
+
+#### UC_HBGuard2Line
+
+*Conversation `UC_HBGuard2Line` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_HBGuardsTalk_Played` is true.
+
+**UCHBGuard2:** Stay away from the railing, the wind up here is treacherous.  
+
+#### UC_HBGuardsTalk
+
+*Conversation `UC_HBGuardsTalk` - overheard (first person, no camera); started by the scene script; plays once.*
+
+**UCHBGuard1:** Big shipment going out tonight?  
+**UCHBGuard2:** Five a.m. And Kwan wants everyone awake until the last container's gone.  
+**UCHBGuard1:** A UNATCO agent... I thought they'd send the other one. The one who got himself in trouble.  
+**UCHBGuard2:** Keep your voice down. That's his brother.  
+
+#### UC_HBSmokerLine
+
+*Conversation `UC_HBSmokerLine` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**[Lift]**  
+**UCHBSmoker:** The elevator? On the left as you came in. Can't miss it.  
+*(end)*  
+**[Break]**  
+**UCHBSmoker:** This is my cigarette break, agent. Five minutes. That's all I get all night.  
+*(end)*  
+**[Bother]**  
+**UCHBSmoker:** Don't bother me. I'm on my break.  
+*(end)*  
+**[Lam]**  
+**UCHBSmoker:** Whatever it is, ask Lam. I'm smoking.  
+
+#### UC_HBKwanWelcome
+
+*Conversation `UC_HBKwanWelcome` - cinematic dialogue; when JC talks to VictorKwan; plays once.*
+
+*Only if:* `UC_HB_BreachStarted` is false.
+
+**VictorKwan:** Agent Denton. Victor Kwan, Harbourline security. Welcome to Hong Kong.  
+**JC Denton:** I was told you have a vehicle for me.  
+**VictorKwan:** Ready and fueled. And I have a man who knows the area around the airstrip where your bro-  
+
+#### UC_HBKwanBreach
+
+*Conversation `UC_HBKwanBreach` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**VictorKwan:** The Path! Everyone to the containers!  
+
+#### UC_HBKwanOpens
+
+*Conversation `UC_HBKwanOpens` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**VictorKwan:** If one of those opens, nobody walks out of here!  
+
+#### UC_HBKwanFour
+
+*Conversation `UC_HBKwanFour` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**VictorKwan:** They're going for number four. Number four!  
+
+#### UC_HBKwanContainers
+
+*Conversation `UC_HBKwanContainers` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**VictorKwan:** The containers, Denton! Not my men, the containers!  
+
+#### UC_HBKwanBlew
+
+*Conversation `UC_HBKwanBlew` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**VictorKwan:** Get away from that container! Nobody breathe near that stuff!  
+
+#### UC_HBKwanAfter
+
+*Conversation `UC_HBKwanAfter` - cinematic dialogue; when JC talks to VictorKwan; plays once.*
+
+*Only if:* `UC_HB_BreachOver` is true.
+
+**VictorKwan:** Is it over? ...Good. We have maybe ten minutes before the military police get here. What you saw tonight didn't happen.  
+**JC Denton:** They wanted to destroy the shipment. Why?  
+**VictorKwan:** Because they're fanatics, agent. The Path sees demons everywhere. It's medicine. I'm sure you were told.  
+*(if `UC_HB_ContainerBlew` is true, skip to **[Blew]**)*  
+**VictorKwan:** The client will be relieved. So will Simons, I imagine.  
+*(go to **[Mail]**)*  
+**[Blew]**  
+**VictorKwan:** You let a container go up, agent. That goes in my report. It's not a threat, it's my job.  
+**[Mail]**  
+*(if `UC_HB_Mail4Read` is false, skip to **[Airstrip]**)*  
+*JC can answer:* "Container 4. They were after it by number." (go to **[Four]**)  
+*JC can answer:* "Tell me about the airstrip." (go to **[Ask]**)  
+**[Four]**  
+**JC Denton:** Container 4. They were after it by number.  
+**VictorKwan:** ...You read other people's mail, Agent Denton.  
+*(go to **[Airstrip]**)*  
+**[Ask]**  
+**JC Denton:** Tell me about the airstrip.  
+**[Airstrip]**  
+**VictorKwan:** The airstrip you're looking for is past the harbor, to the north. The pilot's name is Lo. If he's still alive.  
+*New objective: Find the private airstrip north of the harbor where Paul's plane landed. Kwan's pilot is Lo.*  
+
+*Sets:* `UC_HB_AirstripKnown`.
+
+#### UC_HBKwanAgain
+
+*Conversation `UC_HBKwanAgain` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+*Only if:* `UC_HBKwanAfter_Played` is true.
+
+**VictorKwan:** Past the harbor, to the north. Ask for Lo.  
+
+#### UC_HBGuardPhoto
+
+*Conversation `UC_HBGuardPhoto` - overheard (first person, no camera); started by the scene script; plays once.*
+
+**UCHBGuardA:** Is that him? He looked younger in the photo.  
+
+#### UC_HBPathBurn
+
+*Conversation `UC_HBPathBurn` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** Burn the poison! All of it!  
+
+#### UC_HBPathForPath
+
+*Conversation `UC_HBPathForPath` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** For the Luminous Path!  
+
+#### UC_HBPathSpot1
+
+*Conversation `UC_HBPathSpot1` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** An American! UNATCO!  
+
+#### UC_HBPathSpot2
+
+*Conversation `UC_HBPathSpot2` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** It's the other Denton. The one who obeys.  
+
+#### UC_HBPathSpot3
+
+*Conversation `UC_HBPathSpot3` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** The wrong brother. Take him!  
+
+#### UC_HBPathCharges
+
+*Conversation `UC_HBPathCharges` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** Charges on the cold containers, move!  
+
+#### UC_HBPathThirty
+
+*Conversation `UC_HBPathThirty` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** Thirty seconds! Get clear!  
+
+#### UC_HBPathSensors
+
+*Conversation `UC_HBPathSensors` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** The sensors heard us, the police are coming!  
+
+#### UC_HBPathCanal
+
+*Conversation `UC_HBPathCanal` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** Fall back to the canal!  
+
+#### UC_HBPathForget
+
+*Conversation `UC_HBPathForget` - overheard (first person, no camera); when JC talks to UCHBPath; repeatable.*
+
+**UCHBPath:** The Path does not forget.  
+
+#### UC_HBLeaderDoctor
+
+*Conversation `UC_HBLeaderDoctor` - overheard (first person, no camera); when JC talks to UCHBPathLeader; repeatable.*
+
+**UCHBPathLeader:** The doctor was right, it's in here!  
+
+#### UC_HBLeaderCharges
+
+*Conversation `UC_HBLeaderCharges` - overheard (first person, no camera); when JC talks to UCHBPathLeader; repeatable.*
+
+**UCHBPathLeader:** Charges on the cold containers, move!  
+
+#### UC_HBLeaderFour
+
+*Conversation `UC_HBLeaderFour` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**UCHBPathLeader:** Number four! The doctor said number four!  
+
+#### UC_HBLeaderTalk
+
+*Conversation `UC_HBLeaderTalk` - cinematic dialogue; when JC talks to UCHBPathLeader; plays once.*
+
+*Only if:* `UC_HB_BreachOver` is true; `UC_HBKwanAfter_Played` is true; `UC_HB_LeaderToKwan` is false; `UC_HB_LeaderFreed` is false.
+
+**UCHBPathLeader:** You stopped us tonight. You won't stop what's in those crates.  
+**JC Denton:** Who told you about the shipment?  
+**UCHBPathLeader:** The doctor. He sees what you refuse to see.  
+**JC Denton:** Where's the doctor?  
+**UCHBPathLeader:** Where your brother went to die. Or to live. That's up to you, Denton.  
+*JC can answer:* "Hand him over to Kwan." (go to **[Kwan]**)  
+*JC can answer:* "Let him go." (go to **[Free]**)  
+**[Kwan]**  
+**JC Denton:** Hand him over to Kwan.  
+**VictorKwan:** We'll take care of it.  
+*(end)*  
+**[Free]**  
+**JC Denton:** Let him go.  
+**UCHBPathLeader:** The Path will remember this night.  
+
+*Sets:* `UC_HB_LeaderToKwan`, `UC_HB_LeaderFreed`.
+
+#### UC_HBGuardBodies
+
+*Conversation `UC_HBGuardBodies` - overheard (first person, no camera); when JC talks to fromName; repeatable.*
+
+**UCHBGuardA:** Move the Path bodies into the cold room before the police get here.  
+**UCHBGuardB:** Move the Path bodies into the cold room before the police get here.  
+**UCHBGuardC:** Move the Path bodies into the cold room before the police get here.  
+**UCHBGateGuard1:** Move the Path bodies into the cold room before the police get here.  
+
+#### UC_HBGuardsCount
+
+*Conversation `UC_HBGuardsCount` - overheard (first person, no camera); when JC talks to fromName; repeatable.*
+
+**UCHBGuardA:** How many of ours?  
+**UCHBGuardB:** How many of ours?  
+**UCHBGuardC:** How many of ours?  
+**UCHBGateGuard1:** How many of ours?  
+**UCHBGuardA:** Three. Kwan says the report will say two.  
+**UCHBGuardB:** Three. Kwan says the report will say two.  
+**UCHBGuardC:** Three. Kwan says the report will say two.  
+**UCHBGateGuard1:** Three. Kwan says the report will say two.  
+
+#### UC_HBGuardMoved
+
+*Conversation `UC_HBGuardMoved` - overheard (first person, no camera); when JC talks to fromName; repeatable.*
+
+**UCHBGuardA:** Did you see how he moved? UNATCO people aren't human.  
+**UCHBGuardB:** Did you see how he moved? UNATCO people aren't human.  
+**UCHBGuardC:** Did you see how he moved? UNATCO people aren't human.  
+**UCHBGateGuard1:** Did you see how he moved? UNATCO people aren't human.  
+
+#### UC_HBGuardLook
+
+*Conversation `UC_HBGuardLook` - overheard (first person, no camera); when JC talks to fromName; repeatable.*
+
+**UCHBGuardA:** Ten years here and I've never looked inside a container. I'm not starting tonight.  
+**UCHBGuardB:** Ten years here and I've never looked inside a container. I'm not starting tonight.  
+**UCHBGuardC:** Ten years here and I've never looked inside a container. I'm not starting tonight.  
+**UCHBGateGuard1:** Ten years here and I've never looked inside a container. I'm not starting tonight.  
+
+#### UC_HBGuardGloves
+
+*Conversation `UC_HBGuardGloves` - overheard (first person, no camera); started by the scene script; repeatable.*
+
+**UCHBGuardA:** Don't touch that liquid! Wait for the gloves!  
+**UCHBGuardB:** Don't touch that liquid! Wait for the gloves!  
+**UCHBGuardC:** Don't touch that liquid! Wait for the gloves!  
+**UCHBGateGuard1:** Don't touch that liquid! Wait for the gloves!  
 
 ## Objectives and notes
 
@@ -1138,18 +1813,35 @@ Hostile in words; he does not attack.
 
 | Objective | Text |
 |---|---|
-| `UCMeetMaxChen` secondary | Optional: Max Chen of the Red Arrow Triad wants to see you at the Lucky Money club. |
-| `UCInvestigateLumPath` secondary | Investigate the Luminous Path. Gordon Quick will not let a UNATCO agent into their compound: you will have to earn his trust. |
-| `UCYuenKong` secondary | Optional: investigate the death of Red Arrow leader Yuen Kong. |
-| `UCShowMaxChen` primary | Show Max Chen what you found: the Dragon's Tooth was in Maggie Chow's apartment. |
-| `UCTellGordon` primary | Max Chen has declared a truce and called Gordon Quick. Go to the Luminous Path compound. |
-| note | Tracer Tong's laboratory is beneath the Luminous Path compound. The door is in the sparring room: code 1997. |
+| note | Datacube on Jock's body:/n |
 | `SendSignal` primary | Investigate the NSF transmitter and decide whether to send Paul's distress signal. |
-| `MeetJockBatteryPark` primary | Resume your original assignment. Meet Jock in Battery Park and proceed to Hong Kong. |
-| `FindTracerTong` primary | Locate Tracer Tong, a principal contact for Paul Denton and several terrorist organizations in the region. Find his base and establish who is protecting him before Tong is taken out. |
-| `UCReportVersaLife` primary | Walton Simons has authorized an official investigation into the data recovered from Tracer Tong. Report to VersaLife and determine whether its systems or personnel were compromised. |
+| `MeetJockBatteryPark` primary | Jock is waiting with the helicopter in Battery Park, and he doesn't like what he's seeing. Take the Hell's Kitchen subway and get there fast. |
+| note | Lam's note in the Harbourline control room:/n |
+| `UCMeetMaxChen` secondary | Contact Max Chen at the Lucky Money. Special Projects believes the Red Arrow can identify Tong's local network. |
+| `UCInvestigateChow` secondary | Check the claims about Maggie Chow, Yuen Kong and the Dragon's Tooth. Examine Queen's Tower and the police records. |
+| `UCYuenKong` secondary | Compare the Queen's Tower transcript with the police report concerning Yuen Kong's death. |
+| `ContactMaggieChow` secondary | Optional: question Maggie Chow at Queen's Tower about the Triad dispute. Verify her claims. |
+| `UCRecoverForMax` secondary | Optional: Max Chen offers an introduction to Gordon Quick in exchange for the Dragon's Tooth and evidence on Yuen Kong. Delivery is your decision. |
+| `UCRecoverForChow` secondary | Optional: Maggie Chow claims the Luminous Path stole the weapon. Verify her claim before acting on it. |
+| `UCTellGordon` primary | Present your verified evidence to Gordon Quick at the compound. Delivering the weapon to Max is optional. |
+| `UCSubmitOperationReport` primary | Submit the Special Projects operation report from a secure terminal: Tong's archive, the compound office, Queen's Tower or the Wan Chai police station. |
+| note | Tong has agreed to a guarded meeting. Sparring room door: 1997. Permission to speak is not permission to search the compound. |
+| note | Special Projects operation continued after I left the base. Personnel and archive results are team reports, not my eyewitness account. |
+| `UCCopyVLManifest` secondary | Optional: copy Tong's transfer index before the archive is sanitized. Preserve the original shipment and authorization identifiers for comparison at VersaLife. |
+| note | Inspected Tong's laboratory transfer index. Source: Tong archive. No independent field copy saved by this reading; use the explicit copy command to preserve the source identifiers. |
+| note | Dragon's Tooth voluntarily transferred to  |
+| note | Independent field copy, saved before the sweep:  |
+| `UCBPReachHeli` primary | Reach Jock's helicopter. |
+| `UCBPBoardHeli` primary | A replacement pilot is coming in at the flare south of the subway entrance. Board the helicopter and proceed to Hong Kong. |
+| `UCDefendShipment` secondary | A raid is targeting the secured shipment in the service yard. Protect it, inspect the cargo or continue into Wan Chai. |
+| `UCMeetLiaison` secondary | Meet the Special Projects liaison and take the freight lift down to Wan Chai. |
+| `UCHBAirstrip` secondary | Find the private airstrip north of the harbor where Paul's plane landed. Kwan's pilot is Lo. |
+| `FindTracerTong` primary | Locate Tracer Tong, a principal contact for Paul Denton and several terrorist organizations in the region. Find his base, verify the records and report his location from a secure terminal to request a transfer team. |
+| `UCReportVersaLife` primary | Walton Simons has authorized an official investigation into the data recovered from Tracer Tong. Compare the Ambrosia shipment identifiers and Special Projects access records with VersaLife's original systems. |
+| note | Operation report: independent copy of Tong's transfer index attached. Content and issuing authority still require verification at VersaLife. |
+| note | Operation report: no independent field copy attached. Transfer index supplied by Special Projects. Compare this team extraction with the originals at VersaLife. |
 | note | VersaLife (Wan Chai market, elevator north of the market): employee number 06288. Access authorized by Walton Simons. |
-| `ContactMaggieChow` secondary | Contact Maggie Chow, a VersaLife executive with contacts in both Triads who has cooperated with Coalition interests in the past. She lives in Queen's Tower. |
 | `UCTongArchives` primary | Tracer Tong is dead. A Special Projects recovery team is sweeping his facility: do not interfere, secure any intelligence you have already recovered and assist the team only if requested. |
 | `UCSecureTong` primary | A Special Projects recovery team is sweeping Tracer Tong's facility. Hold your position: do not interfere, secure any intelligence you have already recovered and assist the team only if requested. |
-| note | VersaLife data fragment (Tong's terminal): Ambrosia shipments from UNATCO manifests rerouted through VersaLife subsidiaries. Restricted nanotechnology research below the publicly listed facilities. Cross-reference: 'GRAY'. Incomplete. |
+| note | Independent field copy:  |
+| note | Detainee LP-T17: Tong laboratory technician, taken alive after my objection. Special Projects custody. Request his transfer record and testimony at VersaLife. |

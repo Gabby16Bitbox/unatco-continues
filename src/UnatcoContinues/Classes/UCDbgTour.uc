@@ -152,11 +152,15 @@ function Go(int n)
 			SetF('UC_JockBP_Played', True);
 			SetF('UC_JockGo', True);
 			SetF('UC_Takeoff_Started', True);
+			SetF('UC_JockDead', True);
+			SetF('UC_EvaGo', True);
 			SetF('UNATCORoute_DepartedNYC', True);
-			class'UCMod'.static.PrepareHongKongFlags(flags);
+			class'UCCampaign'.static.PrepareHongKongFlags(flags);
+			// Jock e' morto a Battery Park (15 ott): niente sua battuta all'eliporto, l'ufficiale
+			// arriva subito anche nel capitolo 9
+			SetF('UC_JockHK_Played', True);
 			if (n == 10)
 			{
-				SetF('UC_JockHK_Played', True);   // Jock ha gia' parlato: l'ufficiale arriva subito
 				SimonsHeard();
 				SetF('UC_HeardLebedevMJ12', True);
 				SetF('UC_MJ12NameKnown', True);
@@ -254,6 +258,8 @@ function AfterGunther()
 	SetF('GuntherReportedJCConduct', True);
 	SetF('UC_PaulContactReportSent', True);
 	SetF('UC_JockGoal', True);
+	SetF('UC_JockStreetCall', True);
+	SetF('UC_JockStreetCallDone', True);
 }
 
 function SimonsHeard()

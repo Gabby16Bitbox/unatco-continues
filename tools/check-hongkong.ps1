@@ -1,7 +1,8 @@
 # Verifica senza gioco delle mappe di Hong Kong (route UNATCO): per ogni mappa un
 # server di prova su una COPIA privata, con UCHKCheck come ServerActor.
 # Uso: .\build.ps1 -Isolated  poi  .\tools\check-hongkong.ps1 -BuildSystem <cartella System stampata>
-param([Parameter(Mandatory=$true)][string]$BuildSystem)
+param([Parameter(Mandatory=$true)][string]$BuildSystem, [string]$TongMap = '',
+    [string[]]$MapNames = @('06_HongKong_WanChai_Market','06_HongKong_WanChai_Underworld','06_HongKong_WanChai_Street','06_HongKong_WanChai_Compound','04_NYC_Street','04_NYC_NSFHQ','04_NYC_BatteryPark','06_HongKong_Helibase','06_HongKong_TongBase'))
 . "$PSScriptRoot\..\config.ps1"
 $ErrorActionPreference = 'Stop'
 $CheckSystem = (Resolve-Path -LiteralPath $BuildSystem).Path
@@ -23,10 +24,17 @@ foreach ($CheckIniName in @('DeusEx.ini','Default.ini','Revision.ini','ucc.ini')
     Set-Content -LiteralPath (Join-Path $CheckSystem $CheckIniName) -Value $CheckIni -Encoding Default
 }
 $Failed = 0
-foreach ($MapName in @('06_HongKong_WanChai_Market','06_HongKong_WanChai_Underworld','06_HongKong_WanChai_Street','06_HongKong_WanChai_Compound','04_NYC_Street','04_NYC_BatteryPark','06_HongKong_Helibase','06_HongKong_TongBase')) {
+foreach ($MapName in $MapNames) {
+    if ($MapName -notmatch '^[0-9]{2}_[A-Za-z0-9_]+$') { throw 'Nome mappa non valido.' }
     # la copia modificata della mod (maps\) se c'e', altrimenti la mappa di Revision
     $MapSource = Join-Path $Root "maps\$MapName.dx"
     if (-not (Test-Path -LiteralPath $MapSource)) { $MapSource = Join-Path $RevSrc "Maps\$MapName.dx" }
+    if ($MapName -eq '06_HongKong_TongBase' -and $TongMap) {
+        $PrivateTong = (Resolve-Path -LiteralPath $TongMap).Path
+        $PrivateAllowed = [IO.Path]::GetFullPath((Join-Path $Root 'tools\editor_bridge\workspaces\'))
+        if (-not $PrivateTong.StartsWith($PrivateAllowed, [StringComparison]::OrdinalIgnoreCase)) { throw 'TongMap deve essere una copia privata del ponte.' }
+        $MapSource = $PrivateTong
+    }
     Copy-Item -LiteralPath $MapSource -Destination (Join-Path $CheckMaps 'DX.dx') -Force
     Push-Location $CheckSystem
     try {

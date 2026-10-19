@@ -7,6 +7,10 @@ The first part is written by hand. The second part, **The script**, is generated
 mod's source code, so it is always exactly what the game plays. Voice recordings are not
 part of this repository; every line is shown as text.
 
+## Narrative revision of 6 October 2026
+
+The [6 October rewrite](CAMPAIGN_REWRITE_2026_10_06.md) is integrated in the current source: competing Triad offers, actual weapon custody, independent records, manual reports and the physical north entry. Work on the helipad is deferred. The script below is generated from these sources; [STATUS.md](STATUS.md) records build, installation and playtest coverage.
+
 ## Premise
 
 In the original game JC Denton leaves UNATCO in mission 4: whatever the player does at the

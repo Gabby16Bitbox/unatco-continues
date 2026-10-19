@@ -1,8 +1,7 @@
 //=============================================================================
-// UCVoiceDriver - durante le conversazioni create dalla mod (battute senza
-// audio, soundID = -1) fa dire la battuta con la voce registrata, dalla bocca
-// di chi parla. Le conversazioni vanilla (che hanno gia' l'audio) non le tocca.
-// Non tiene puntatori: ricorda solo il NOME dell'ultimo evento.
+// UCVoiceDriver - plays user dubs and referenced voices through the speaking
+// character. Only indexed original lines lose their native soundID, in memory.
+// Other original lines keep their audio. Playback tracking stores event names.
 //=============================================================================
 class UCVoiceDriver extends Actor
 	transient;
@@ -10,6 +9,92 @@ class UCVoiceDriver extends Actor
 var name lastEvent, lastPlayback, attemptedEvent;
 var int attempts;
 var float retryAt;
+var float originalScan;
+var name lastRadioEvent, lastRadioPlay;
+// The end of the voice playing now, for the line it belongs to: the player's timer must not end the line before it.
+// The line's own state code sets its text-length timer as it starts; whether that runs before or after this driver's
+// Tick depends on the order the engine ticks them (Revision: before; the original game: after, and the next line cut
+// the voice in the middle, 19 Oct 2026). So the timer is kept long enough on every Tick while the voice plays.
+var name voiceEvent, radioVoiceEvent;
+var float clock;            // game seconds, as the timers count them (the voices' ends are in it)
+// a line is voiced the Tick after it was first seen: its state code (which stops the speech playing and sets its
+// text timer) has run by then, whichever of the two the engine ticks first
+var name seenEvent, seenRadioEvent;
+var float voiceEnd, radioVoiceEnd;
+
+// The player's timer (ConPlay or DataLinkPlay) ends no sooner than the voice
+function KeepTimer(Actor playing, float endTime)
+{
+	local float left;
+	left = endTime - clock;
+	if (playing == None || left <= 0.05)
+		return;
+	if (playing.TimerRate <= 0 || playing.TimerRate - playing.TimerCounter < left - 0.05)
+		playing.SetTimer(left, False);
+}
+
+// Only indexed user dubs are considered. Untouched native audio retains its soundID.
+// Packages are read-only on disk; the index is rebuilt before Apply, with the game closed.
+function PatchConversation(Conversation c)
+{
+	local ConEvent e;
+	local ConEventSpeech line;
+	local ConChoice choice;
+	if (c == None || !class'UCVoiceDubs'.static.Any()) return;
+	for (e=c.eventList; e!=None; e=e.nextEvent)
+	{
+		line=ConEventSpeech(e);
+		if (line!=None && line.conSpeech!=None && line.conSpeech.soundID!=-1
+			&& class'UCVoiceDubs'.static.Contains(class'UCVoice'.static.Key(line.speakerName $ "|" $ line.conSpeech.speech))
+			&& class'UCVoice'.static.Dub(line.speakerName,line.conSpeech.speech)!=None)
+		{
+			line.conSpeech.soundID=-1;
+			Log("UCVoice: original dub enabled" @ c.conName @ line.Name);
+		}
+		if (ConEventChoice(e)!=None)
+			for (choice=ConEventChoice(e).ChoiceList; choice!=None; choice=choice.nextChoice)
+				if (choice.soundID!=-1 && class'UCVoiceDubs'.static.Contains(class'UCVoice'.static.Key("JCDenton|" $ choice.choiceText))
+					&& class'UCVoice'.static.Dub("JCDenton",choice.choiceText)!=None)
+					choice.soundID=-1;
+	}
+}
+
+function PatchBoundConversations()
+{
+	local Actor A;
+	local ConListItem item;
+	if (!class'UCVoiceDubs'.static.Any()) return;
+	foreach AllActors(class'Actor',A)
+		for (item=ConListItem(A.conListItems); item!=None; item=item.next)
+			PatchConversation(item.con);
+}
+
+function RadioVoice(DeusExPlayer P)
+{
+	local DataLinkPlay radio;
+	local ConEventSpeech line;
+	local Sound snd;
+	radio=P.dataLinkPlay;
+	if (radio==None) { lastRadioPlay=''; lastRadioEvent=''; return; }
+	PatchConversation(radio.con);
+	if (lastRadioPlay!=radio.Name) { lastRadioPlay=radio.Name; lastRadioEvent=''; }
+	line=ConEventSpeech(radio.currentEvent);
+	if (line==None) { lastRadioEvent=''; return; }
+	if (line.Name==radioVoiceEvent && radio.IsInState('WaitForSpeech'))
+		KeepTimer(radio, radioVoiceEnd);
+	if (line.Name==lastRadioEvent || !radio.IsInState('WaitForSpeech') || radio.bSilent
+		|| line.conSpeech==None || line.conSpeech.soundID!=-1) return;
+	if (seenRadioEvent!=line.Name) { seenRadioEvent=line.Name; return; }
+	snd=class'UCVoiceBank'.static.Resolve(Self,line.speakerName,line.conSpeech.speech);
+	if (snd==None) return;
+	lastRadioEvent=line.Name;
+	radio.StopSpeech();
+	radio.playingSoundID=P.PlaySound(snd,SLOT_Talk,1.0,,65536.0);
+	radio.SetTimer(class'UCInfoVoice'.static.GameSeconds(Self, GetSoundDuration(snd)+0.15),False);
+	radioVoiceEvent=line.Name;
+	radioVoiceEnd=clock+class'UCInfoVoice'.static.GameSeconds(Self, GetSoundDuration(snd)+0.15);
+	Log("UCVoice: radio playback" @ snd @ "handle=" $ radio.playingSoundID);
+}
 
 function bool OwnsDispatch()
 {
@@ -44,7 +129,15 @@ event Tick(float deltaTime)
 		return;
 	}
 
+	clock += deltaTime;
 	P = DeusExPlayer(GetPlayerPawn());
+	originalScan-=deltaTime;
+	if (P!=None)
+	{
+		if (originalScan<=0) { originalScan=0.5; PatchBoundConversations(); }
+		RadioVoice(P);
+		if (P.conPlay!=None) PatchConversation(P.conPlay.con);
+	}
 	if (P == None || P.conPlay == None)
 	{
 		lastEvent = '';
@@ -64,6 +157,8 @@ event Tick(float deltaTime)
 		lastEvent = '';
 		return;
 	}
+	if (ev.Name == voiceEvent && (P.conPlay.IsInState('WaitForText') || P.conPlay.IsInState('WaitForSpeech')))
+		KeepTimer(P.conPlay, voiceEnd);
 	if (ev.Name == lastEvent)
 		return;
 	// Aspetta che ConPlay abbia impostato attori, testo e telecamera.
@@ -74,12 +169,20 @@ event Tick(float deltaTime)
 
 	if (ev.conSpeech == None || ev.conSpeech.soundID != -1)
 		return;
+	if (seenEvent != ev.Name)
+	{
+		seenEvent = ev.Name;
+		return;
+	}
 	// Native BindEvents has already cached both actors by this ready state.
 	// A temporary bark name must not break subsequent vanilla conversations.
-	class'UCMod'.static.RestoreBarkBinding(ev.speaker);
-	class'UCMod'.static.RestoreBarkBinding(ev.speakingTo);
-	snd = class'UCVoice'.static.Find(ev.conSpeech.speech,
-		class'UCVoice'.static.Profile(ev.speaker, ev.speakerName));
+	class'UCCampaign'.static.RestoreBarkBinding(ev.speaker);
+	class'UCCampaign'.static.RestoreBarkBinding(ev.speakingTo);
+	// a voice given to this line in the map editor first, then the generated one
+	snd = class'UCVoiceBank'.static.Resolve(Self, ev.speakerName, ev.conSpeech.speech);
+	if (snd == None)
+		snd = class'UCVoice'.static.Find(ev.conSpeech.speech,
+			class'UCVoice'.static.Profile(ev.speaker, ev.speakerName));
 	if (snd == None)
 	{
 		lastEvent = ev.Name;
@@ -130,7 +233,9 @@ event Tick(float deltaTime)
 	// Le battute passive dei soldati/MIB durano quanto l'audio, evitando che
 	// il timer del solo testo faccia partire la voce successiva troppo presto.
 	if (P.conPlay.IsInState('WaitForText') || P.conPlay.IsInState('WaitForSpeech'))
-		P.conPlay.SetTimer(GetSoundDuration(snd) + 0.15, False);
+		P.conPlay.SetTimer(class'UCInfoVoice'.static.GameSeconds(Self, GetSoundDuration(snd) + 0.15), False);
+	voiceEvent = ev.Name;
+	voiceEnd = clock + class'UCInfoVoice'.static.GameSeconds(Self, GetSoundDuration(snd) + 0.15);
 }
 
 defaultproperties

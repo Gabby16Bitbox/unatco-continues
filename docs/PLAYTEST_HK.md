@@ -1,4 +1,32 @@
-# Playtest Hong Kong — Messenger -> Max -> Maggie -> Gordon -> tregua -> Tong
+# Playtest Hong Kong — revisione del 6 ottobre
+
+## Percorso corrente
+
+- Per il nuovo arrivo usare un salvataggio prima del volo a Hong Kong, oppure `summon UnatcoContinues.UCDbgHongKong` in un livello fresco. Si arriva sul tetto civile: H su piattaforma rialzata, quattro gradini, liaison, blocco di servizio e ascensore. Jock resta sul tetto; ascoltare il primo scambio e quello facoltativo successivo.
+- Avvicinarsi al liaison, poi al checkpoint: Simons dà l'ordine sul Red Arrow senza far rispondere JC. Entrare nella cabina e premere il pulsante: la porta si chiude, la piattaforma scende brevemente e si arriva nel cortile del Market.
+- Nel cortile ascoltare la spiegazione evasiva del liaison. Attraversare il disimpegno avvia la diversione; gli aggressori passano dalla porta di manutenzione e dalla passerella. Devono cercare la cassa, non JC. Provare sia intervenire sia uscire verso il mercato senza ucciderli tutti.
+- Leggere il cartellino VL-HK soltanto in una delle prove. Anche dopo il furto della cassa rimane a terra: la lettura dà una nota attribuita a VersaLife, non rivela il contenuto. Tong deve distinguere lettura e mancata lettura, intervento e semplice presenza.
+- Tornare all'ascensore e risalire al tetto: arrivo nel disimpegno, nessuna compenetrazione con la piattaforma, nessun riavvio del raid al ritorno nel cortile. Verificare il passaggio fisico verso il Market e l'uscita laterale verso Canal Road. Il messaggero propone Max dopo il raid; il percorso resta facoltativo.
+- Max offre un accordo facoltativo. Rifiutarlo non chiude l'indagine: Gordon può concedere il colloquio dopo la verifica della spada anche senza Max.
+- La spada si consegna soltanto scegliendo il trasferimento, con l'arma verificata realmente in inventario. Il possesso non è una prova dell'omicidio di Yuen: leggere trascrizione di Chow e rapporto della polizia.
+- Nel laboratorio leggere il datacube di accesso: archivio `TONG / 1997`, console di servizio dietro il magazzino `MAINT / 1997`.
+- Leggere manifest e copia attribuita di Paul. La consultazione del manifest lascia una nota di lettura; il comando separato **Copy** salva gli identificativi originali.
+- Attendere senza trasmettere: nessun assalto. Trasmettere la posizione dall'archivio e ricevere Simons: porta ancora chiusa, nessun assalto.
+- Provare ad attraversare con JC il muro ancora chiuso: deve fermarlo. Alla console di servizio aprire l'accesso: il muro scende nel pavimento, la squadra scende dalla scala, attraversa il magazzino e solo allora parte l'operazione. Il cancello in cima alla scala rimane INF e impedisce di raggiungere il caricamento esterno; il poligono è originale. La console usa HKNet, senza marchi UNATCO.
+- Seguire il comandante nella sala operatoria per intervenire sul prigioniero; allontanarsi per verificare il ramo ignorato. Controllare conseguenze e note di custodia.
+- I tecnici lavorano sugli archivi. La copia già salvata rimane; senza copia il rapporto indica l'estrazione di Special Projects.
+- Completare il sweep non invia il rapporto. Usare **Upload operation report** all'archivio o ai terminali sicuri esterni: solo quel comando produce l'incarico VersaLife.
+- Ripetere con Tong morto, Gordon morto, arma trattenuta o lasciata nella teca; provare save/load e cambio mappa nelle fasi prima e dopo l'apertura.
+
+Il nuovo arrivo civile è descritto in [HONGKONG_ROOFTOP_FLOW.md](HONGKONG_ROOFTOP_FLOW.md). L'eliporto MJ12 originale rimane un sito separato. Per verifiche eseguite e limiti della copertura vedere [STATUS.md](STATUS.md).
+
+Revisione visiva installata alle 23:43: piattaforma 896 × 896, reti basse ai bordi,
+zona impianti recintata e cabina con pannelli metallici e pavimento a griglia.
+Prova automatica completa: 30 controlli, zero errori, 14 foto; controllo hash delle
+otto destinazioni installate. Durante le foto automatiche i comandi manuali sono
+disattivati, così il lavoro desktop non sposta JC durante le attese del test.
+
+## Registro storico — versione precedente al 6 ottobre
 
 Prima di aggiungere l'assalto. Menu di debug: tasto **Home**. Ogni salto azzera i flag della route, ma una mappa gia'
 visitata nella partita torna com'era (personaggi spostati, porte aperte...): per una prova pulita partire da un

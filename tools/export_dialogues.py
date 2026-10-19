@@ -20,7 +20,8 @@ CLASSES = os.path.join(ROOT, 'src', 'UnatcoContinues', 'Classes')
 OUT = os.path.join(ROOT, 'docs', 'NARRATIVE_DESIGN.md')
 INTRO = os.path.join(ROOT, 'docs', 'narrative', 'intro.md')
 SKIP = ('UCCon.uc', 'UCDialogueCheckCommandlet.uc', 'UCVoiceCheckCommandlet.uc', 'UCRouteCheckCommandlet.uc',
-        'UCVoiceIdentityCheck.uc', 'UCShotRunner.uc', 'UCTour.uc', 'UCHKCheck.uc', 'UCWalkOffCheck.uc')
+        'UCVoiceIdentityCheck.uc', 'UCShotRunner.uc', 'UCTour.uc', 'UCHKCheck.uc', 'UCWalkOffCheck.uc',
+        'UCRWCheckCommandlet.uc', 'UCRWPlayCheck.uc')
 
 STR = r'"((?:[^"\\]|\\.)*)"'
 NAME = r"'([A-Za-z0-9_]+)'"
@@ -69,7 +70,7 @@ def logical_lines(text):
         if not line.strip():
             continue
         if not buf:
-            indent = len(line) - len(line.lstrip('\t'))
+            indent = len(line.expandtabs(4)) - len(line.expandtabs(4).lstrip())
             buf = line.strip()
         else:
             buf += ' ' + line.strip()
@@ -82,7 +83,20 @@ def logical_lines(text):
             elif not in_str:
                 depth += (ch == '(') - (ch == ')')
         if depth <= 0:
-            out.append((indent, buf))
+            # Several scene builders put Begin/Once/Label on one source line.
+            # Split statements outside strings and loop/function parentheses.
+            start, parens, quoted = 0, 0, False
+            for pos, ch in enumerate(buf):
+                if ch == '"' and (pos == 0 or buf[pos - 1] != "\\"):
+                    quoted = not quoted
+                if quoted:
+                    continue
+                parens += (ch == '(') - (ch == ')')
+                if ch == ';' and parens == 0:
+                    out.append((indent, buf[start:pos + 1].strip()))
+                    start = pos + 1
+            if buf[start:].strip():
+                out.append((indent, buf[start:].strip()))
             buf = ''
     return out
 
@@ -161,6 +175,9 @@ def parse_file(path, known=None):
             handle = m.group(2)
         ev = None
         m = re.search(r"\.Begin\(" + NAME + r",\s*" + STR + r",\s*(True|False)\)", handle)
+        if not m:
+            # the owner passed in a variable (the same talk built for two characters)
+            m = re.search(r"\.Begin\(" + NAME + r",\s*([A-Za-z_]+),\s*(True|False)\)", handle)
         m2 = re.search(r"AnnaOpening\(" + NAME + r",\s*(\d),\s*(True|False)\)", handle)
         if m:
             helper = None     # la funzione apre lei la conversazione: non e' un frammento
@@ -186,6 +203,8 @@ def parse_file(path, known=None):
                 (r"\.Line\(\s*" + STR + r",\s*([A-Za-z_]+),\s*" + STR + r"\)", 'line'),
                 (r"\.Line\(\s*([A-Za-z_.]+),\s*" + STR + r",\s*([A-Za-z_]+)\)", 'dynline'),
                 (r"\.Choice\(\s*" + STR + r",\s*" + STR + r",\s*" + STR + r",\s*" + STR + r"\)", 'choice'),
+                # Choices() + one Answer() per option, optionally only when a flag has a value
+                (r"\.Answer\(\s*" + STR + r",\s*" + STR + r"(?:,\s*" + NAME + r",\s*(True|False))?\s*\)", 'answer'),
                 (r"\.Label\(\s*" + STR + r"\)", 'label'),
                 (r"\.Jump\(\s*" + STR + r"\)", 'jump'),
                 (r"\.IfFlag\(\s*" + NAME + r",\s*(True|False),\s*" + STR + r"\)", 'ifflag'),
@@ -196,7 +215,7 @@ def parse_file(path, known=None):
             ):
                 m = re.search(r'\bc' + pat, handle)
                 if m and target is not None:
-                    ev = (kind, tuple(unesc(g) for g in m.groups()), local() if not helper else [])
+                    ev = (kind, tuple(unesc(g) if g is not None else '' for g in m.groups()), local() if not helper else [])
                     target.append(ev)
                     break
             if ev is None and cur is not None and not helper:

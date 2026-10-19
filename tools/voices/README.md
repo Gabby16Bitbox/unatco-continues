@@ -1,3 +1,15 @@
+## Latest refresh — 18 October 2026
+
+468 active dialogue recordings verified. Added anxious Jock street InfoLink, a distinct Tong-based Luminous Path leader lowered one semitone, Chinese-accented smoker, and missing special-agent lines. Existing JC, Eva and fighter recordings are unchanged. Compiled to dist, not yet installed in the game.
+
+Authored acting directions persist in delivery_overrides.json; leader pitch and local cast levels persist in mix_profile.json. See [voice refresh report](HK_JOCK_VOICE_REFRESH_20261018.md).
+
+## Latest approval — 15 October 2026, JC C
+
+All 129 JC lines now use the separately refined clone B on Eleven v4, stability/similarity 1.0, with the single `[deadpan]` tag (audition C approved by the user). Compiled and installed in local Revision. Other voices, including Eva/May and Jock’s panicked capture retake, are unchanged.
+
+Details and backups: [JC C release report](jc_deadpan_release_20261015/REPORT.md). Earlier sections below document superseded settings.
+
 # Voci di UNATCO Continues
 
 Eseguire i comandi dalla cartella `UnatcoContinues`.
@@ -6,15 +18,27 @@ punta a una vecchia installazione Microsoft Store non utilizzabile.
 
 ## Versione corrente: V4, ritmo e mix calibrati
 
+Revisione del 15 ottobre: 458 audio runtime verificati, inclusi i nuovi dialoghi
+di Battery Park e Harbourline. JC usa la prova A scelta dall'utente: clone
+attuale, nessun tag recitativo, stabilita e somiglianza 1,00. Eva usa May,
+voce femminile bassa e roca scelta dopo le prove. Kwan e Lam hanno voci inglesi
+con accento cinese; le guardie locali usano i profili originali delle Triadi.
+Dettagli, prove e backup: [resoconto casting](casting_20261015/REPORT.md).
+I resoconti successivi in questa pagina descrivono revisioni precedenti.
+
 Le battute correnti usano Eleven v4 con direzione sobria e stabilita 0,90;
-JC usa stabilita 1,00, somiglianza 0,85 e il tag `deadpan`.
+JC usa stabilita e somiglianza 1,00, senza tag o enfasi aggiunte alle parole.
 `delivery_natural_v4.json` registra prompt, contesto, canale, durata prevista e
-livello per ogni frase. Il confronto usa registrazioni originali per ogni voce, comprese
+livello per ogni frase. Il confronto usa registrazioni originali per le voci del gioco, comprese
 le chiamate InfoLink di Alex e Paul; la stima dei tempi considera pronuncia
 approssimata e pause tra frasi, con tolleranza del 20% o 250 ms. Per JC si
 ammette anche lo scarto osservato nel 90esimo percentile degli originali
 (circa 575 ms), evitando di accelerare risposte brevi e piatte. I nuovi testi
 sono diversi dagli originali, quindi non si tratta di un allineamento esatto.
+I nuovi personaggi non hanno registrazioni originali: `_casting` in `voices.json`
+specifica separatamente la voce e il riferimento usato solo per tempi/mix.
+Le loro stime ammettono il 25% o 500 ms di tolleranza; gli ordini delle Triadi
+a Harbourline usano un ritmo previsto massimo di 200 parole/minuto.
 
 Soldati e Jock usano stabilita 0,95 e somiglianza 0,80. Le due voci UNATCO
 sono cloni separati dei gruppi originali `UNATCOTroop` e `UNATCOTroopB`:
@@ -38,8 +62,13 @@ Il codice usa volume 1,0 e il raggio nativo di `ConPlay`,
 invece del precedente guadagno 2,0. L'ascolto in gioco resta necessario per
 valutare timbro, intelligibilita ed equilibrio con musica e ambiente.
 
-Dal 05/10 tutti i WAV ricevono de-essing selettivo a 5,5 kHz, fino a 3 dB;
+Dal 06/10 Max Chen usa -12,5 LUFS e +1 dB a 1,8 kHz: una correzione mirata
+per il timbro ricco di bassi, percepito troppo basso nel gioco. La correzione
+riusa le take grezze, conserva il limiter e non applica de-essing.
+
+Dal 06/10 soltanto le battute radio/InfoLink ricevono de-essing a 5,5 kHz, fino a 3 dB;
 Simons via radio usa 5 kHz, fino a 6 dB, e minore enfasi a 3,2 kHz.
+Le voci dirette, comprese quelle nelle registrazioni olografiche, non ricevono de-essing.
 Il detector lavora dopo il pareggio del livello. Il corpo della voce rimane
 fuori dalla banda attenuata. Il limiter e sempre attivo, senza guadagno
 automatico, a 4 volte la frequenza di campionamento. Il WAV finale mono PCM
@@ -96,6 +125,31 @@ Anche `make_voices.py generate` usa questa pipeline per i WAV mancanti quando
 
 La procedura `direct` descritta piu sotto riguarda la precedente versione v3.
 Le sue take e le anteprime V4 restano conservate per confronto e ripristino.
+
+## Audio della riscrittura del 6 ottobre
+
+Le battute esplicite di `docs/CAMPAIGN_REWRITE_2026_10_06.md`, comprese le
+alternative, vengono preparate con gli stessi cloni e riferimenti di durata.
+La cache `campaign_rewrite_v4` conserva le take preparate dal copione, riusate
+quando testo, voce, prompt e impostazioni corrispondono alle scene implementate.
+Non vengono letti come parlato obiettivi, note di regia o documenti dei terminali.
+La preparazione iniziale contiene 142 battute/canali: 122 take nuove e 20 riusate.
+Le anteprime sono `Max_JC_preview.wav`, `Gunther_JC_preview.wav` e
+`Tong_JC_preview.wav` nella cache. Dopo l'integrazione, il runtime contiene 279
+registrazioni uniche. Il refresh ha riusato 270 take compatibili e generato
+le 9 aggiuntive richieste dal codice finale. Documenti e scelte mute non sono TTS.
+
+```powershell
+.\tools\voices\voices.ps1 rewrite plan
+.\tools\voices\voices.ps1 rewrite generate
+.\tools\voices\voices.ps1 rewrite verify
+```
+
+Il piano è `delivery_campaign_rewrite_v4.json`; rapporto, ricevute e anteprime
+sono nella cache. `--only MaxChen` limita la generazione a una voce.
+Quando si cambiano le scene nei sorgenti, `refresh` recupera dalla cache
+le take compatibili per testo, voce, prompt e impostazioni, senza pagarle di nuovo.
+L'importazione nel pacchetto continua a includere soltanto le battute implementate.
 
 ## Preparare i campioni originali
 
@@ -307,7 +361,7 @@ Per aggiornare le sole bozze dai documenti, usare
 `prepare_hk_drafts.py prepare` e `prepare_hk_drafts.py generate`.
 Il testo della prosa narrativa non viene convertito in battute inventate.
 
-## Stato corrente: Hong Kong collegata (3 ottobre 2026)
+## Revisione precedente: Hong Kong collegata (3 ottobre 2026)
 
 Il codice comprende ora 305 audio: aggiunte 87 battute in UCHKStory e
 UCSceneSimonsSword, con Maggie, Max, Gordon, messaggero, agenti e Simons.

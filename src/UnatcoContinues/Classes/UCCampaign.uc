@@ -1,5 +1,5 @@
 //=============================================================================
-// UCMod - gestore della route UNATCO (vedi docs\ROUTE_DESIGN.md).
+// UCCampaign - gestore della route UNATCO (vedi docs\ROUTE_DESIGN.md).
 // Osserva i flag vanilla di Mission 04 e imposta i nostri flag UNATCORoute_*.
 //
 // Dopo M04PlayerLikesUNATCO (JC sceglie l'UNATCO):
@@ -10,7 +10,7 @@
 //               il cancello e' aperto per il personale UNATCO.
 //   Battery Park    Jock aspetta con l'elicottero; "pronto" -> decollo -> Hong Kong.
 //=============================================================================
-class UCMod extends Actor
+class UCCampaign extends Actor
 	transient;   // come MissionScript: i puntatori a Player/flags non vanno salvati ne' ripuliti al cambio mappa
 
 var DeusExPlayer Player;
@@ -32,15 +32,18 @@ var bool bBPSetup;
 var bool bSignalHooked;
 var bool bHotelSetup;
 var bool bJockConv;
+var bool bBPScene;         // Battery Park: UCSceneBatteryPark gia' avviata in questa mappa
 var bool bHKSetup;
 var bool bHello;          // messaggio "mod caricata" gia' dato in questa mappa
 var bool bLiftGuardGone;  // la guardia dell'ascensore delle versioni precedenti e' stata tolta
 var bool bSimonsScene;
 var bool bHKWorld;
 var bool bGuntherScene;
+var bool bJockCallScene;   // Hell's Kitchen: UCSceneJockStreet (Jock's call) gia' avviata in questa mappa
 var bool bHotelQuestCons;   // conversazioni della faccenda di JoJo gia' tolte in questa mappa
 var bool bTraveler;       // UCTraveler gia' controllato in questa mappa
 var bool bRouteWalls;     // muri 'UCWall*' della route gia' alzati in questa mappa
+var bool bEdStory;        // storia scritta nell'editor delle mappe gia' avviata in questa mappa
 var bool bSignChecked;    // scritta dell'eliporto gia' controllata in questa mappa
 var bool bVanillaShown;   // oggetti "UCVanilla*" gia' mostrati (gioco normale) in questa mappa
 var float lastBarkTime;
@@ -48,6 +51,8 @@ var float lastBlockMsgTime;
 var name barked[96];      // PNG che hanno gia' detto la loro battuta (nomi, non puntatori)
 var int numBarked;
 var int barkIndex;
+var bool bInvestigation;
+var bool bRooftopFlow;
 
 // Rilascia i puntatori prima della pulizia del livello (evita il crash al cambio mappa).
 event Destroyed()
@@ -66,19 +71,19 @@ function PreTravel()
 
 function PostBeginPlay()
 {
-	local UCMod other;
+	local UCCampaign other;
 
 	Super.PostBeginPlay();
 
 	// un solo gestore per mappa (il mutator e "summon" possono crearne piu' di uno)
-	foreach AllActors(class'UCMod', other)
+	foreach AllActors(class'UCCampaign', other)
 		if (other != Self && !other.bDeleteMe)
 		{
 			Destroy();
 			return;
 		}
 
-	// UCMutator viene salvato dentro la mappa e ricrea UCMod quando la mappa viene
+	// UCMutator viene salvato dentro la mappa e ricrea UCCampaign quando la mappa viene
 	// ricaricata dal salvataggio (tornandoci): se manca (partita senza il mutator
 	// nell'URL) lo mettiamo noi.
 	if (!HasMutatorAnchor())
@@ -87,7 +92,18 @@ function PostBeginPlay()
 	SetTimer(0.5, True);
 	Spawn(class'UCDialogueDirector'); // camere e musica nelle conversazioni della mod
 	Spawn(class'UCVoiceDriver');   // voci registrate nelle conversazioni della mod
+	EnsureFateWatch();             // chi viene ucciso o messo KO: le storie dell'editor se lo ricordano
 	Log("UnatcoContinues: gestore route avviato.");
+}
+
+// UCFateWatch: cosa succede ai personaggi della mappa, per le storie (uno per mappa, salvato con la mappa).
+function EnsureFateWatch()
+{
+	local UCFateWatch w;
+
+	foreach AllActors(class'UCFateWatch', w)
+		return;
+	Spawn(class'UCFateWatch');
 }
 
 // Messaggi di servizio a schermo: non durante la presentazione per il video (UCTour).
@@ -160,6 +176,50 @@ function Release()
 	flags = None;
 }
 
+// La storia scritta nell'editor delle mappe ("Storia": dialoghi ed eventi), se questa mappa ne ha
+// una: tools\mapkit\story.py genera la classe UCEd_<mappa> (sottoclasse di UCEditorStory).
+function SpawnEditorStory()
+{
+	local class<Actor> cls;
+
+	cls = class<Actor>(DynamicLoadObject("UnatcoContinues.UCEd_" $ localURL, class'Class', True));
+	if (cls != None)
+	{
+		Spawn(cls);
+		Log("UnatcoContinues: storia dell'editor" @ cls);
+	}
+}
+
+// I testi scritti nell'editor delle mappe (libri, giornali, datacube): Revision mostra SpecialText
+// quando l'oggetto non ha un testo del gioco (textTag vuoto), ma nel DataVault metterebbe una nota
+// vuota (il testo della nota lo riempie solo il parser dei testi del gioco). L'editor da' a ognuno
+// un TextPackage "UCText_<mappa>_<nome>", una chiave di nota sua; qui il testo della nota.
+//#if revision
+function PrepareEditorTexts()
+{
+	local InformationDevices d;
+
+	foreach AllActors(class'InformationDevices', d)
+		if (d.textTag == '' && d.SpecialText != "" && Left(d.TextPackage, 7) == "UCText_" && d.vaultString == "")
+			d.vaultString = d.SpecialText;
+}
+//#else
+//// the original game has no SpecialText: the map's texts reach it through textTag and TextPackage
+//function PrepareEditorTexts()
+//{
+//}
+//#endif
+
+// Le email e i bollettini dei computer scritti nell'editor (UCTextBlock): i testi che il gioco
+// cerca nel pacchetto del computer, creati qui nel pacchetto UnatcoContinues (in memoria: ogni
+// volta che la mappa parte, anche da un salvataggio).
+function MakeEditorTexts()
+{
+	local UCTextBlock b;
+	foreach AllActors(class'UCTextBlock', b)
+		class'UCTextBlock'.static.RegisterText(b);
+}
+
 // Inizializzazione per mappa (una volta sola, con Player/flags acquisiti).
 function InitRoute()
 {
@@ -169,6 +229,8 @@ function InitRoute()
 
 	foreach AllActors(class'DeusExLevelInfo', info)
 		localURL = Caps(info.mapName);
+	PrepareEditorTexts();
+	MakeEditorTexts();
 
 	// la route gia' scelta in un salvataggio resta attiva
 	bCommitted = flags.GetBool('UNATCORouteCommitted');
@@ -197,15 +259,35 @@ function InitRoute()
 	Log("UnatcoContinues: mappa" @ localURL @ "- route attiva:" @ bCommitted);
 }
 
+// The men in black: Revision gives them their own eye height (43, the original game's MIB keeps the soldiers' 40);
+// on their 1.1 scale the conversation's close-ups (ConCamera: BaseEyeHeight * 0.95) framed their mouths in the
+// original game (Gabby, 19 Oct 2026). Revision's height in both games.
+function FixMIBEyes()
+{
+	local MIB m;
+	foreach AllActors(class'MIB', m)
+		if (m.BaseEyeHeight < 43)
+			m.BaseEyeHeight = 43;
+}
+
 function Timer()
 {
 	if (!Acquire())
 		return;
 	if (Player.conPlay == None)
 		RestoreBarkBindings();
+	class'UCInfoVoice'.static.Get(Self);     // measures the game's clock against the real one from the map's start
+//#if vanilla
+//	FixMIBEyes();
+//#endif
 
 	if (!bInit)
 		InitRoute();
+	if (!bEdStory)
+	{
+		bEdStory = True;
+		SpawnEditorStory();
+	}
 	if (!bHello)
 	{
 		bHello = True;
@@ -255,6 +337,11 @@ function Timer()
 
 	if (Left(localURL, 3) == "03_" || Left(localURL, 3) == "04_")
 		KnowledgeTick();
+	if (!bInvestigation && (localURL == "04_NYC_NSFHQ" || bCommitted))
+	{
+		bInvestigation = True;
+		Spawn(class'UCInvestigation');
+	}
 
 	// Prova trovata a NSF HQ: l'infolink DL_GotUplinkCode e' gia' partito.
 	// (Se la partita non e' sulla route vanilla di Paul i flag restano falsi.)
@@ -364,13 +451,18 @@ function GateGuardGate()
 // Battery Park: rimette al suo posto l'elicottero di Jock (la sua posizione vanilla).
 function EnsureHeli()
 {
-	local BlackHelicopter heli;
+	local BlackHelicopter heli, it;
 	local vector spot;
 
 	spot = vect(-1632.6, 516.7, 424.1);   // posizione originale nella mappa
 
-	foreach AllActors(class'BlackHelicopter', heli)
-		break;
+	// quello di Jock, non quello di Eva (UCSceneBatteryPark, salvato con la mappa)
+	foreach AllActors(class'BlackHelicopter', it)
+		if (it.Tag != 'UCEvaHeli')
+		{
+			heli = it;
+			break;
+		}
 
 	if (heli != None)
 		Log("UnatcoContinues: elicottero trovato, stato" @ heli.GetStateName() @ "hidden" @ heli.bHidden @ "pos" @ int(heli.Location.X) $ "," $ int(heli.Location.Y) $ "," $ int(heli.Location.Z));
@@ -412,7 +504,11 @@ function DoArrival(int where)
 	// Hell's Kitchen: in cima alle scale della metro, verso la grata
 	if (where == 6)
 	{
+//#if revision
 		if (Player.SetLocation(vect(2292, -1138, -470)))
+//#else
+//		if (Player.SetLocation(vect(1406, -1824, -478)))
+//#endif
 			Player.ClientSetRotation(rot(0, 0, 0));
 		Dbg("[UC] In cima alle scale della metro.");
 		return;
@@ -448,6 +544,16 @@ function DoArrival(int where)
 
 // Davanti alla sedia, nella stessa stanza: nessun offset di 70 unita' che possa
 // mettere JC nel bagno. Controlla pavimento, visuale e collisione del giocatore.
+// Paul's apartment at the 'Ton: Revision's 04_NYC_Hotel has it 560 units east and 736 south of the original
+// game's (the same rooms, the same floor): the points the mod names there are Revision's, made the original's here
+static function vector HotelRoom(vector v)
+{
+//#if vanilla
+//	v += vect(-560, 736, 0);
+//#endif
+	return v;
+}
+
 function bool ArrivePaul(bool bVideo)
 {
 	local PaulDenton paul;
@@ -482,7 +588,7 @@ function bool ArrivePaul(bool bVideo)
 		if (i == 1) spot += right * 80;
 		if (i == 2) spot -= right * 80;
 		if (i == 3) spot = paul.Location + forward * 170;
-		if (i == 4) spot = vect(300, -3440, 112);
+		if (i == 4) spot = HotelRoom(vect(300, -3440, 112));
 		if (VSize(spot - paul.Location) < Player.CollisionRadius + paul.CollisionRadius + 80)
 			continue;
 		hitActor = Trace(hitLoc, hitNormal, spot - vect(0, 0, 200), spot + vect(0, 0, 80), False);
@@ -620,14 +726,21 @@ function RouteTick()
 			Player.GoalCompleted('FindHermann');
 	}
 
-	// Jock aspetta a Battery Park: dopo l'incontro con Gunther davanti al 'Ton, o se JC
-	// lo evita (finestra), o comunque appena e' in un'altra mappa
+	// Jock aspetta a Battery Park: il goal lo da' la sua chiamata in strada (Gabby, 17 ott 2026: appena
+	// fuori dall'hotel, tra l'hotel e la metro, UCSceneJockStreet); se JC non la sente (e' gia' sceso
+	// in metro, un salvataggio di prima), appena e' in un'altra mappa
 	if (!flags.GetBool('UC_JockGoal') && Player.conPlay == None
-		&& (flags.GetBool('GuntherTonEncounterPlayed') || flags.GetBool('GuntherTonSkipped')
-			|| (localURL != "04_NYC_HOTEL" && localURL != "04_NYC_STREET")))
+		&& (flags.GetBool('UC_JockStreetCallDone') || (localURL != "04_NYC_HOTEL" && localURL != "04_NYC_STREET")))
 	{
 		flags.SetBool('UC_JockGoal', True,, 99);
-		Player.GoalAdd('MeetJockBatteryPark', "Resume your original assignment. Meet Jock in Battery Park and proceed to Hong Kong.", True);
+		Player.GoalAdd('MeetJockBatteryPark', "Jock is waiting with the helicopter in Battery Park, and he doesn't like what he's seeing. Take the Hell's Kitchen subway and get there fast.", True);
+	}
+	// la chiamata di Jock in strada, dopo Gunther (o la finestra)
+	if (localURL == "04_NYC_STREET" && !bJockCallScene && !flags.GetBool('UC_JockStreetCallDone')
+		&& (flags.GetBool('GuntherTonEncounterPlayed') || flags.GetBool('GuntherTonSkipped')))
+	{
+		bJockCallScene = True;
+		Spawn(class'UCSceneJockStreet');
 	}
 
 	// Gunther e gli Special Agents al 'Ton (scena facoltativa: chi esce dalla finestra puo' evitarli)
@@ -683,25 +796,36 @@ function RouteTick()
 		BlockedExitWarning();
 	}
 
-	// Battery Park: Jock aspetta all'elicottero (Anna resta alla metro di Hell's Kitchen)
+	// Battery Park: Jock e' morto (missione di Gabby "Mission 5 - Battery Park", 15 ott 2026):
+	// la chiamata interrotta, i Special Agents all'elicottero, il corpo, Eva e il decollo sono
+	// tutti in UCSceneBatteryPark. Le vecchie conversazioni con Jock vivo (AttachJockTalk,
+	// UC_JockGo -> UCSceneTakeoff) non si usano piu'. Anna resta alla metro di Hell's Kitchen.
 	if (localURL == "04_NYC_BATTERYPARK" && !flags.GetBool('UNATCORoute_DepartedNYC'))
 	{
 		if (!bBPSetup)
 			BatteryParkSetup();
 		if (!flags.GetBool('UC_BP_Started'))
 			flags.SetBool('UC_BP_Started', True,, 99);
-		if (!bJockConv)
-			AttachJockTalk();
-		ParkPatrolTick();
-		if (flags.GetBool('UC_JockGo') && !flags.GetBool('UC_Takeoff_Started'))
+		if (!bBPScene)
 		{
-			flags.SetBool('UC_Takeoff_Started', True,, 99);
-			Spawn(class'UCSceneTakeoff');
+			bBPScene = True;
+			Spawn(class'UCSceneBatteryPark');
 		}
+		ParkPatrolTick();
 	}
 
-	// Hong Kong: Jock lascia JC all'eliporto (route UNATCO: niente trappola MJ12)
-	if (localURL == "06_HONGKONG_HELIBASE" && flags.GetBool('UNATCORoute_DepartedNYC'))
+	// The civilian arrival is a separate level: Harbourline Tower in Wan Chai, roof and garage
+	// (Mission 6 opening, UCSceneHarbourline, built on the old Special Projects flow UCSceneHKArrival);
+	// the MJ12 base remains a later site.
+	if (localURL == "06_HONGKONG_WANCHAI_ROOFTOP" && flags.GetBool('UNATCORoute_DepartedNYC') && !bRooftopFlow)
+	{
+		bRooftopFlow=True;
+		Spawn(class'UCSceneHarbourline');
+		if (flags.GetBool('UC_RooftopProofActive')) Spawn(class'UCRooftopPlayCheck');
+	}
+	// Compatibility with saved games which have already landed at the old base.
+	if (localURL == "06_HONGKONG_HELIBASE" && flags.GetBool('UNATCORoute_DepartedNYC')
+		&& !flags.GetBool('UC_RooftopIntroduced'))
 	{
 		if (!bHKSetup)
 			HelibaseSetup();
@@ -723,7 +847,7 @@ function RouteTick()
 	}
 
 	// Hong Kong (HK-2): fazioni e trigger di Wan Chai per un agente UNATCO in servizio
-	if (Left(localURL, 3) == "06_" && localURL != "06_HONGKONG_HELIBASE" && localURL != "06_HONGKONG_STORAGE"
+	if (Left(localURL, 3) == "06_" && localURL != "06_HONGKONG_HELIBASE" && localURL != "06_HONGKONG_WANCHAI_ROOFTOP" && localURL != "06_HONGKONG_STORAGE"
 		&& flags.GetBool('UNATCORoute_DepartedNYC') && !bHKWorld)
 	{
 		bHKWorld = True;
@@ -734,13 +858,14 @@ function RouteTick()
 	// Hong Kong: JC chiama Simons al mercato, dopo il messaggero Red Arrow (o quando il
 	// messaggero non c'e' / JC e' andato oltre: UCHKStory, UC_HK_MessengerDone); nelle
 	// altre mappe subito, se non l'ha ancora fatto. All'eliporto no.
-	if (Left(localURL, 3) == "06_" && localURL != "06_HONGKONG_HELIBASE" && flags.GetBool('UNATCORoute_DepartedNYC')
+	if (Left(localURL, 3) == "06_" && localURL != "06_HONGKONG_HELIBASE" && localURL != "06_HONGKONG_WANCHAI_ROOFTOP" && flags.GetBool('UNATCORoute_DepartedNYC')
 		&& !flags.GetBool('UC_HK_SimonsBriefing'))
 	{
 		if (flags.GetBool('UC_HK_Started'))
 			flags.SetBool('UC_HK_SimonsDue', True,, 99);
 		if (flags.GetBool('UC_HK_SimonsDue') && !bSimonsScene
-			&& (localURL != "06_HONGKONG_WANCHAI_MARKET" || flags.GetBool('UC_HK_MessengerDone')))
+			&& ((localURL != "06_HONGKONG_WANCHAI_MARKET" && localURL != "06_HONGKONG_WANCHAI_STREET")
+				|| flags.GetBool('UC_HK_MessengerDone')))
 		{
 			bSimonsScene = True;
 			Spawn(class'UCSceneSimonsBriefing');
@@ -974,8 +1099,7 @@ function SwapHelibaseSign(bool bOn)
 	local Texture orig, repl;
 
 	orig = Texture(DynamicLoadObject("HK_Helibase.Sn_HBLkdwn", class'Texture', True));
-	// the sign was made on a texture of Revision: no longer in the repository, so nothing changes here
-	repl = Texture(DynamicLoadObject("UnatcoContinues.UCSignElevators", class'Texture', True));
+	repl = Texture'UnatcoContinues.UCSignElevators';
 	if (orig == None || repl == None)
 		return;
 	if (bOn)
@@ -1052,6 +1176,8 @@ function ShowVanillaOnly()
 
 	foreach AllActors(class'Actor', A)
 	{
+		if (A.Tag == 'UCNorthConsole')
+		{ A.bHidden = True; A.SetCollision(False, False, False); }
 		if (Left(Caps(string(A.Tag)), 9) != "UCVANILLA")
 			continue;
 		A.bHidden = False;
@@ -1339,9 +1465,11 @@ function OpenSubwayGateOnly()
 	foreach AllActors(class'DeusExMover', m, 'SubGate')
 		if (m.KeyNum == 0 && !m.bInterpolating)
 			m.Trigger(None, Player);
-	// il tastierino resta spento come nel gioco originale (riaccenderlo richiuderebbe la grata)
-	foreach AllActors(class'Actor', pad, 'SubKeypad')
-		pad.SetCollision(False);
+	// il tastierino resta spento come nel gioco originale (riaccenderlo richiuderebbe la grata). Revision's has the
+	// Tag SubKeypad, the original game's only its Event: the keypad is the one that opens the gate
+	foreach AllActors(class'Actor', pad)
+		if (pad.Tag == 'SubKeypad' || (pad.IsA('Keypad') && pad.Event == 'SubGate'))
+			pad.SetCollision(False);
 }
 
 // Flag "creato una volta" dei PNG del posto alla metro (senza giocatore, nei controlli
@@ -1375,7 +1503,11 @@ function PlaceMetroPost(bool bAnnaDead)
 	local vector spot;
 	local rotator r;
 
+//#if revision
 	spot = vect(2515.1, -1187.8, -583.0);   // sul pianerottolo davanti alla grata
+//#else
+//	spot = vect(1629.1, -1873.8, -588.0);   // the original game's Street: the same landing (its gate is elsewhere)
+//#endif
 	r = rot(0, 21744, 0);                   // verso chi scende le scale
 
 	foreach AllActors(class'ScriptedPawn', sp, 'UCAnnaMetro')
@@ -2301,12 +2433,9 @@ function string BarkLine(ScriptedPawn sp)
 			return "They've got every unit in Manhattan looking for your brother.";
 		return "Didn't expect to see you here, Agent Denton.";
 	}
+	// (Jock e' morto: niente piu' "Your pilot's waiting past the fort")
 	if (localURL == "04_NYC_BATTERYPARK")
-	{
-		if (barkIndex % 2 == 0)
-			return "Your pilot's waiting past the fort, Agent Denton.";
 		return "Heard you're shipping out to Hong Kong. Good luck.";   // battuta originale (M04TroopBarks)
-	}
 	return "";
 }
 
@@ -2317,6 +2446,10 @@ function BarkTick()
 	local UCCon c;
 
 	if (Player.conPlay != None || Level.TimeSeconds - lastBarkTime < 5.0 || numBarked >= 96)
+		return;
+	// not over an InfoLink (Battery Park, 15 Oct: a trooper's line came over Jock's call)
+	if (Player.dataLinkPlay != None || (DeusExRootWindow(Player.rootWindow) != None
+		&& DeusExRootWindow(Player.rootWindow).hud != None && DeusExRootWindow(Player.rootWindow).hud.infolink != None))
 		return;
 
 	foreach AllActors(class'ScriptedPawn', sp)
@@ -2411,9 +2544,9 @@ function PaulEvidence()
 		// versione precedente (medkit attaccato alla sedia): tolta
 		foreach AllActors(class'Actor', A, 'UCPaulEvidence')
 			A.Destroy();
-		Spawn(class'Sodacan',, 'UCPaulEvidence2', FloorAt(vect(215, -3615, 120), normal) + vect(0,0,8));
+		Spawn(class'Sodacan',, 'UCPaulEvidence2', FloorAt(HotelRoom(vect(215, -3615, 120)), normal) + vect(0,0,8));
 		// il medkit usato e' caduto in camera, lungo la strada verso la finestra
-		Spawn(class'MedKit',, 'UCPaulEvidence2', FloorAt(vect(-70, -3760, 120), normal) + vect(0,0,10));
+		Spawn(class'MedKit',, 'UCPaulEvidence2', FloorAt(HotelRoom(vect(-70, -3760, 120)), normal) + vect(0,0,10));
 	}
 
 	// la pozza sotto la sedia era troppo grande: niente pozza, solo le macchie piccole
@@ -2426,28 +2559,28 @@ function PaulEvidence()
 	foreach AllActors(class'BloodSplat', splat)
 		if (splat.Tag == 'UCPaulEvidence2')
 		{
-			splat.bPermanent = True;
+			splat.SetPropertyText("bPermanent", "True");   // Revision only (the original game's decals have no bPermanent)
 			splat.bImportant = True;
 			bHaveSplats = True;
 		}
 	if (bHaveSplats)
 		return;
 	// dalla sedia, intorno al muro, attraverso la porta della camera, fino alla finestra
-	trail[0] = vect(150, -3590, 120);
-	trail[1] = vect(95, -3580, 120);
-	trail[2] = vect(40, -3588, 120);
-	trail[3] = vect(5, -3640, 120);
-	trail[4] = vect(-5, -3720, 120);
-	trail[5] = vect(0, -3810, 120);
-	trail[6] = vect(5, -3895, 120);
-	trail[7] = vect(8, -3970, 120);
+	trail[0] = HotelRoom(vect(150, -3590, 120));
+	trail[1] = HotelRoom(vect(95, -3580, 120));
+	trail[2] = HotelRoom(vect(40, -3588, 120));
+	trail[3] = HotelRoom(vect(5, -3640, 120));
+	trail[4] = HotelRoom(vect(-5, -3720, 120));
+	trail[5] = HotelRoom(vect(0, -3810, 120));
+	trail[6] = HotelRoom(vect(5, -3895, 120));
+	trail[7] = HotelRoom(vect(8, -3970, 120));
 	for (i = 0; i < 8; i++)
 	{
 		floor = FloorAt(trail[i], normal);
 		splat = Spawn(class'BloodSplat',, 'UCPaulEvidence2', floor + normal, Rotator(normal));
 		if (splat != None)
 		{
-			splat.bPermanent = True;
+			splat.SetPropertyText("bPermanent", "True");   // Revision only (the original game's decals have no bPermanent)
 			splat.bImportant = True;
 		}
 	}

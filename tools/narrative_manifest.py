@@ -10,13 +10,16 @@ import re
 NAMES = {
     'JCDenton': 'JC Denton', 'PaulDenton': 'Paul Denton', 'GuntherHermann': 'Gunther Hermann',
     'AnnaNavarre': 'Anna Navarre', 'GilbertRenton': 'Gilbert Renton', 'UCSpecialAgent1': 'Special Agent',
-    'UCSpecialAgent2': 'Special Agent', 'UCGateGuard': 'UNATCO Trooper', 'UCGreeter': 'UNATCO Trooper',
-    'Jock': 'Jock', 'UCHKOfficer': 'MJ12 Officer', 'WaltonSimons': 'Walton Simons',
+    'UCSpecialAgent2': 'Special Agent', 'UCSpecialAgent3': 'Special Agent (the shooter)', 'UCGateGuard': 'UNATCO Trooper', 'UCGreeter': 'UNATCO Trooper',
+    'Jock': 'Jock', 'UCHKOfficer': 'Special Projects Liaison', 'WaltonSimons': 'Walton Simons',
+    'UCYardRaider1': 'Luminous Path Raider', 'UCYardRaider2': 'Luminous Path Raider', 'UCYardRaider3': 'Luminous Path Raider',
     'UCMessenger': 'Red Arrow Messenger', 'UCLMAgent1': 'Government Agent', 'UCLMAgent2': 'Second Government Agent',
     'UCLMRedArrow': 'Red Arrow', 'MaxChen': 'Max Chen', 'MaggieChow': 'Maggie Chow',
     'UCMaggieHolo': 'Maggie Chow (recording)', 'GordonQuick': 'Gordon Quick', 'TracerTong': 'Tracer Tong',
     'UCTongGuard': 'Luminous Path Guard', 'UCSPTech1': 'Special Projects Technician',
     'UCSPCommander': 'Special Projects Commander', 'UCPrisoner': 'Prisoner',
+    'AlexJacobson': 'Alex Jacobson', 'Eva': 'Eva', 'UCBPBum': 'Bum', 'UCBPCop1': 'Police Officer',
+    'UCBPCop2': 'Police Officer', 'UCBPJockBody': 'Jock (body)',
 }
 
 # flag -> cosa vuol dire, per chi legge
@@ -105,20 +108,19 @@ the blood or the medkit.""", [
          'Overheard when JC passes the desk after the agent has taken his post.'),
         ('text', '**After the search**, JC can question Gunther. One exchange per click, in this order; '
                  'each plays once.'),
-        ('conv', 'UC_GuntherG07', 'If JC avoided Gunther outside (G07)', None),
-        ('conv', 'UC_GuntherReproach', 'The reproach (G10)', None),
-        ('conv', 'UC_GuntherG11', 'G11', None),
-        ('conv', 'UC_GuntherG12', 'G12 - who the agents are', None),
-        ('conv', 'UC_GuntherG13', 'G13 - who gave the address', None),
-        ('conv', 'UC_GuntherG14', 'G14 - Paul\'s claim (Anna alive)', None),
-        ('conv', 'UC_GuntherG16', 'G16 - the airfield (Anna died on the 747)', 'Replaces G14.'),
-        ('conv', 'UC_GuntherG15', 'G15', None),
+        ('conv', 'UC_GuntherRW1', 'Gunther, after the search',
+         'Optional click. If JC avoided Gunther outside, the missing operational exchange plays here.'),
+        ('conv', 'UC_GuntherRW2', 'Paul\'s channels and the assignment', 'Optional second click.'),
         ('conv', 'UC_GuntherG17', 'G17 - repeat line', None),
     ]),
     ('4. Hell\'s Kitchen', """The streets are held by UNATCO: friendly patrols, the exits to other districts closed,
 the subway to Battery Park open for UNATCO personnel. One trooper recognises JC.""", [
         ('conv', 'UC_GreeterHello', 'The trooper who recognises JC (overheard)', None),
         ('conv', 'UC_GreeterTalk', 'The trooper who recognises JC (if JC talks to him)', None),
+        ('say', 'UCSceneJockStreet.uc', 'JockLine', 'Jock calls from Battery Park (InfoLink)',
+         'As soon as JC is out of the \'Ton and walking the street towards the subway, after Gunther (or after the '
+         'window exit). Jock is still calm, just uneasy: men in suits around the park. New goal: meet Jock in '
+         'Battery Park, fast.'),
         ('barks',),
         ('text', """### The subway gate
 
@@ -141,27 +143,66 @@ agent; she does not repeat Gunther's threat. If Anna is dead, a trooper stands t
          'He does not know who killed Anna and does not mention the 747.'),
         ('conv', 'UC_GateGuardAgain', 'The trooper, repeat line', None),
     ]),
-    ('5. Battery Park', """Jock waits in the helicopter. JC resumes the assignment he had before Paul: Hong Kong.""", [
-        ('conv', 'UC_JockBP', 'Jock (first talk)', None),
-        ('conv', 'UC_JockBPExtra', 'Jock (if JC asked for a minute)', None),
-        ('conv', 'UC_JockBPReady', 'Jock (ready to leave)', None),
+    ('5. Battery Park', """JC was supposed to fly to Hong Kong with Jock. Jock calls as JC comes up from the subway and is
+shot mid-call by the Men in Black (shown as "Special Agent"), who hold his helicopter with the police at the
+perimeter. His body lies under a tarp behind the vine wall, with Paul's datacube and his flask: finding it is
+optional and unlocks the confrontation. The agent who shot him guards it, pistol in hand, and walks up to JC to
+send him away. A replacement pilot, Eva, flies JC out: she lands at a flare in the clearing south of the
+subway, coming down only when JC comes near. Flags for Missions 6/7: UC_JockDead,
+UC_BP_JockBodyFound, UC_BP_PaulCubeRead, UC_BP_MIBConfronted, UC_BP_EvaWallLine.""", [
+        ('say', 'UCSceneBatteryPark.uc', 'JockLine', 'Jock\'s call, cut by the gunshot (InfoLink)',
+         'Automatic a second and a half after JC is out of the subway kiosk. When the call ends JC hears the gunshot; '
+         'the pad is out of sight until JC rounds the vine wall, so nobody sees it. A player who runs to the pad cuts '
+         'the call: the shot comes at once. New goal: reach Jock\'s helicopter.'),
+        ('conv', 'UC_BPBumBefore', 'A bum at the barrel fire north of the pad, before the shot', None),
+        ('conv', 'UC_BPBum', 'The bum, after the shot', 'Said as JC passes, once; it points behind the wall.'),
+        ('conv', 'UC_BPBumMore', 'The bum, clicked again', None),
+        ('conv', 'UC_BPCop1', 'Police at the end of the vine wall', 'Said as JC passes, once.'),
+        ('conv', 'UC_BPCop1More', 'The same officer, clicked again', None),
+        ('conv', 'UC_BPCop2', 'Police at the plaza', 'Said as JC passes, once.'),
+        ('conv', 'UC_BPCop2More', 'The same officer, clicked again', None),
+        ('conv', 'UC_BPShooterStop', 'The agent who shot Jock, as JC comes round the vine wall',
+         'He walks up to JC, pistol in hand.'),
+        ('conv', 'UC_BPShooterBack', 'The same agent, if JC goes on to the body', None),
+        ('conv', 'UC_BPShooterMore', 'The same agent, clicked again before the body', None),
+        ('conv', 'UC_BPShooterBody', 'The same agent, once JC has seen the body', None),
+        ('conv', 'UC_BPShooterBodyMore', 'The same agent, clicked again after the body', None),
+        ('conv', 'UC_BPAgents1', 'The Special Agents at the helicopter', 'Starts when JC comes near.'),
+        ('conv', 'UC_BPAgentsAgain1', 'The agents again, before the body', None),
+        ('conv', 'UC_BPAgentsAgain2', 'The agents, any later time', None),
+        ('conv', 'UC_BPAgentsWall', 'The confrontation, only after the body',
+         'The last answer appears only if JC read the datacube. Nothing he says changes anything.'),
+        ('say', 'UCSceneBatteryPark.uc', 'AlexLine', 'Alex, cut off by Simons (InfoLink)',
+         'After the first talk with the agents; the replacement helicopter flies in over the bay meanwhile and '
+         'holds high over the clearing south of the subway. It comes down when JC comes near.'),
+        ('conv', 'UC_BPFlareAgent1', 'The Special Agent with the flare, at the clearing',
+         'A fourth agent marks the landing zone: when JC comes near he strikes a flare and holds it up high, arm '
+         'straight. Clicked, he sends JC on.'),
+        ('conv', 'UC_BPFlareAgent2', 'The same agent, clicked again', None),
+        ('conv', 'UC_BPAgentsPilot', 'The agents, after Simons\'s call, until Eva has landed',
+         'Where the new pilot is setting down, if JC asks.'),
+        ('conv', 'UC_BPEva', 'Eva at the helicopter door',
+         'JC clicks the helicopter. The extra answer needs the body found. Every answer ends with the takeoff.'),
     ]),
     ('Part II - Hong Kong', None, []),
-    ('6. The helibase', """In the original game the helibase is an MJ12 trap for a fugitive. Here JC is a UNATCO
-agent on duty: no alarm, no assault team, the blast doors are open. The base calls itself
-"Special Projects"; nobody explains Majestic 12 to him.""", [
-        ('conv', 'UC_JockHK', 'Jock, on landing', None),
-        ('conv', 'UC_HKOfficer', 'The welcoming officer (H01-H05)',
-         'He runs to JC as soon as Jock has finished. The middle of the exchange depends on what JC already '
-         'knows about Majestic 12.'),
-        ('conv', 'UC_HKOfficerAgain', 'The officer, repeat line', None),
+    ('6. Civilian rooftop and freight arrival', """Eva lands on a civilian Wan Chai roof temporarily requisitioned by
+Coalition Special Projects. The original MJ12 helibase is a separate later site. A physical freight lift
+connects the roof to the service yard through a matching cabin and map transition.""", [
+        ('conv', 'UC_EvaRooftop', 'Eva, the new pilot, on landing', None),
+        ('conv', 'UC_EvaRooftopAgain', 'Eva, if JC goes back to her', None),
+        ('conv', 'UC_EvaRooftopLast', 'Eva, the second time', None),
+        ('conv', 'UC_RoofLiaison', 'The liaison at the checkpoint', 'No early Majestic 12 explanation.'),
         ('say', 'UCSceneSimonsBriefing.uc', 'SimonsLine', 'Simons\' briefing (InfoLink I01 / I02)',
-         'One-way InfoLink: only the caller speaks. It starts right after the officer. The single-line '
+         'One-way InfoLink: only the caller speaks. It starts near the freight lift. The single-line '
          'version is the recovery if JC changed map before the briefing ended.'),
+        ('conv', 'UC_YardBriefing', 'The liaison in the loading yard', None),
+        ('conv', 'UC_CargoRaidBark', 'Luminous Path cargo raid', 'The target is the case; JC starts neutral. Surviving attackers do not block progression.'),
+        ('conv', 'UC_YardAfter', 'The liaison after the diversion', None),
+        ('conv', 'UC_WoundedRaider', 'Optional wounded survivor', None),
     ]),
     ('7. Wan Chai market', """Same Hong Kong, reversed relations: to the Triads JC is a UNATCO agent, not a fugitive.""", [
         ('conv', 'UC_Messenger', 'The Red Arrow messenger',
-         'He stands in the corridor outside the freight lift and speaks when JC walks past. Optional: '
+         'He arrives at the exit toward the Market after the cargo raid and speaks when JC walks past. Optional: '
          'everything he says can be learned elsewhere.'),
         ('conv', 'UC_MessengerAgain', 'The messenger, repeat line', None),
     ]),
@@ -175,7 +216,8 @@ agent on duty: no alarm, no assault team, the blast doors are open. The base cal
         ('conv', 'UC_MaxEscortDoor', 'At the office doors', None),
         ('conv', 'UC_MaxEscortAgain', 'The Red Arrow, if JC talks to him later', None),
         ('conv', 'UC_MaxMeet', 'Max Chen (first meeting)',
-         'Max speaks first and says why he sent for JC: he wanted to see him before Maggie Chow did.'),
+         'Max offers a transaction. JC can investigate, decline, or take the evidence directly to Gordon.'),
+        ('conv', 'UC_MaxWait', 'Max, while JC investigates', None),
     ]),
     ('9. Queen\'s Tower', None, [
         ('conv', 'UC_MaggieMeet', 'Maggie Chow', None),
@@ -183,23 +225,28 @@ agent on duty: no alarm, no assault team, the blast doors are open. The base cal
         ('conv', 'M06WaltonHolo', 'The recording in the hidden room',
          'The original Simons hologram, rewritten as a recording of Simons and Maggie. It is suspicious '
          'only because JC finds it there.'),
-        ('say', 'UCSceneSimonsSword.uc', 'RecordingLine', 'Simons answers JC\'s report (JC saw the recording)',
-         'JC reports the Dragon\'s Tooth when he leaves the hidden room; the report itself is not spoken.'),
-        ('say', 'UCSceneSimonsSword.uc', 'NoRecordingLine', 'Simons answers JC\'s report (JC did not see the recording)', None),
+        ('say', 'UCSceneSimonsSword.uc', 'CallLine', 'Simons answers the explicit Queen\'s Tower report',
+         'Requires the player to transmit from a secure terminal. Finding the weapon or leaving the room does not send a report.'),
     ]),
-    ('10. The truce', None, [
+    ('10. Evidence, custody and access', 'Weapon custody, evidence against Maggie, and permission to enter the compound are separate states.', [
         ('conv', 'UC_GordonMeet', 'Gordon Quick at the compound gate', 'Hostile in words; he does not attack.'),
         ('conv', 'UC_GordonWait', 'Gordon, repeat line', None),
+        ('conv', 'UC_GordonAgain', 'Gordon, while investigating', None),
         ('conv', 'UC_GordonEvidence', 'Gordon, with the evidence', None),
         ('conv', 'UC_MaxEvidence', 'Max Chen, with the evidence', None),
-        ('conv', 'UC_MaxAfter', 'Max Chen, after the truce', None),
-        ('conv', 'UC_GordonFinal', 'Gordon, after the truce', None),
+        ('conv', 'UC_MaxAfter', 'Max Chen, after voluntary delivery', None),
+        ('conv', 'UC_GordonFinal', 'Gordon, after granting local access', None),
+        ('conv', 'UC_GordonCustody', 'Optional delivery to Gordon', 'Transfers the actual inventory weapon; it does not create a global truce.'),
     ]),
     ('11. Tracer Tong', None, [
         ('conv', 'UC_TongGuardBark', 'The guard at Tong\'s base', None),
         ('conv', 'UC_TongMeet', 'Tracer Tong', None),
         ('conv', 'UC_TongEvidence', 'Tong\'s terminal', None),
-        ('say', 'UCSceneTongLab.uc', 'SimonsLine', 'Simons calls: the assault', None),
+        ('text', 'Read the manifest and Paul\'s attributed archive copy at the terminal. Saving an independent copy and transmitting Tong\'s location are separate commands.'),
+        ('say', 'UCSceneSPTransfer.uc', 'CallLine', 'Simons authorizes the transfer (InfoLink)',
+         'After the explicit location report. The rear loading door stays closed until JC opens it at the laboratory service console.'),
+        ('conv', 'UC_EntryWarning', 'The team crosses the rear storeroom loading door',
+         'Only physical entry starts the assault. A timer, map exit or Tong\'s death cannot substitute for opening the gate.'),
         ('conv', 'UC_TongAlarm', 'The alarm', None),
         ('conv', 'UC_TongUnderstands', 'Tong understands', None),
         ('conv', 'UC_SPCommanderMeet', 'The Special Projects commander', None),
@@ -208,7 +255,8 @@ agent on duty: no alarm, no assault team, the blast doors are open. The base cal
         ('conv', 'UC_PrisonerTalk', 'The prisoner', None),
         ('conv', 'UC_SPCommanderAfter', 'The commander, when the facility is secure', None),
         ('conv', 'UC_SPCommanderAgain', 'The commander, repeat line', None),
-        ('say', 'UCSceneSimonsAfterTong.uc', 'CallLine', 'Simons, after the operation', None),
+        ('say', 'UCSceneSimonsAfterTong.uc', 'CallLine', 'Simons, after the explicit operation report',
+         'The reply distinguishes JC\'s independent copy from Special Projects\' extraction. Either requires a manual upload before the VersaLife assignment.'),
     ]),
 ]
 
@@ -285,7 +333,7 @@ def render_conv(c, title, note):
     sets = []
     for kind, d, conds in c.events:
         conds = tuple(conds)
-        if kind in ('line', 'dynline', 'choice', 'ifflag', 'jump', 'label', 'end') and conds != last:
+        if kind in ('line', 'dynline', 'choice', 'answer', 'ifflag', 'jump', 'label', 'end') and conds != last:
             if conds:
                 out += ['', '*- %s:*  ' % ', '.join(cond_text(x) for x in conds)]
             elif last:
@@ -297,6 +345,9 @@ def render_conv(c, title, note):
             out.append('**(speaker):** *(one of the patrol lines below)*  ')
         elif kind == 'choice':
             out.append('*JC can answer:* "%s" (go to **[%s]**) or "%s" (go to **[%s]**)  ' % (d[0], d[1], d[2], d[3]))
+        elif kind == 'answer':
+            only = (' - only if %s' % flag_text(d[2], d[3] == 'True')) if len(d) > 2 and d[2] else ''
+            out.append('*JC can answer:* "%s" (go to **[%s]**)%s  ' % (d[0], d[1], only))
         elif kind == 'ifflag':
             out.append('*(if %s, skip to **[%s]**)*  ' % (flag_text(d[0], d[1] == 'True'), d[2]))
         elif kind == 'jump':
@@ -335,7 +386,7 @@ def render_say(says, src, func, title, note):
 
 def barks(classes_dir):
     import os
-    t = open(os.path.join(classes_dir, 'UCMod.uc'), encoding='latin-1').read()
+    t = open(os.path.join(classes_dir, 'UCCampaign.uc'), encoding='latin-1').read()
     body = t[t.index('function string BarkLine'):t.index('function BarkTick')]
     return [m.group(1) for m in re.finditer(r'return "((?:[^"\\]|\\.)+)";', body)]
 

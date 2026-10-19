@@ -33,6 +33,7 @@ Deus Ex SDK installer. The full walk-through is
 | add or change dialogue | [tutorial 2](docs/tutorials/02-conversations-in-code.md) |
 | check a scene in the game without playing to it | [tutorial 4](docs/tutorials/04-automatic-photos.md) |
 | find something in the original game | [tutorial 5](docs/tutorials/05-reading-game-data.md) |
+| change a map or write a mission's dialogues and events without UnrealEd | [tutorial 7: the map editor](docs/tutorials/07-map-editor.md) |
 | see how the work is done day to day | [docs/WORKFLOW.md](docs/WORKFLOW.md) |
 
 Where the code is:
@@ -76,11 +77,21 @@ Where the code is:
 
 ## 5. Maps
 
-Revision's maps belong to Revision's authors: never commit a map (`.dx`), a texture or a
-package of theirs, or anything made from them. To edit a map locally: `.\edit-map.ps1
-<MapName>` copies the original into `maps\` (kept out of git) and opens UnrealEd on it;
-`install.ps1` copies `maps\*.dx` into a separate folder the game reads first, so the
-originals stay untouched.
+`maps\*.dx` are the maps the mod modifies. They are NOT in the repository: Revision's maps
+belong to Revision's authors. The repository carries only our differences, as patches
+(`maps\patches\*.ucpatch`, listed in `maps\patches.json` with the original maps they start
+from): after changing a map run `python tools\mappatch.py all` (then `check`), and commit the
+patches. `install.ps1` writes the maps into a separate folder the game reads first (from
+`maps\*.dx` when you have them, else from the patches and the player's own `Revision\Maps`),
+so the originals stay untouched. To edit a map: `.\edit-map.ps1 <MapName>` copies the original into
+`maps\` the first time and opens UnrealEd on it. The scripted edits made so far are in
+`maps\editing`. Never commit a `.dx`.
+
+## 5b. Publishing a build for players
+
+Players install from `release\UnatcoContinues.u` (see [PLAY.md](PLAY.md)). After a change
+you want them to have: build, run the checks, then copy `dist\UnatcoContinues.u` over
+`release\UnatcoContinues.u` and commit it.
 
 ## 6. Voices (optional)
 

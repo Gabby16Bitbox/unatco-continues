@@ -1,7 +1,7 @@
 //=============================================================================
 // UCSceneGuntherSearch - 'Ton, contenuto facoltativo: Gunther e i due Special Agents
 // dentro l'hotel, dopo l'incontro davanti all'ingresso (o dopo che JC lo ha evitato
-// uscendo dalla finestra). Paul e' gia' sparito (vedi UCMod.InitRoute).
+// uscendo dalla finestra). Paul e' gia' sparito (vedi UCCampaign.InitRoute).
 // Copione: specifica "Dialoghi e varianti" del 4 ott 2026 (blocchi G03-G17), con le
 // correzioni di stile di docs\DIALOGHI_STILE.md.
 //  - G03 lobby: Gilbert protesta, Gunther tira dritto verso le scale, l'Agente 02 resta
@@ -167,7 +167,7 @@ function NotNowTick(float dt)
 
 // G03, lo scambio con Gilbert: quando Gunther passa davanti al bancone e JC e' li'.
 // Gunther non si ferma. Se Gilbert non c'e' (o JC non e' li' a sentire) si salta.
-// Sulla route UNATCO Gilbert e' al bancone (UCMod.CloseHotelQuest); se e' ancora nel
+// Sulla route UNATCO Gilbert e' al bancone (UCCampaign.CloseHotelQuest); se e' ancora nel
 // retro con Sandra (la faccenda di JoJo e' in corso) protesta da li'.
 function TryLobby()
 {
@@ -364,8 +364,8 @@ function bool StartRoom()
 	}
 	c.Line("UCSpecialAgent1", "GuntherHermann", "Bedroom clear. No sign of the subject.");
 	c.Line("GuntherHermann", "UCSpecialAgent1", "Unglaublich! He was here. We came too late.");
-	c.Line("UCSpecialAgent1", "GuntherHermann", "I'll report to Mr. Simons.");
-	c.Line("GuntherHermann", "UCSpecialAgent1", "Tell him we need men at the subway exits. Then check the alley.");
+	c.Line("UCSpecialAgent1", "GuntherHermann", "I will report to Mr. Simons.");
+	c.Line("GuntherHermann", "UCSpecialAgent1", "Then check the alley. We need men at the subway exits.");
 	c.SetFlag('SimonsConnectionHinted', True);
 	c.Done();
 	return PlayConv(c, Gunther());
@@ -375,126 +375,50 @@ function bool StartRoom()
 // lista: si attaccano dall'ultimo al primo.
 function AttachOptional()
 {
-	local UCCon c;
-	local ScriptedPawn g;
+    local UCCon c;
+    local ScriptedPawn g;
 
-	g = Gunther();
-	if (g == None || HasCon(g, 'UC_GuntherG17'))
-		return;
+    g = Gunther();
+    if (g == None || HasCon(g, 'UC_GuntherRW1'))
+        return;
 
-	// G17: battuta di ripetizione
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG17', "GuntherHermann", True);
-	c.Passive();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Line("GuntherHermann", "JCDenton", "Go to Hong Kong, Denton.");
-	c.Done();
-	c.AttachTo(g);
+    c = new(Level) class'UCCon';
+    c.Begin('UC_GuntherG17', "GuntherHermann", True);
+    c.Passive();
+    c.Require('GuntherTonSearchComplete', True);
+    c.Require('UC_GuntherRW2_Played', True);
+    c.Line("GuntherHermann", "JCDenton", "Go to Hong Kong, Denton.");
+    c.Done();
+    c.AttachTo(g);
 
-	// G15: chiudere l'incontro
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG15', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Line("JCDenton", "GuntherHermann", "You still want this assignment?");
-	c.Line("GuntherHermann", "JCDenton", "Yes. I warned them about Paul, and they waited. Again I am sent after he has gone.");
-	c.Line("JCDenton", "GuntherHermann", "What now?");
-	c.Line("GuntherHermann", "JCDenton", "Now I find him. You have your own orders.");
-	c.Done();
-	c.AttachTo(g);
+    c = new(Level) class'UCCon';
+    c.Begin('UC_GuntherRW2', "GuntherHermann", False);
+    c.Once();
+    c.Require('GuntherTonSearchComplete', True);
+    c.Require('UC_GuntherRW1_Played', True);
+    c.Line("JCDenton", "GuntherHermann", "Paul says UNATCO is compromised.");
+    c.Line("GuntherHermann", "JCDenton", "His clearance is revoked. He gave classified information to the NSF and ran.");
+    c.Line("GuntherHermann", "JCDenton", "If he had evidence, he had channels. He chose terrorists.");
+    c.Line("GuntherHermann", "JCDenton", "Put whatever he showed you in your report. Then go to Hong Kong.");
+    c.Done();
+    c.AttachTo(g);
 
-	if (Anna747() && GetF('ManderleyDebriefing03_Played'))
-	{
-		// G16: Anna morta sul 747 (al posto di G14). Nessuna nuova prova contro JC.
-		c = new(Level) class'UCCon';
-		c.Begin('UC_GuntherG16', "GuntherHermann", False);
-		c.Once();
-		c.Require('GuntherTonSearchComplete', True);
-		c.Line("GuntherHermann", "JCDenton", "You were sent into that aircraft. Agent Navarre did not come back. You still owe me an explanation.");
-		c.Line("JCDenton", "GuntherHermann", "I gave Manderley my report.");
-		c.Line("GuntherHermann", "JCDenton", "I will find out what happened, Denton. Do not think this is over.");
-		c.Done();
-		c.AttachTo(g);
-	}
-	else
-	{
-		// G14: le accuse di Paul
-		c = new(Level) class'UCCon';
-		c.Begin('UC_GuntherG14', "GuntherHermann", False);
-		c.Once();
-		c.Require('GuntherTonSearchComplete', True);
-		c.Line("JCDenton", "GuntherHermann", "Paul thinks UNATCO has been compromised.");
-		c.Line("GuntherHermann", "JCDenton", "He swore to serve the Coalition. Then he joined the NSF. That is what I know about your brother.");
-		c.Line("JCDenton", "GuntherHermann", "You won't even look at what he found?");
-		c.Line("GuntherHermann", "JCDenton", "He gave information to our enemies. I do not need his explanation for that.");
-		c.Done();
-		c.AttachTo(g);
-	}
-
-	// G13: la segnalazione
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG13', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Line("JCDenton", "GuntherHermann", "Who told you Paul was here?");
-	c.Line("GuntherHermann", "JCDenton", "Command gave me the address.");
-	c.Line("JCDenton", "GuntherHermann", "Did they say who saw him?");
-	c.Line("GuntherHermann", "JCDenton", "No. The report was correct. They should have sent it sooner.");
-	c.Done();
-	c.AttachTo(g);
-
-	// G12: chi sono i due agenti
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG12', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Line("JCDenton", "GuntherHermann", "Who are the men with you?");
-	c.Line("GuntherHermann", "JCDenton", "Mr. Simons sent them. They are supposed to assist with the arrest.");
-	c.Line("JCDenton", "GuntherHermann", "Are they UNATCO?");
-	c.Line("GuntherHermann", "JCDenton", "They have clearance. That is all I was told.");
-	c.SetFlag('SimonsConnectionHinted', True);
-	c.Done();
-	c.AttachTo(g);
-
-	// G11: il possibile avvertimento (solo se Gunther sa dell'incontro con Paul)
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG11', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Require('GuntherKnowsJCMetPaul', True);
-	c.Line("GuntherHermann", "JCDenton", "Did you warn him we were coming?");
-	c.Line("JCDenton", "GuntherHermann", "I didn't know you were coming.");
-	c.Line("GuntherHermann", "JCDenton", "He knows our methods. That will not save him.");
-	c.Done();
-	c.AttachTo(g);
-
-	// G10: rimprovero dopo la ricerca (l'ultima parola e' di Gunther)
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherReproach', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Require('GuntherKnowsJCMetPaul', True);
-	c.Line("GuntherHermann", "JCDenton", "You spoke to him and walked away. Now we have to search the city.");
-	c.Line("JCDenton", "GuntherHermann", "I didn't help him escape.");
-	c.Line("GuntherHermann", "JCDenton", "You did nothing to stop him.");
-	c.Done();
-	c.AttachTo(g);
-
-	// G07: primo incontro avvenuto dentro (esterno saltato): Gunther non sa ancora
-	// niente, lo chiede. Dopo l'ammissione di JC parte il rapporto alla squadra.
-	c = new(Level) class'UCCon';
-	c.Begin('UC_GuntherG07', "GuntherHermann", False);
-	c.Once();
-	c.Require('GuntherTonSearchComplete', True);
-	c.Require('GuntherKnowsJCMetPaul', False);
-	c.Line("GuntherHermann", "JCDenton", "Denton. Were you here with Paul?");
-	c.Line("JCDenton", "GuntherHermann", "I spoke to him. He wanted me to join him. I refused.");
-	c.SetFlag('GuntherKnowsJCMetPaul', True);
-	c.SetFlag('UC_PaulContactReportSent', True);
-	c.Line("GuntherHermann", "JCDenton", "You left him free. Manderley will hear about this. Go to Hong Kong.");
-	c.SetFlag('GuntherReportedJCConduct', True);
-	c.Done();
-	c.AttachTo(g);
+    c = new(Level) class'UCCon';
+    c.Begin('UC_GuntherRW1', "GuntherHermann", False);
+    c.Once();
+    c.Require('GuntherTonSearchComplete', True);
+    c.IfFlag('GuntherKnowsJCMetPaul', True, "Reproach");
+    c.Line("GuntherHermann", "JCDenton", "Were you here with Paul?");
+    c.Line("JCDenton", "GuntherHermann", "I spoke to Paul.");
+    c.SetFlag('GuntherKnowsJCMetPaul', True);
+    c.SetFlag('UC_PaulContactReportSent', True);
+    c.SetFlag('GuntherReportedJCConduct', True);
+    c.Label("Reproach");
+    c.Line("GuntherHermann", "JCDenton", "You spoke to him and walked away. Now we search the city.");
+    c.Line("JCDenton", "GuntherHermann", "I didn't help him escape.");
+    c.Line("GuntherHermann", "JCDenton", "You did nothing to stop him.");
+    c.Done();
+    c.AttachTo(g);
 }
 
 // "Then check the alley.": l'Agente 01 esce davvero, dall'ingresso.
@@ -537,9 +461,9 @@ Begin:
 	Sleep(0.7);
 Upstairs:
 	// dritti alla camera di Paul, in fila: ognuno parte quando quello davanti e' avanti
-	WalkTo(Gunther(), 'UCGSRoom', vect(-40, -3760, 118));
+	WalkTo(Gunther(), 'UCGSRoom', class'UCCampaign'.static.HotelRoom(vect(-40, -3760, 118)));
 	Sleep(1.8);
-	WalkTo(Agent(), 'UCGSRoomAgent', vect(-20, -3950, 118));
+	WalkTo(Agent(), 'UCGSRoomAgent', class'UCCampaign'.static.HotelRoom(vect(-20, -3950, 118)));
 	Sleep(1.8);
 	WalkTo(LobbyAgent(), 'UCGSLobby', vect(-358, -1301, -72));
 	t = 0;

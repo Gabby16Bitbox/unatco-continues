@@ -41,12 +41,12 @@ function PostBeginPlay()
 // se in questa mappa non era partita (salvataggi fatti prima di UCTraveler).
 function EnsureMod()
 {
-	local UCMod m;
+	local UCCampaign m;
 
-	foreach AllActors(class'UCMod', m)
+	foreach AllActors(class'UCCampaign', m)
 		if (!m.bDeleteMe)
 			return;
-	Spawn(class'UCMod');
+	Spawn(class'UCCampaign');
 	Log("UnatcoContinues: gestore route avviato dal menu di debug");
 }
 
@@ -63,6 +63,62 @@ function SetF(Name flagName, bool value)
 // Azzera i flag della nostra route (i salti sono ripetibili).
 function ResetRoute()
 {
+	// RW campaign state; debug jumps use the same player-controlled event chain.
+	SetF('GordonQuick_Dead', False);
+	SetF('JCIgnoredMJ12Execution', False);
+	SetF('JCObjectedToMJ12Execution', False);
+	SetF('TracerTong_Dead', False);
+	SetF('UC_AlternateLabAccess', False);
+	SetF('UC_EntryWarning_Played', False);
+	SetF('UC_AssaultWave1Spawned', False);
+	SetF('UC_AssaultWave2Spawned', False);
+	SetF('UC_ChowEvidenceSentGordon', False);
+	SetF('UC_ChowSwordVerified', False);
+	SetF('UC_FinalReportRequested', False);
+	SetF('UC_OffscreenResultsNoted', False);
+	SetF('UC_GuntherRW1_Played', False);
+	SetF('UC_GuntherRW2_Played', False);
+	SetF('UC_HasSword', False);
+	SetF('UC_HoloSeen', False);
+	SetF('UC_LPMeetingGranted', False);
+	SetF('UC_LegacyAssault', False);
+	SetF('UC_MaggieRWPlayed', False);
+	SetF('UC_MaxDealOffered', False);
+	SetF('UC_NorthAccessOpened', False);
+	SetF('UC_NorthAccessRequested', False);
+	SetF('UC_PaulManifestRead', False);
+	SetF('UC_PrisonerIdentityRecorded', False);
+	SetF('UC_PrisonerSaved', False);
+	SetF('UC_PrisonerTalk_Played', False);
+	SetF('UC_RedArrowCeasefire', False);
+	SetF('UC_RewriteInitialized', False);
+	SetF('UC_RWTrialActive', False);
+	SetF('UC_RWTrialComplete', False);
+	SetF('UC_RWTrialPassed', False);
+	SetF('UC_SPCommanderAfter_Played', False);
+	SetF('UC_SPCommanderMeet_Played', False);
+	SetF('UC_SPEntryAuthorized', False);
+	SetF('UC_SPEntryCrossed', False);
+	SetF('UC_SPHelibaseAuthRead', False);
+	SetF('UC_SPTeamRecordsRecovered', False);
+	SetF('UC_SweepComplete', False);
+	SetF('UC_SwordAtChow', False);
+	SetF('UC_SwordCaseOpened', False);
+	SetF('UC_SwordGivenGordon', False);
+	SetF('UC_SwordGivenMax', False);
+	SetF('UC_TongAlarmRang', False);
+	SetF('UC_TongEvidence_Played', False);
+	SetF('UC_TongLocationReported', False);
+	SetF('UC_TongMeet_Played', False);
+	SetF('UC_TongPCWiped', False);
+	SetF('UC_TongPaulCopyRead', False);
+	SetF('UC_TransferOrderReceived', False);
+	SetF('UC_VLManifestCopied', False);
+	SetF('UC_VLManifestRead', False);
+	SetF('UC_YuenCaseCorroborated', False);
+	SetF('UC_YuenDeathReportRead', False);
+	SetF('UC_YuenTranscriptRead', False);
+
 	SetF('UNATCORouteActive', False);
 	SetF('UNATCORouteCommitted', False);
 	SetF('UNATCORoute_EvidenceFound', False);
@@ -98,11 +154,39 @@ function ResetRoute()
 	SetF('UC_WalkOff_Started', False);
 	SetF('PaulLeftTonHotel', False);
 	SetF('UC_JockGoal', False);
+	SetF('UC_JockStreetCall', False);
+	SetF('UC_JockStreetCallDone', False);
 	SetF('UC_JockGo', False);
 	SetF('UC_Takeoff_Started', False);
 	SetF('UNATCORoute_DepartedNYC', False);
 	SetF('UC_JockBP_Played', False);
 	SetF('UC_JockBPReady_Played', False);
+	// Battery Park con Jock morto (UCSceneBatteryPark)
+	SetF('UC_BP_JockCall', False);
+	SetF('UC_JockDead', False);
+	SetF('UC_BP_MIBMet', False);
+	SetF('UC_BP_JockBodyFound', False);
+	SetF('UC_BP_PaulCubeRead', False);
+	SetF('UC_BP_JCCubeLine', False);
+	SetF('UC_BP_MIBConfronted', False);
+	SetF('UC_BP_EvaCall', False);
+	SetF('UC_BP_EvaLanded', False);
+	SetF('UC_BP_EvaWallLine', False);
+	SetF('UC_EvaGo', False);
+	SetF('UC_BP_CastPlaced', False);
+	SetF('UC_BPAgents1_Played', False);
+	SetF('UC_BPAgentsWall_Played', False);
+	SetF('UC_BPAgentsAgain1_Played', False);
+	SetF('UC_BPEva_Played', False);
+	SetF('UC_BPBum_Played', False);
+	SetF('UC_BPCop1_Played', False);
+	SetF('UC_BPCop2_Played', False);
+	SetF('UC_BP_ShooterPlaced', False);
+	SetF('UC_BP_EvaDescent', False);
+	SetF('UC_BP_FlareAgentPlaced', False);
+	SetF('UC_BPShooterStop_Played', False);
+	SetF('UC_BPShooterBack_Played', False);
+	SetF('UC_BPShooterBody_Played', False);
 	SetF('UC_PaulAfter1_Played', False);
 	SetF('UC_PaulAfter2_Played', False);
 	SetF('UC_PaulAfter3_Played', False);
@@ -205,6 +289,79 @@ function ResetRoute()
 	SetF('UC_HKOfficer_Played', False);
 	SetF('UC_HK_SimonsDue', False);
 	SetF('UC_HK_SimonsBriefing', False);
+	ResetHarbourline();
+}
+
+// Harbourline Tower, Mission 6 opening (UCSceneHarbourline, UCSceneHBAlexCall, UCHBDatalog): every
+// UC_HB_* flag and the Once flags of its talks.
+function ResetHarbourline()
+{
+	SetF('UC_HB_LandingSeen', False);
+	SetF('UC_HB_TitleShown', False);
+	SetF('UC_HB_AlexArrival', False);
+	SetF('UC_HB_DatalogRead', False);
+	SetF('UC_HB_Mail4Read', False);
+	SetF('UC_HB_BreachStarted', False);
+	SetF('UC_HB_Charge2Planted', False);
+	SetF('UC_HB_Charge4Planted', False);
+	SetF('UC_HB_Charge6Planted', False);
+	SetF('UC_HB_Charge2Defused', False);
+	SetF('UC_HB_Charge4Defused', False);
+	SetF('UC_HB_Charge6Defused', False);
+	SetF('UC_HB_Container2Blew', False);
+	SetF('UC_HB_Container4Blew', False);
+	SetF('UC_HB_Container6Blew', False);
+	SetF('UC_HB_ContainerBlew', False);
+	SetF('UC_HB_AllDefused', False);
+	SetF('UC_HB_BreachOver', False);
+	SetF('UC_HB_LeaderCaptured', False);
+	SetF('UC_HB_LeaderKilled', False);
+	SetF('UC_HB_LeaderToKwan', False);
+	SetF('UC_HB_LeaderFreed', False);
+	SetF('UC_HB_LeaderKO', False);
+	SetF('UC_HB_DebugAfter', False);
+	SetF('UC_HB_AirstripKnown', False);
+	SetF('UC_HB_AlexReport', False);
+	SetF('UC_HB_Mission6Done', False);
+	SetF('UC_EvaRooftop_Played', False);
+	SetF('UC_EvaRooftopAgain_Played', False);
+	SetF('UC_EvaRooftopLast_Played', False);
+	SetF('UC_HBLamGreet_Played', False);
+	SetF('UC_HBLam_Played', False);
+	SetF('UC_HBLamAskedCargo', False);
+	SetF('UC_HBLamAskedYears', False);
+	SetF('UC_HBGuardsTalk_Played', False);
+	SetF('UC_HBGuard1Line_Played', False);
+	SetF('UC_HBGuard2Line_Played', False);
+	SetF('UC_HBGuardPhoto_Played', False);
+	SetF('UC_HBKwanWelcome_Played', False);
+	SetF('UC_HBKwanAfter_Played', False);
+	SetF('UC_HBKwanAgain_Played', False);
+	SetF('UC_HBLeaderTalk_Played', False);
+	// the barks of the garage (said once: their _Played flags)
+	SetF('UC_HBKwanBreach_Played', False);
+	SetF('UC_HBKwanOpens_Played', False);
+	SetF('UC_HBKwanFour_Played', False);
+	SetF('UC_HBKwanContainers_Played', False);
+	SetF('UC_HBKwanBlew_Played', False);
+	SetF('UC_HBPathBurn_Played', False);
+	SetF('UC_HBPathForPath_Played', False);
+	SetF('UC_HBPathSpot1_Played', False);
+	SetF('UC_HBPathSpot2_Played', False);
+	SetF('UC_HBPathSpot3_Played', False);
+	SetF('UC_HBPathCharges_Played', False);
+	SetF('UC_HBPathThirty_Played', False);
+	SetF('UC_HBPathSensors_Played', False);
+	SetF('UC_HBPathCanal_Played', False);
+	SetF('UC_HBPathForget_Played', False);
+	SetF('UC_HBLeaderDoctor_Played', False);
+	SetF('UC_HBLeaderCharges_Played', False);
+	SetF('UC_HBLeaderFour_Played', False);
+	SetF('UC_HBGuardBodies_Played', False);
+	SetF('UC_HBGuardsCount_Played', False);
+	SetF('UC_HBGuardMoved_Played', False);
+	SetF('UC_HBGuardLook_Played', False);
+	SetF('UC_HBGuardGloves_Played', False);
 }
 
 // Stato canonico all'inizio di Mission 04, prima del segnale.
@@ -242,7 +399,7 @@ function PaulDecision()
 }
 
 // Stato dopo il dialogo con Paul: route UNATCO scelta, Paul resta al 'Ton.
-// (Il goal "Meet Jock in Battery Park" lo da' UCMod all'arrivo.)
+// (Il goal "Meet Jock in Battery Park" lo da' UCCampaign all'arrivo.)
 function AfterPaul()
 {
 	BaseMission04();
@@ -259,6 +416,8 @@ function HongKongBase()
 {
 	AfterPaul();
 	SetF('UC_JockGoal', True);
+	SetF('UC_JockStreetCall', True);
+	SetF('UC_JockStreetCallDone', True);
 	SetF('PaulLeftTonHotel', True);
 	SetF('GuntherTonEncounterPlayed', True);
 	SetF('GuntherKnowsJCMetPaul', True);
@@ -268,11 +427,13 @@ function HongKongBase()
 	SetF('UC_JockBP_Played', True);
 	SetF('UC_JockGo', True);
 	SetF('UC_Takeoff_Started', True);
+	SetF('UC_JockDead', True);
+	SetF('UC_EvaGo', True);
 	SetF('UNATCORoute_DepartedNYC', True);
 	SetF('UC_JockHK_Played', True);
 	SetF('UC_HK_Started', True);
 	SetF('UC_HKOfficer_Played', True);
-	class'UCMod'.static.PrepareHongKongFlags(flags);
+	class'UCCampaign'.static.PrepareHongKongFlags(flags);
 }
 
 // Hong Kong, laboratorio di Tong: tregua fatta, Gordon ha dato il permesso, niente
@@ -288,8 +449,12 @@ function TongLabState()
 	// Tower: senza questo l'InfoLink partiva qui, all'arrivo nel laboratorio
 	SetF('UC_SimonsSwordCall', True);
 	SetF('DragonToothEvidenceFound', True);
-	SetF('MaxChenConvinced', True);
-	SetF('QuickConvinced', True);
+	SetF('MaxChenConvinced', False);
+	SetF('QuickConvinced', False);
+	SetF('UC_LPMeetingGranted', True);
+	SetF('UC_ChowSwordVerified', True);
+	SetF('UC_YuenTranscriptRead', True);
+	SetF('UC_YuenDeathReportRead', True);
 	SetF('QuickLetPlayerIn', True);
 	SetF('Gate_Guard2_Played', True);
 	SetF('UC_GordonFinal_Played', True);
@@ -330,12 +495,16 @@ function EvidenceFound()
 }
 
 // Cambia mappa mantenendo giocatore e flag; riattiva il gestore con il mutator.
-// arrival: 0 = punto di partenza della mappa, 1 = vicino a Paul (vedi UCMod).
+// arrival: 0 = punto di partenza della mappa, 1 = vicino a Paul (vedi UCCampaign).
 function Jump(string mapName, int arrival)
 {
 	flags.SetInt('UC_DbgArrival', arrival,, 99);
 	Log("UnatcoContinues: salto a" @ mapName);
+	//#if revision
 	Player.ClientTravel(mapName $ Player.BuildOptionString() $ "UnatcoContinues.UCMutator", TRAVEL_Relative, True);
+	//#else
+	//Player.ClientTravel(mapName $ "?Mutator=UnatcoContinues.UCMutator", TRAVEL_Relative, True);
+	//#endif
 	Player = None;
 	flags = None;
 }

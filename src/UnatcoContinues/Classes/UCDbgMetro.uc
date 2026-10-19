@@ -18,6 +18,8 @@ function Run()
 	SetF('UC_PaulContactReportSent', True);
 	SetF('UC_GuntherTon1_Played', True);
 	SetF('UC_JockGoal', True);
+	SetF('UC_JockStreetCall', True);
+	SetF('UC_JockStreetCallDone', True);
 	Jump("04_NYC_Street", 6);
 }
 

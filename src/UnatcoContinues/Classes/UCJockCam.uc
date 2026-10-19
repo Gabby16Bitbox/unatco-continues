@@ -5,7 +5,7 @@
 // dentro l'elicottero. Durante la conversazione UC_JockHK la telecamera della
 // conversazione viene agganciata a un punto scelto (modalita' "attore", aggiornamenti
 // bloccati): dal lato sud dell'hangar, fra JC (parte da x 1931) e l'elicottero (x 1388).
-// Si toglie da sola a dialogo finito. La crea UCMod.HelibaseSetup.
+// Si toglie da sola a dialogo finito. La crea UCCampaign.HelibaseSetup.
 //=============================================================================
 class UCJockCam extends Actor
 	transient;

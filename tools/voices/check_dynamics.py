@@ -33,6 +33,12 @@ def main():
     assert high_db < -1, ('Sibilants were not reduced', high_db)
     assert abs(low_db) < .75, ('Vowel body changed too much', low_db)
 
+    direct = folder / 'direct_bypassed.wav'
+    n.ffmpeg(source, direct, [n.deesser_filter({'key': 'direct', 'deesser': mix['deesser']})])
+    untouched, _ = n.read(direct)
+    direct_high_db = 20 * np.log10(component(untouched, 5500) / component(signal, 5500))
+    assert abs(direct_high_db) < .01, ('Direct voice was de-essed', direct_high_db)
+
     hot = folder / 'hot_input_limited.wav'
     n.ffmpeg(source, hot, ['volume=20dB', n.deesser_filter(line), 'aresample=88200',
                           'alimiter=limit=0.749894:attack=2:release=60:level=false:latency=true',
@@ -43,7 +49,9 @@ def main():
 
     plan = json.loads(n.PLAN.read_text(encoding='utf-8'))
     n.apply_mix_profile(plan)
-    entry = next(iter(plan['lines'].values()))
+    assert all(not line['deesser'].get('enabled', True)
+               for line in plan['lines'].values() if line['channel'] == 'direct')
+    entry = next(line for line in plan['lines'].values() if line['channel'] == 'radio')
     changed = copy.deepcopy(entry)
     changed['deesser']['threshold_db'] = -15
     assert n.processing_fingerprint(changed) != n.processing_fingerprint(entry)
@@ -51,6 +59,7 @@ def main():
     changed['limiter_ceiling_db'] = -3
     assert n.processing_fingerprint(changed) != n.processing_fingerprint(entry)
     summary = {'sibilant_change_db': float(high_db), 'vowel_change_db': float(low_db),
+               'direct_sibilant_change_db': float(direct_high_db),
                'hot_input_true_peak_dbtp': measured['input_tp'],
                'hot_input_sample_peak_dbfs': measured['sample_peak_db'],
                'processing_cache_invalidated_by_profile_change': True}

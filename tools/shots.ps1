@@ -32,7 +32,11 @@ function Set-ShotSection([string[]]$body) {
   $text = Get-Content -LiteralPath $ini -Raw
   $text = [regex]::Replace($text, '(?ms)^\[UnatcoContinues\.UCShotRunner\][^\r\n]*\r?\n.*?(?=^\[|\z)', '')
   if ($body) { $text = $text.TrimEnd() + "`r`n`r`n" + ($body -join "`r`n") + "`r`n" }
-  Set-Content -LiteralPath $ini -Value $text -NoNewline -Encoding Default
+  # the whole new text first, then the file replaced at once: a full disk (15 Oct 2026) had left
+  # RevisionUser.ini cut in half when it was rewritten in place
+  $tmp = "$ini.tmp"
+  Set-Content -LiteralPath $tmp -Value $text -NoNewline -Encoding Default -ErrorAction Stop
+  [System.IO.File]::Replace($tmp, $ini, [NullString]::Value)
 }
 $lines = @('[UnatcoContinues.UCShotRunner]', 'bActive=True', "Setup=$Setup", "SetupFlags=$Flags", "StartDelay=$Delay")
 for ($i = 0; $i -lt $Shots.Count; $i++) { $lines += "Shots[$i]=$($Shots[$i])" }
@@ -90,7 +94,17 @@ New-Item -ItemType Directory -Force -Path $out | Out-Null
 $n = 0
 foreach ($f in $imgs) {
   $label = if ($n -lt $labels.Count) { $labels[$n] } else { "foto$n" }
-  $src = [System.Drawing.Image]::FromFile($f.FullName)
+  try { $src = [System.Drawing.Image]::FromFile($f.FullName) }
+  catch {
+    # a window whose width is not a multiple of 4 (18 Oct 2026: 2350): the game writes its rows unpadded, the
+    # file is short and an ordinary reader shears it; tools\shot_bmp.py reads the rows as written
+    $dst = Join-Path $out ('{0:D2}_{1}.png' -f $n, ($label -replace '[^\w-]', '_'))
+    $py = Join-Path $Root 'tools\mapkit\.venv\Scripts\python.exe'
+    & $py (Join-Path $Root 'tools\shot_bmp.py') $f.FullName $dst $Width
+    if (Test-Path -LiteralPath $dst) { Remove-Item -LiteralPath $f.FullName; $dst } else { "could not read $($f.Name): left in place" }
+    $n++
+    continue
+  }
   $h = [int]($src.Height * $Width / $src.Width)
   $bmp = New-Object System.Drawing.Bitmap($Width, $h)
   $g = [System.Drawing.Graphics]::FromImage($bmp)

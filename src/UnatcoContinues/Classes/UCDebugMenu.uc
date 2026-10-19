@@ -1,5 +1,5 @@
 //=============================================================================
-// UCDebugMenu - menu di debug con pulsanti (tasto Home, oppure "uc" in console).
+// UCDebugMenu - menu di debug con pulsanti (tasto Home, oppure "unatco" in console).
 // Ogni pulsante fa partire un comando UCDbg*.
 // (La porta dell'eliporto, "5b", ha lasciato il posto alla presentazione per il video:
 // resta in console, summon UnatcoContinues.UCDbgHeliDoor.)
@@ -27,7 +27,7 @@ defaultproperties
      ButtonNames(2)="2. 'Ton - Paul"
      ButtonNames(3)="3. Hell's Kitchen"
      ButtonNames(4)="4. Battery Park"
-     ButtonNames(5)="5. HK - eliporto"
+     ButtonNames(5)="5. HK - Harbourline"
      ButtonNames(6)="6. HK - mercato"
      ButtonNames(7)="7. HK - Maggie"
      ButtonNames(8)="8. HK - Gordon"
@@ -41,7 +41,7 @@ defaultproperties
      buttonDefaults(2)=(Y=85,Action=MA_Custom,Key="UCDbgHotel")
      buttonDefaults(3)=(Y=121,Action=MA_Custom,Key="UCDbgStreet")
      buttonDefaults(4)=(Y=157,Action=MA_Custom,Key="UCDbgPark")
-     buttonDefaults(5)=(Y=193,Action=MA_Custom,Key="UCDbgHongKong")
+     buttonDefaults(5)=(Y=193,Action=MA_Custom,Key="UCDbgHarbourMenu")
      buttonDefaults(6)=(Y=229,Action=MA_Custom,Key="UCDbgMarket")
      buttonDefaults(7)=(Y=265,Action=MA_Custom,Key="UCDbgQueensTower")
      buttonDefaults(8)=(Y=301,Action=MA_Custom,Key="UCDbgCompound")

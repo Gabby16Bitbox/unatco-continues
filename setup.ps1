@@ -1,27 +1,36 @@
-# Crea DevInstall: copia di lavoro di Revision + Deus Ex SDK. L'installazione Steam non viene modificata.
-# Uso:  .\setup.ps1 -SdkExe .\tools\DeusExSDK1112f.exe
+# Crea DevInstall: copia di lavoro di Revision (+ gli strumenti del Deus Ex SDK, se c'e').
+# L'installazione Steam non viene modificata.
+# Uso:  .\setup.ps1                                        (basta il gioco: editor di mappe e compilazione)
+#       .\setup.ps1 -SdkExe .\tools\DeusExSDK1112f.exe      (in piu' UnrealEd e UCC dell'SDK)
+# La compilazione della mod (build.ps1) e l'editor di mappe usano il compilatore e il motore di
+# Editor.dll del gioco, avviati da tools\mapkit\bin\UCMapKitHost.exe: l'SDK serve solo per
+# aprire UnrealEd (i file "Apri UnrealEd - ...bat") o per compilare con UCC (build.ps1 -Ucc).
 param([string]$SdkExe = (Join-Path $PSScriptRoot 'tools\DeusExSDK1112f.exe'))
 . "$PSScriptRoot\config.ps1"
 $ErrorActionPreference = 'Stop'
 
 if (-not (Test-Path "$RevSrc\System\Revision.exe")) { throw "Revision non trovato in $RevSrc" }
-if (-not (Test-Path $SdkExe)) { throw "SDK mancante: $SdkExe (vedi README, passo 1)" }
 
-# 1) System: copia reale (UCC/UnrealEd scrivono qui, mai nella cartella Steam)
+# 1) System: copia reale (gli strumenti scrivono qui, mai nella cartella Steam)
 New-Item -ItemType Directory -Force $DevSystem | Out-Null
 robocopy "$RevSrc\System" $DevSystem /E /XF *.log /NFL /NDL /NJH /NJS | Out-Null
 
-# 2) Estrai l'SDK con 7-Zip (senza eseguire l'installer) e copia SOLO gli strumenti.
-#    NON copiare Core.dll/Window.dll dell'SDK: sono vecchi e romperebbero Revision.
-$tmp = Join-Path $Root 'tools\sdk_extract'
-$7z  = Join-Path $env:ProgramFiles '7-Zip' | Join-Path -ChildPath '7z.exe'
-if (-not (Test-Path "$tmp\ReleaseSDK1112f")) { & $7z x -y "-o$tmp" $SdkExe | Out-Null }
-foreach ($f in 'UCC.exe','UnrealEd.exe','UnrealEd.int','Core.u') { Copy-Item "$tmp\ReleaseSDK1112f\System\$f" $DevSystem -Force; "SDK -> $f" }
-# Editor.dll non e' nell'SDK ne' in Revision\System: lo prendiamo dalla cartella TNM2 di Revision
+# 2) Editor.dll (il motore dell'editor e il compilatore): non e' in Revision\System, lo prendiamo
+#    dalla cartella TNM2 di Revision (e' identico a quello di Deus Ex\System)
 Copy-Item "$RevSrc\TNM2\Editor.dll" $DevSystem -Force; "Revision\TNM2 -> Editor.dll"
 
-# 2b) UnrealEd (Visual Basic 5) vuole MSVBVM50.DLL: la estraiamo dal runtime Microsoft in tools\ (accanto all'exe, nessuna modifica di sistema)
-if (Test-Path "$Root\tools\msvbvm50.exe") { & 'C:\Program Files\7-Zip\7z.exe' e -y "-o$DevSystem" "$Root\tools\msvbvm50.exe" MSVBVM50.DLL | Out-Null }
+# 2b) Facoltativo: l'SDK, estratto con 7-Zip (senza eseguire l'installer), SOLO gli strumenti.
+#     NON copiare Core.dll/Window.dll dell'SDK: sono vecchi e romperebbero Revision.
+if (Test-Path $SdkExe) {
+  $tmp = Join-Path $Root 'tools\sdk_extract'
+  $7z  = Join-Path $env:ProgramFiles '7-Zip' | Join-Path -ChildPath '7z.exe'
+  if (-not (Test-Path "$tmp\ReleaseSDK1112f")) { & $7z x -y "-o$tmp" $SdkExe | Out-Null }
+  foreach ($f in 'UCC.exe','UnrealEd.exe','UnrealEd.int') { Copy-Item "$tmp\ReleaseSDK1112f\System\$f" $DevSystem -Force; "SDK -> $f" }
+  # UnrealEd (Visual Basic 5) vuole MSVBVM50.DLL: la estraiamo dal runtime Microsoft in tools\ (accanto all'exe, nessuna modifica di sistema)
+  if (Test-Path "$Root\tools\msvbvm50.exe") { & 'C:\Program Files\7-Zip\7z.exe' e -y "-o$DevSystem" "$Root\tools\msvbvm50.exe" MSVBVM50.DLL | Out-Null }
+} else {
+  "SDK non trovato ($SdkExe): niente UnrealEd/UCC. Non servono all'editor di mappe ne' a build.ps1."
+}
 
 # 3) Ini di sviluppo: Paths assoluti verso la cartella Steam (sola lettura), save locali
 $ini = Get-Content "$RevSrc\System\Revision.ini" -Raw
