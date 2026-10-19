@@ -380,7 +380,7 @@ Optional and intentionally bleak: JC accepts Page’s argument that the existing
 
 **Jock:** Knows more than JC realizes. He helps Paul but still transports JC, creating tension without forcing an early confrontation.
 
-## 10. Implementation Rules for Claude Code
+## 10. Implementation Rules
 
 - Never assume a single 747 outcome. Anna’s state, Lebedev’s outcome and what other characters know must be tracked separately.
 - Facts and NPC knowledge are separate state. “JC killed Anna” does not imply “Gunther knows JC killed Anna.”
@@ -397,7 +397,7 @@ Optional and intentionally bleak: JC accepts Page’s argument that the existing
 
 ## 11. Scope Recommendation
 
-For a realistic AI-assisted mod, the recommended scope is four major blocks plus the repaired Mission 04 branch. The optional Area 51 finale should be added only after the first four blocks are playable and stable.
+For a realistic fan mod, the recommended scope is four major blocks plus the repaired Mission 04 branch. The optional Area 51 finale should be added only after the first four blocks are playable and stable.
 
 1. Phase 1: finish and test M04 branch (Paul → Gunther/Anna variants → Jock).
 2. Phase 2: finish Hong Kong through the Tong assault.

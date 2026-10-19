@@ -160,7 +160,7 @@ def snapshot(identity, mode='plain'):
     lines += ['', '[UCMapBridge]', 'Mode=' + mode]
     for name in ('DeusEx.ini', 'Default.ini', 'Revision.ini', 'ucc.ini'):
         (system / name).write_text('\n'.join(lines) + '\n', encoding='latin1')
-    # Choose a free localhost port, independent of Claude's test servers.
+    # Choose a free localhost port, independent of other local test servers.
     with socket.socket() as sock:
         sock.bind(('127.0.0.1', 0))
         port = sock.getsockname()[1]

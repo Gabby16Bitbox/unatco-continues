@@ -1,6 +1,6 @@
 # Backend SDK nativo: verifiche e mover
 
-Codex gestisce il ponte e il backend editor; Claude puo continuare sulla campagna. Il backend usa le DLL originali dell'SDK in un processo privato a 32 bit, con configurazioni e mappe separate. Non controlla le finestre dell'UnrealEd aperto.
+Il backend usa le DLL originali dell'SDK in un processo privato a 32 bit, con configurazioni e mappe separate. Non controlla le finestre dell'UnrealEd aperto.
 
 ## Comando disponibile
 
@@ -11,7 +11,7 @@ Da PowerShell, nella cartella del progetto:
 .\tools\editor_bridge\bridge.ps1 editor-check WORKSPACE SHA256
 ```
 
-`WORKSPACE` e `SHA256` sono restituiti da checkout/status. Lo stesso controllo e esposto tramite MCP come `native_editor_check`. Esegue carica, esporta T3D, salva, ricarica ed esporta nuovamente. Il report e le due esportazioni restano in `editor_lab/runs/RUN`.
+`WORKSPACE` e `SHA256` sono restituiti da checkout/status. Esegue carica, esporta T3D, salva, ricarica ed esporta nuovamente. Il report e le due esportazioni restano in `editor_lab/runs/RUN`.
 
 Confronta i nomi degli attori di gioco, il T3D nativo prima/dopo, tutti i modelli letti da lightbits, lightmap, riferimenti alle luci e hash delle maschere delle ombre. Un errore nel log, un'esportazione assente o una differenza non ammessa fa fallire la verifica. I filename passati al vecchio parser SDK sono corti e relativi alla cartella privata: i nomi assoluti lunghi vengono troncati dall'editor.
 
@@ -32,15 +32,15 @@ Gli header sono estratti solo nel laboratorio. Le librerie di importazione sono 
 
 ## Operazioni di geometria
 
-Disponibili `inspect-mover`, `plan-movers` e `apply-movers` (MCP: `inspect_mover`, `plan_mover_changes`, `apply_mover_plan`). Gli esempi JSON e il flusso completo sono in `README.md`.
+Disponibili `inspect-mover`, `plan-movers` e `apply-movers`. Gli esempi JSON e il flusso completo sono in `README.md`.
 
 La ricetta `translate` modifica insieme Location e BasePos. I keyframe relativi, le rotazioni e le proprietÃ  della porta restano uguali: `Mover.BeginPlay` usa BasePos + KeyPos per riposizionare l'attore, quindi cambiare soltanto Location non sarebbe sufficiente.
 
 La ricetta `scale` ridimensiona i poligoni locali attorno a PrePivot, ricalcola normali e origini sul piano della faccia e adatta gli assi UV. Richiede un modello chiuso, convesso e non condiviso con altri attori, con luce dinamica esplicita e senza dati luce attivi. Alcuni mover mantengono voci LightMap non referenziate: l'host conserva anche queste. Ricostruisce soltanto quel modello con `csgPrepMovingBrush`, poi richiama `fix_brush_surfs.py` sulla copia e ricarica nel motore editor. Dopo la correzione delle facce, UC_MOVER bounds ricostruisce gli scafi nativi di collisione prima del salvataggio: il correttore elimina quelli obsoleti e non devono restare mancanti.
 
-Il piano contiene l'output concreto, hash, diff T3D e report. Il controllo confronta gli attori estranei, tutti i modelli (anche piani, nodi completi, zone, limiti di collisione e foglie) e tutti i dati luce. L'applicazione seleziona l'output verificato senza rieseguire la ricetta; rifiuta una mappa o dipendenze cambiate. L'undo torna alla precedente versione immutabile. Le verifiche MCP/native e le foto prima/dopo sono registrate da `verify_geometry.py --game`.
+Il piano contiene l'output concreto, hash, diff T3D e report. Il controllo confronta gli attori estranei, tutti i modelli (anche piani, nodi completi, zone, limiti di collisione e foglie) e tutti i dati luce. L'applicazione seleziona l'output verificato senza rieseguire la ricetta; rifiuta una mappa o dipendenze cambiate. L'undo torna alla precedente versione immutabile.
 
-La ricetta specifica `tools/build_tong_access.py` aggiunge un accesso e attori al laboratorio di Tong in un workspace privato. Non viene esposta una console editor generica tramite MCP; aggiunta/rimozione generica e pathfinding restano da implementare.
+La ricetta specifica `tools/build_tong_access.py` aggiunge un accesso e attori al laboratorio di Tong in un workspace privato. Non viene esposta una console editor generica; aggiunta/rimozione generica e pathfinding restano da implementare.
 
 Restano obbligatori i vincoli in `EDITOR_BACKEND_RULES.md`: nessun `LIGHT APPLY` globale automatico, `unshadow` mirato per ombre residue, controllo/correzione delle superfici tramite lo strumento esistente dopo ricostruzioni e riuso del fotografo tramite `try`.
 

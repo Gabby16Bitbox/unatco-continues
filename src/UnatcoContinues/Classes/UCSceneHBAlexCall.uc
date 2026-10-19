@@ -1,5 +1,5 @@
 //=============================================================================
-// UCSceneHBAlexCall - Mission 6, Harbourline Tower: Alex Jacobson's InfoLinks (Gabby's Claude Doc
+// UCSceneHBAlexCall - Mission 6, Harbourline Tower: Alex Jacobson's InfoLinks (Gabby's mission doc
 // "Mission 6 - Hong Kong opening", with the house rule of one-way InfoLinks: only Alex speaks, JC never
 // answers on the radio; build plan hk6_plan.md section 5).
 //  which 1, on the roof after Eva (UCSceneHarbourline.AlexTick): where Paul's plane landed, the

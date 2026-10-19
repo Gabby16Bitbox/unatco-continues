@@ -2,8 +2,7 @@
 
 UNATCO Continues ships **no voices**. Every new line is written in the script and shown as a subtitle;
 the game plays a voice for a line only when it finds one. This page explains, for information, how
-the voices heard in the project's videos were made, so that anyone who wants voices can make their
-own. The voice tools themselves are not published.
+voices can be added, so that anyone who wants them can make their own.
 
 ## How the mod finds a voice
 
@@ -24,11 +23,11 @@ the [narrative design document](NARRATIVE_DESIGN.md) and in the mod's code (`Lin
 
 1. **List the lines.** For each line: the speaker, the exact text (the key depends on every
    character) and whether it is said in person or over the InfoLink.
-2. **Choose a voice for each character.** The project used AI voices on ElevenLabs. You can use
-   voices from their library, or design new ones. Use only voices you are allowed to use: do not copy
-   a real person's voice (an actor's included) without their permission.
-3. **Generate each line** with the text-to-speech service, giving it a little direction (calm,
-   urgent, over a radio...). Keep the takes that sound right.
+2. **Choose a voice for each character.** Record them yourself or with voice actors. Use only
+   voices you are allowed to use: do not copy a real person's voice (an actor's included) without
+   their permission.
+3. **Record each line** with a little direction (calm, urgent, over a radio...). Keep the takes
+   that sound right.
 4. **Prepare the audio** the way Deus Ex reads it: WAV, PCM 16-bit, mono, 22050 Hz. InfoLink lines
    sound better with a light radio filter; lines said in person stay dry. Even out the loudness
    between characters.

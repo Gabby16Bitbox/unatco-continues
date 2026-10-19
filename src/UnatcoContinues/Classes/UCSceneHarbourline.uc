@@ -1,6 +1,6 @@
 //=============================================================================
 // UCSceneHarbourline - Mission 6 opening, Harbourline Tower in Wan Chai (06_HongKong_WanChai_Rooftop):
-// Gabby's Claude Doc "Mission 6 - Hong Kong opening" (build plan hk6_plan.md). The roof, phases 1-3:
+// Gabby's mission doc "Mission 6 - Hong Kong opening" (build plan hk6_plan.md). The roof, phases 1-3:
 //  1. The landing, first arrival only (UC_HB_LandingSeen): the screen is black from the very first
 //     frame (ArrivalBlack, called by UCTraveler on arrival: UCHBBlackWindow) and JC is in the game's
 //     cutscene state (no input, no saving: StartBlack). Eva's helicopter comes down from high above the

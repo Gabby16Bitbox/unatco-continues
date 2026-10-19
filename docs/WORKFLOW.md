@@ -1,46 +1,26 @@
 # Workflow and tools
 
-How *UNATCO Continues* is made: one person directing, AI coding agents doing the
-implementation, and a set of small tools that let the agents check their own work inside
-the game.
+How *UNATCO Continues* is made. Gabby writes and directs the story, the levels are built in
+**DeusEdix** (a map editor for Deus Ex, *coming soon*), the scripted part is UnrealScript, and a
+set of small tools checks the result in the game.
 
-## Who does what
+## How a mission is made
 
-| Who | Role |
-|---|---|
-| **Gabby** | Direction and every creative decision: what the story does, how a scene should feel, what stays and what goes. Plays the result, edits maps by hand in UnrealEd when geometry is involved, does the voice acting. |
-| **Claude Code** (Anthropic) | Main coding agent. Researches the original game's data, writes the UnrealScript, the tools and the checks, builds, installs, and verifies in game with automatic photos. Keeps the documentation and its own project notes up to date. |
-| **Codex** (OpenAI) | Second coding agent, working in the same folder on separate parts: the voice pipeline and the map "editor bridge" (an MCP server that lets an agent inspect and change private copies of maps). |
-| **ChatGPT** | Used by Gabby to draft dialogue specifications, which are then checked against the game and adapted (see the narrative design document). |
-
-The agents do not share a conversation. They share the folder, the documentation, and
-short hand-off notes written for each other.
-
-## The loop
-
-1. **Request.** Gabby describes a result in the game, in plain language: "when you leave
-   the hotel Gunther should be there", "the officer should run to you".
-2. **Research.** Before writing anything, the agent reads the game's own data: which
-   actors a map contains, where the path nodes are, which flags a conversation needs,
-   what the original lines say. This is done offline with the tools below, without
-   opening the game or the editor.
-3. **Implementation.** UnrealScript in `src/UnatcoContinues/Classes`. Conversations are
-   built in code (see [tutorial 2](tutorials/02-conversations-in-code.md)); scripted
-   events are "scenes" (see [tutorial 3](tutorials/03-scenes-and-flags.md)).
-4. **Build** in an isolated folder (`build.ps1 -Isolated`), so the editor or a running
-   check never blocks it.
-5. **Automatic checks without the game.** Commandlets and a headless map check load the
-   real maps and verify what can be verified without a player: actors created,
-   conversations attached, original conversations removed, doors where the code expects
-   them, nobody hostile.
-6. **Install** (only when the game is closed).
-7. **A look in the game.** The agent starts the game, jumps to the scene, takes
-   photos and reads positions and flags from the log
-   ([tutorial 4](tutorials/04-automatic-photos.md)). Only the things that can really go
-   wrong are tested this way: a character who has to walk through doors, a new sequence.
-8. **Report.** What changed, what was verified and how, what was not. Then Gabby plays it.
-9. **Notes.** Documentation and the agent's persistent notes are updated, so the next
-   session starts from what was learned.
+1. **The story.** The mission is written first: scenes, dialogue, choices and their consequences
+   ([the mission scripts](MISSION_SCRIPTS.md), the [narrative design document](NARRATIVE_DESIGN.md)).
+2. **The map.** The levels are built and dressed in DeusEdix: geometry, objects, lights, AI paths,
+   links between maps, then a rebuild and a test in the game from the editor.
+3. **The scripting.** UnrealScript in `src/UnatcoContinues/Classes`. Conversations are built in
+   code (see [tutorial 2](tutorials/02-conversations-in-code.md)); scripted events are "scenes"
+   (see [tutorial 3](tutorials/03-scenes-and-flags.md)).
+4. **The build.** `build.ps1` for Revision, `tools\build_vanilla.ps1` for the original game.
+5. **Checks without the game.** Commandlets and a headless map check load the real maps and
+   verify what can be verified without a player: actors created, conversations attached, original
+   conversations removed, doors where the code expects them, nobody hostile.
+6. **Install and play** (only when the game is closed). Scenes that can really go wrong (a
+   character who has to walk through doors, a new sequence) are also checked with automatic photos
+   ([tutorial 4](tutorials/04-automatic-photos.md)).
+7. **Playtest.** Gabby plays it; what needs fixing goes back to step 2 or 3.
 
 ## Rules that came out of the work
 
@@ -82,8 +62,16 @@ All in `tools/`, written during the project. Python 3 and PowerShell, no depende
 | `set_actor_props.py`, `set_surf_flags.py`, `set_texture_prop.py` | Change single properties inside a package. |
 | `lightbits.py` | Reads and edits a map's light-map shadow masks (used to remove shadows left by deleted objects without rebuilding the lighting). |
 | `fix_brush_surfs.py` | Rebuilds the surfaces of a mover imported from text. |
-| `maps/editing/*.py` | The scripted edits made to the helibase map, kept as code. |
-| `editor_bridge/` | Codex's MCP server for agents: inspect, plan and apply property and mover changes on private copies of maps, try them in the game, undo. |
+| `editor_bridge/` | Inspect, plan and apply property and mover changes on private copies of maps, try them in the game, undo. |
+
+### Both games
+
+| Tool | What it does |
+|---|---|
+| `uc_variant.py`, `build_vanilla.ps1` | Build the original-game version from the same source (`//#if revision` markers). |
+| `convert_vanilla_map.py`, `vanilla_pieces.py` | Turn a Revision map into one for the original game, piece by piece. |
+| `mappatch.py` | Make the map patches the installers apply to the player's own copy of the game. |
+| `build_installers.py` | Build the two installers. |
 
 ### Checking the result
 
@@ -111,10 +99,8 @@ All in `tools/`, written during the project. Python 3 and PowerShell, no depende
 
 ### Voices
 
-| Tool | What it does |
-|---|---|
-| voices | The voice tools are not published (no recordings, samples, voice ids or tools). How voices could be made: [VOICES.md](VOICES.md). |
+No voices are published. How voices could be added: [VOICES.md](VOICES.md).
 
 ## What is not here
 
-The voice recordings, the game binaries, the SDK and the exported game sources.
+The game binaries, the SDK, the exported game sources and any voice recording.

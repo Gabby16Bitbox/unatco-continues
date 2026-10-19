@@ -1,4 +1,4 @@
-"""Shared CLI/MCP operations. All map writes stay in private workspaces."""
+"""Shared CLI operations. All map writes stay in private workspaces."""
 from datetime import datetime
 from functools import wraps
 import hashlib

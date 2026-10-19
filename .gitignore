@@ -1,7 +1,7 @@
 # UNATCO Continues - cosa entra nel repository.
 # Regola: e' escluso TUTTO, poi si riammette solo quello che e' della mod e si puo' pubblicare.
 # Restano fuori: i file del gioco e di Revision (DevInstall, mappe .dx, SDK, editor), le voci
-# registrate (audio, campioni, id delle voci), LA CHIAVE ElevenLabs, le compilazioni, le foto
+# registrate (audio, campioni, id delle voci), le chiavi dei servizi, le compilazioni, le foto
 # di prova e le copie di sicurezza.
 /*
 !/.gitignore
@@ -45,6 +45,8 @@
 !/docs/PLAYTEST_HK.md
 !/docs/VIDEO_PRESENTAZIONE.md
 !/docs/VOICES.md
+!/docs/MISSION_SCRIPTS.md
+/docs/narrative/TRAILER_SEEDANCE_*
 
 # strumenti (solo script nostri: niente eseguibili, archivi, voci)
 !/tools/
@@ -58,10 +60,21 @@
 !/tools/editor_bridge/*.ps1
 !/tools/editor_bridge/*.md
 !/tools/editor_bridge/requirements.txt
+/tools/editor_bridge/verify_bridge.py
+/tools/editor_bridge/verify_geometry.py
+/tools/editor_bridge/verify_trial.py
 /tools/editor_bridge/GEOMETRY_RESULTS.md
 !/tools/editor_bridge/examples/
 !/tools/editor_bridge/editor_src/
 !/tools/editor_bridge/engine_src/
+/tools/editor_bridge/CLAUDE_HANDOFF.md
+/tools/editor_bridge/configure_mcp.py
+/tools/editor_bridge/server.py
+/tools/editor_bridge/verify_editor.py
+/tools/editor_bridge/requirements.txt
+/tools/editor_bridge/verify_bridge.py
+/tools/editor_bridge/verify_geometry.py
+/tools/editor_bridge/verify_trial.py
 
 # mappe: gli script delle modifiche e le PATCH delle mappe modificate dalla mod (14 ott 2026, Gabby:
 # niente mappe di Revision nel repository, sono loro). Una patch ha solo le nostre differenze:
@@ -103,5 +116,5 @@ __pycache__/
 # niente di Revision nel repository: nessuna mappa, texture o pacchetto loro (14 ott 2026)
 
 # ...e per sicurezza, detto due volte: la chiave vera e gli id delle voci non entrano MAI
-/tools/voices/elevenlabs_key.txt
+/tools/voices/*_key.txt
 /tools/voices/voices.json

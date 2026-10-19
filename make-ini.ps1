@@ -6,7 +6,7 @@ param([ValidateSet('editor','make')][string]$Mode = 'editor')
 $orig = Get-Content "$DevSystem\Revision.ini"
 $all  = $orig | Where-Object { $_ -match '^EditPackages=' } | ForEach-Object { $_.Substring(13).Trim() }
 if ($true) { $pk = $all | Where-Object { $_ -ne $ModName -and (Test-Path "$DevSystem\$_.u") } }
-# pacchetto audio delle voci (ElevenLabs), compilato prima della mod
+# pacchetto audio delle voci, compilato prima della mod
 # (facoltativo: senza i sorgenti delle voci, o con UC_NO_VOICES=1, il pacchetto non si compila)
 $pk = @($pk | Where-Object { $_ -ne 'UnatcoVoices' })
 if ((Test-Path "$Root\src\UnatcoVoices\Classes\UnatcoVoices.uc") -and -not $env:UC_NO_VOICES) { $pk += 'UnatcoVoices' }

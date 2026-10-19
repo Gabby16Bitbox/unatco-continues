@@ -66,7 +66,7 @@ class UCShotRunner extends Actor
 	transient;
 
 var config bool bActive;
-// Live mode (tools\mapkit\mcp_server.py live_*): the game stays open and takes one command at a
+// Live mode (the live_* commands): the game stays open and takes one command at a
 // time. The tool writes System\UCLive.txt with console lines "set UCShotRunner LiveCmd <step>" and
 // "set UCShotRunner LiveSeq <n>"; the runner execs that file a few times a second, runs a new step
 // (same grammar as Shots[], without the label) and acknowledges by saving LiveDone=<n> and

@@ -104,7 +104,7 @@ M03 Lebedev ucciso → ManderleyDebriefing03 → ordini HK/Tong → JockTellsAbo
         → 04_NYC_UNATCOIsland → NUOVA CAMPAGNA UNATCO
 ```
 
-## Implicazioni tecniche (note di Claude)
+## Implicazioni tecniche
 - Il blocco degli eventi vanilla vive nelle **mappe** (trigger/flag/conversation events) e nei **flag** (`DeusExPlayer.flagBase`), non solo nel codice:
   serve UnrealEd per modificare `04_NYC_*.dx` e ConEdit/sorgenti `.con` per le conversazioni; lo script (`UCMod` e simili) gestisce flag e stato.
 - Le conversazioni di Revision stanno in `RevisionConversations*.u` / `FRevisionConversations*.u` (non nei `.con` dell'SDK, che sono quelli vecchi).

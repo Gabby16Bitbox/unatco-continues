@@ -96,14 +96,4 @@ you want them to have: build, run the checks, then copy `dist\UnatcoContinues.u`
 ## 6. Voices (optional)
 
 The mod works without recordings: a line without audio is shown as a subtitle. No
-recording is published. If you want to produce voices for your own build, the tools are in
-`tools\voices` (their README is in Italian):
-
-1. Copy `elevenlabs_key.example.txt` to `elevenlabs_key.txt` and replace `[Insert yours]`
-   with your ElevenLabs key. The real file is ignored by git: never commit it.
-2. Copy `voices.example.json` to `voices.json` and put a voice id of *your* account for
-   each character.
-3. `python tools\voices\make_voices.py list` shows the lines; `generate` writes the audio
-   into `src\UnatcoVoices`, and `build.ps1` then compiles the voice package too.
-
-`tools\voices\unvoiced_lines.py` lists the lines that have no recording yet.
+recording is published. How to add voices to your own build: [docs/VOICES.md](docs/VOICES.md).

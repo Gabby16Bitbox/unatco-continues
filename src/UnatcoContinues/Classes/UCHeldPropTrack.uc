@@ -1,5 +1,5 @@
 //=============================================================================
-// UCHeldPropTrack - a prop track of the Animation Studio (UCAnimPropTrack, Codex's) for the mod's own scenes
+// UCHeldPropTrack - a prop track of the Animation Studio (UCAnimPropTrack) for the mod's own scenes
 // in the game's original maps, where no map rebuild writes the tracks: the scene spawns a generated
 // subclass (UCTrack*, made by tools\make_prop_tracks.py from the Studio's bake, its frames in its
 // defaultproperties) and the track follows every pawn playing that animation. The one difference from

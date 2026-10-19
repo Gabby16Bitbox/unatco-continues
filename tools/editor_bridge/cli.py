@@ -1,4 +1,4 @@
-"""JSON CLI for the same operations exposed by the MCP server."""
+"""JSON CLI for the map bridge operations."""
 import argparse
 import json
 import sys

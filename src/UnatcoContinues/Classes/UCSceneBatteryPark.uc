@@ -1,6 +1,6 @@
 //=============================================================================
 // UCSceneBatteryPark - Battery Park on the UNATCO route: Jock is dead. Gabby's mission script
-// (Claude Doc "UNATCO Mod - Mission scripts", tab "Mission 5 - Battery Park"):
+// (Gabby's mission doc "UNATCO Mod - Mission scripts", tab "Mission 5 - Battery Park"):
 //  1. JC comes out of the subway kiosk: a second and a half later Jock's InfoLink starts; when it
 //     ends (the line goes dead) JC hears the gunshot (nobody sees it: the pad is out of sight until
 //     JC rounds the vine wall). JC running to the pad cuts the call: the shot comes at once, so Jock

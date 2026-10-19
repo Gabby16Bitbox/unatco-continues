@@ -1,6 +1,6 @@
 //=============================================================================
 // UCHBDatalog - Mission 6, Harbourline Tower: Lam's note to Wu on the shelf by the tea machine in the
-// control room (Gabby's Claude Doc "Mission 6 - Hong Kong opening", phase 3), the login of the
+// control room (Gabby's mission doc "Mission 6 - Hong Kong opening", phase 3), the login of the
 // control room's computers (HBSEC / FROSTLINE). Reading it sets UC_HB_DatalogRead and keeps the text
 // in the notes, once. (As UCBPCube, without the tarp.)
 //=============================================================================

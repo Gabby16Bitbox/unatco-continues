@@ -1,5 +1,5 @@
 //=============================================================================
-// UCVoice - trova la voce registrata (ElevenLabs) di una battuta.
+// UCVoice - trova la voce registrata di una battuta.
 // Il suono si chiama "V" + hash di voce/canale/testo, nel pacchetto UnatcoVoices.u
 // (generato da tools/voices/make_voices.py: l'hash DEVE essere identico).
 // Se il pacchetto o il suono non c'e', ritorna None e resta solo il testo.

@@ -22,8 +22,8 @@ anyone can read it, build it and continue it:
 
 - **the story**, as a [narrative design document](docs/NARRATIVE_DESIGN.md) with every
   line of dialogue the mod adds, its conditions and its variants;
-- **how it was made**: the [workflow](docs/WORKFLOW.md) between one person and AI coding
-  agents, and the tools written along the way;
+- **how it was made**: the [workflow](docs/WORKFLOW.md), built around the DeusEdix map editor,
+  and the tools written along the way;
 - **tutorials** for the techniques that are reusable in other Deus Ex mods;
 - **the source**: UnrealScript, build scripts and tools.
 
@@ -53,6 +53,17 @@ yourself: see [docs/VOICES.md](docs/VOICES.md).
 The mod's maps, scenes, dialogues and InfoLinks are made with **DeusEdix**, a map and story editor for
 Deus Ex and Deus Ex: Revision that works in the browser, without UnrealEd. DeusEdix is a separate
 project: *coming soon*.
+
+## Wanted: help to finish it
+
+We are looking for passionate people who would like to finish the project:
+
+- **mappers**, to build the levels still to come;
+- **story writers**, to improve the [mission scripts](docs/MISSION_SCRIPTS.md) (marked *to be
+  improved*) and write what comes next;
+- **game dev generalists**: UnrealScript, scenes, conversations, testing.
+
+News on the YouTube channel **GABROCHACHO**. Discord: *coming soon*.
 
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
 [what works and what is next](docs/STATUS.md), and the
@@ -126,6 +137,8 @@ The [6 October rewrite](docs/CAMPAIGN_REWRITE_2026_10_06.md) revises Gunther and
 ## Documentation
 
 1. [Narrative design document](docs/NARRATIVE_DESIGN.md) - start here for the story.
+   The [mission scripts](docs/MISSION_SCRIPTS.md) of Battery Park and the Hong Kong opening, as
+   written before building them (to be improved).
 2. [Campaign concept](docs/CAMPAIGN_CONCEPT.md) - where the story could go next:
    VersaLife, the return to New York, Vandenberg, the endings.
 3. [Continuing the mod](CONTRIBUTING.md) and [status](docs/STATUS.md)
@@ -148,7 +161,7 @@ The [6 October rewrite](docs/CAMPAIGN_REWRITE_2026_10_06.md) revises Gunther and
 
 ## Credits and notice
 
-Made by Gabby ([@Gabby16Bitbox](https://github.com/Gabby16Bitbox)) with AI coding agents
+Made by Gabby ([@Gabby16Bitbox](https://github.com/Gabby16Bitbox)) with the DeusEdix map editor
 (see the [workflow](docs/WORKFLOW.md)).
 
 This is an unofficial fan project. Deus Ex is a trademark of its owners; Deus Ex: Revision
