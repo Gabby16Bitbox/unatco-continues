@@ -40,6 +40,7 @@ var bool bSimonsScene;
 var bool bHKWorld;
 var bool bGuntherScene;
 var bool bJockCallScene;   // Hell's Kitchen: UCSceneJockStreet (Jock's call) gia' avviata in questa mappa
+var bool bWIPEndScene;     // Wan Chai Street: UCSceneWIPEnd (where the mod ends, for now) started in this map
 var bool bHotelQuestCons;   // conversazioni della faccenda di JoJo gia' tolte in questa mappa
 var bool bTraveler;       // UCTraveler gia' controllato in questa mappa
 var bool bRouteWalls;     // muri 'UCWall*' della route gia' alzati in questa mappa
@@ -822,6 +823,14 @@ function RouteTick()
 		bRooftopFlow=True;
 		Spawn(class'UCSceneHarbourline');
 		if (flags.GetBool('UC_RooftopProofActive')) Spawn(class'UCRooftopPlayCheck');
+	}
+	// Out of the butcher's shop onto Wan Chai Street: the finished part of the mod ends here (JC's own
+	// InfoLink, UCSceneWIPEnd; once)
+	if (localURL == "06_HONGKONG_WANCHAI_STREET" && !bWIPEndScene && flags.GetBool('UCHongKongRooftopArrival')
+		&& !flags.GetBool('UC_WIPEndShown'))
+	{
+		bWIPEndScene = True;
+		Spawn(class'UCSceneWIPEnd');
 	}
 	// Compatibility with saved games which have already landed at the old base.
 	if (localURL == "06_HONGKONG_HELIBASE" && flags.GetBool('UNATCORoute_DepartedNYC')

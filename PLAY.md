@@ -63,7 +63,8 @@ each part of the new story (see below).
 The finished part of the mod ends **when you step out of the butcher's shop onto Wan Chai Street**
 in Hong Kong, after the Harbourline garage. Everything after that (the market, Maggie Chow, Gordon
 Quick, Tracer Tong...) is **work in progress**: unfinished scenes, placeholders and things that can
-behave at random. You can look around, but expect it to break.
+behave at random. You can look around, but expect it to break. JC tells you so himself, over the
+InfoLink, the moment he steps out of the shop.
 
 ## The jump menu (Home key)
 

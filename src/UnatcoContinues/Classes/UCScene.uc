@@ -164,6 +164,8 @@ function float Say(string bindName, string text)
 	face = class'UCPortraits'.static.Find(bindName);    // a character of the mod (tools\make_portrait.py)
 	if (face != None)
 		win.speakerPortrait = face;
+	else if (win.speakerPortrait == None && bindName == "JCDenton")    // the original game has no InfoLink portrait of JC: his twin's
+		win.speakerPortrait = Texture(DynamicLoadObject("InfoPortraits.PaulDenton_" $ Chr(49 + P.PlayerSkin), class'Texture', True));
 	win.ShowPortrait();
 	win.ClearScreen();
 	win.DisplayText(text);
