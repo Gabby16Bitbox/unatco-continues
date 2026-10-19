@@ -22,5 +22,5 @@ mod.
 - **`src/UnatcoContinues/Textures/UCSignElevators.*`.** A small sign redrawn in the style
   of the Revision texture it replaces. It is included so the mod builds; it is not offered
   under the MIT licence.
-- **Voices.** No recording, sample or voice identifier is included. The voice tools in
-  `tools/voices` need your own ElevenLabs account and key.
+- **Voices.** No recording, sample, voice identifier or voice tool is included. How voices could be
+  made: [docs/VOICES.md](docs/VOICES.md).

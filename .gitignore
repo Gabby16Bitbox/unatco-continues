@@ -44,6 +44,7 @@
 !/docs/MURI_SOLO_UNATCO.md
 !/docs/PLAYTEST_HK.md
 !/docs/VIDEO_PRESENTAZIONE.md
+!/docs/VOICES.md
 
 # strumenti (solo script nostri: niente eseguibili, archivi, voci)
 !/tools/
@@ -77,19 +78,9 @@
 # the installers' scripts (Inno Setup); what they build goes to build\installer (not here)
 !/installer/
 
-# voci: solo gli script e i piani di regia in uso. Niente audio, campioni, ricevute dei
-# cloni, id delle voci (voices.json) e soprattutto niente chiave: al loro posto i due
-# file .example da copiare e riempire.
-!/tools/voices/
-/tools/voices/*
-!/tools/voices/*.py
-!/tools/voices/voices.ps1
-!/tools/voices/README.md
-!/tools/voices/delivery_natural_v4.json
-!/tools/voices/delivery_hk_draft_v4.json
-!/tools/voices/mix_profile.json
-!/tools/voices/timing_reviews.json
-!/tools/voices/voices.example.json
+# voci: niente (19 ott 2026, Gabby): ne' audio ne' gli strumenti, che lavorano su cloni delle voci del
+# gioco. Come si potrebbero fare, a titolo informativo: docs/VOICES.md
+/tools/voices/
 
 # mai, da nessuna parte
 __pycache__/
@@ -111,8 +102,6 @@ __pycache__/
 
 # niente di Revision nel repository: nessuna mappa, texture o pacchetto loro (14 ott 2026)
 
-# segnaposto della chiave (dopo la regola qui sopra, che altrimenti lo escluderebbe)
-!/tools/voices/elevenlabs_key.example.txt
 # ...e per sicurezza, detto due volte: la chiave vera e gli id delle voci non entrano MAI
 /tools/voices/elevenlabs_key.txt
 /tools/voices/voices.json

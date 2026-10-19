@@ -46,7 +46,7 @@ Windows may say *"Windows protected your PC"*: the installers are not signed. Cl
 *More info*, then *Run anyway*.
 
 **No voices are included.** The mod's new lines appear as subtitles. You can make the voices
-yourself: see [Voices](#voices) below.
+yourself: see [docs/VOICES.md](docs/VOICES.md).
 
 ## Made with DeusEdix
 
@@ -79,7 +79,6 @@ intervening, reading the cargo label and following the Red Arrow lead are separa
 | `tools/` | scripts: game-data readers, map tools, automatic in-game photos, checks |
 | `maps/` | the mod's changes to the maps as patches: `maps/patches` for Revision, `maps/vanilla/patches` for the original game (no map is shipped) |
 | `installer/`, `tools/build_installers.py` | the two installers (Inno Setup) |
-| `tools/voices/` | the voice tools (no recordings, no key: you use your own) |
 | `build.ps1`, `install.ps1`, ... | build and install scripts (Windows, PowerShell) |
 
 **Not included, on purpose:**
@@ -89,19 +88,11 @@ intervening, reading the cargo label and following the Red Arrow lead are separa
   and not for sale (see [NOTICE.md](NOTICE.md));
 - the voice recordings, the samples and the voice identifiers. Every line is in the script
   as text; in game, a line without a recording is shown as a subtitle;
-- any key. `tools/voices/elevenlabs_key.example.txt` is a placeholder for your own.
 
 ## Voices
 
-The mod's lines are written in the script and shown as subtitles; no recording is shipped. The
-voices heard in the videos were made with AI voices on ElevenLabs. To make your own, with your own
-ElevenLabs account:
-
-1. copy `tools/voices/elevenlabs_key.example.txt` to `tools/voices/elevenlabs_key.txt` and put your key in it;
-2. copy `tools/voices/voices.example.json` to `tools/voices/voices.json` and choose a voice for each character;
-3. run `tools/voices/voices.ps1` (it makes the audio and the `UnatcoVoices` package), then `build.ps1`.
-
-Use voices you are allowed to use.
+The mod's lines are written in the script and shown as subtitles; no recording is shipped, and the
+voice tools are not published. How voices could be made, if you want them: [docs/VOICES.md](docs/VOICES.md).
 
 ## Requirements
 

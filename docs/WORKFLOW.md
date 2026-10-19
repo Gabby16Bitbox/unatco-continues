@@ -113,8 +113,7 @@ All in `tools/`, written during the project. Python 3 and PowerShell, no depende
 
 | Tool | What it does |
 |---|---|
-| `tools/voices/` | Codex's voice pipeline: lists the mod's lines, generates and mixes recordings through ElevenLabs, builds the voice package. Published without recordings, samples or voice ids; it needs your own key (`elevenlabs_key.example.txt`). |
-| `tools/voices/unvoiced_lines.py` | Lists the lines that have no recording yet. |
+| voices | The voice tools are not published (no recordings, samples, voice ids or tools). How voices could be made: [VOICES.md](VOICES.md). |
 
 ## What is not here
 

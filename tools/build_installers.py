@@ -28,7 +28,7 @@ now from your own copy of {game} (the originals are not changed), and the mod ne
 free and not for sale.
 
 There are no recorded voices in this download: the new lines show as subtitles. You can make the voices
-yourself (see the project's page, tools/voices).
+yourself (see the project's page, docs/VOICES.md).
 
 Made with DeusEdix, a map and story editor for Deus Ex (coming soon).
 Discord: coming soon.  Source code: https://github.com/Gabby16Bitbox/unatco-continues
