@@ -7,6 +7,10 @@ What if JC Denton had said no to his brother, and stayed with UNATCO?**
 > **Work in progress.** The new route is playable from mission 4 to Hong Kong, and is still
 > being built. Follow it and talk about it on [Discord](https://discord.gg/GRNcZf8PM).
 
+**[▶ Watch the demo of the mod on YouTube](https://www.youtube.com/watch?v=U4Ep9GD3eVY)**
+
+[![UNATCO Continues, demo video](https://img.youtube.com/vi/U4Ep9GD3eVY/hqdefault.jpg)](https://www.youtube.com/watch?v=U4Ep9GD3eVY)
+
 In the original game JC leaves UNATCO in mission 4 whatever the player does. This mod
 makes that moment a real choice. Refuse Paul at the 'Ton hotel and the story goes on from
 there: Gunther arrives for your brother, Anna Navarre watches the subway, Jock flies you to
@@ -63,7 +67,7 @@ We are looking for passionate people who would like to finish the project:
   improved*) and write what comes next;
 - **game dev generalists**: UnrealScript, scenes, conversations, testing.
 
-News on the YouTube channel **GABROCHACHO**. Discord: [https://discord.gg/GRNcZf8PM](https://discord.gg/GRNcZf8PM).
+News on the YouTube channel **GABROCHACHO** ([the demo of the mod](https://www.youtube.com/watch?v=U4Ep9GD3eVY)). Discord: [https://discord.gg/GRNcZf8PM](https://discord.gg/GRNcZf8PM).
 
 **Want to continue it?** Start with [CONTRIBUTING.md](CONTRIBUTING.md),
 [what works and what is next](docs/STATUS.md), and the

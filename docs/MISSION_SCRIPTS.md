@@ -16,7 +16,7 @@ help finish it:
 - **Game dev generalists**: UnrealScript, scenes, conversations, testing; whatever the next
   mission needs.
 
-News on the YouTube channel **GABROCHACHO**. Discord: [https://discord.gg/GRNcZf8PM](https://discord.gg/GRNcZf8PM).
+News on the YouTube channel **GABROCHACHO** ([the demo of the mod](https://www.youtube.com/watch?v=U4Ep9GD3eVY)). Discord: [https://discord.gg/GRNcZf8PM](https://discord.gg/GRNcZf8PM).
 
 ---
 
