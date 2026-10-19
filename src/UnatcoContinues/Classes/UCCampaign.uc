@@ -349,7 +349,7 @@ function Timer()
 	{
 		bEvidenceSeen = True;
 		flags.SetBool('UNATCORoute_EvidenceFound', True,, 99);
-		Dbg("[UC] Prova NSF trovata.");
+		Dbg("[UC] NSF evidence found.");
 	}
 
 	// Il goal vanilla SendSignal deve poter essere chiuso da entrambe le scelte.
@@ -510,7 +510,7 @@ function DoArrival(int where)
 //		if (Player.SetLocation(vect(1406, -1824, -478)))
 //#endif
 			Player.ClientSetRotation(rot(0, 0, 0));
-		Dbg("[UC] In cima alle scale della metro.");
+		Dbg("[UC] At the top of the subway stairs.");
 		return;
 	}
 	// 'Ton, appartamento di Paul: vicino all'ingresso, a qualche passo da lui (seduto in
@@ -525,7 +525,7 @@ function DoArrival(int where)
 	{
 		if (Player.SetLocation(vect(-560, 0, -275)))
 			Player.ClientSetRotation(rot(0, 32768, 0));
-		Dbg("[UC] Davanti al Lucky Money.");
+		Dbg("[UC] In front of the Lucky Money.");
 		return;
 	}
 	// eliporto di Hong Kong: davanti al passaggio verso gli ascensori, verso ovest
@@ -533,7 +533,7 @@ function DoArrival(int where)
 	{
 		if (Player.SetLocation(vect(-960, -128, 440)))
 			Player.ClientSetRotation(rot(0, 32768, 0));
-		Dbg("[UC] Davanti al passaggio degli ascensori.");
+		Dbg("[UC] In front of the way to the elevators.");
 		Spawn(class'UCDbgMovers');   // stato dei mover del passaggio nel log
 		return;
 	}
@@ -569,7 +569,7 @@ function bool ArrivePaul(bool bVideo)
 
 	if (paul == None || !paul.bInWorld || paul.bHidden)
 	{
-		Dbg("[UC] Paul non trovato in questa mappa.");
+		Dbg("[UC] Paul is not in this map.");
 		return False;
 	}
 
@@ -607,13 +607,13 @@ function bool ArrivePaul(bool bVideo)
 			Player.SetRotation(facing);
 			Player.ClientSetRotation(facing);
 			Log("UCPaul arrival: JC" @ spot @ "Paul" @ paul.Location @ "video" @ bVideo);
-			Dbg("[UC] Nell'appartamento, davanti a Paul.");
+			Dbg("[UC] In the apartment, in front of Paul.");
 			if (flags.GetBool('UC_DbgAutoConv'))
 				paulConversationTries = 10;
 			return True;
 		}
 	}
-	Dbg("[UC] Nessuna posizione libera vicino a Paul.");
+	Dbg("[UC] No free spot near Paul.");
 	return False;
 }
 
@@ -635,7 +635,7 @@ function TryPaulDecision()
 	else if (paulConversationTries == 0)
 	{
 		flags.SetBool('UC_DbgAutoConv', False,, 99);
-		Dbg("[UC] Dialogo non avviato: puoi parlare con Paul manualmente.");
+		Dbg("[UC] The conversation did not start: talk to Paul yourself.");
 	}
 }
 
@@ -649,7 +649,7 @@ function ArriveNearHeli()
 		break;
 	if (heli == None)
 	{
-		Dbg("[UC] Elicottero non trovato.");
+		Dbg("[UC] Helicopter not found.");
 		return;
 	}
 
@@ -660,10 +660,10 @@ function ArriveNearHeli()
 	for (i = 0; i < 4; i++)
 		if (Player.SetLocation(heli.Location + offs[i]))
 		{
-			Dbg("[UC] Sei vicino all'elicottero di Jock.");
+			Dbg("[UC] You are next to Jock's helicopter.");
 			return;
 		}
-	Dbg("[UC] Nessuna posizione libera vicino all'elicottero.");
+	Dbg("[UC] No free spot near the helicopter.");
 }
 
 // NSF HQ: davanti al computer del trasmettitore (Tag Computer4) sul tetto.
@@ -684,7 +684,7 @@ function ArriveTransmitter()
 	for (i = 0; i < 4; i++)
 		if (Player.SetLocation(comp.Location + offs[i]))
 		{
-			Dbg("[UC] Davanti al computer del trasmettitore: usa Broadcast Message.");
+			Dbg("[UC] At the transmitter's computer: use Broadcast Message.");
 			return;
 		}
 }

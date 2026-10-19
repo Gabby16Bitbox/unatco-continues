@@ -60,8 +60,13 @@ project: *coming soon*.
 
 ## Status
 
-Work in progress. Playable from the fork at the 'Ton hotel (mission 4) to the end of the
-Tracer Tong sequence in Hong Kong. 324 dialogue lines in 70 conversations, plus 14 InfoLink lines.
+Work in progress. The finished part goes from the fork at the 'Ton hotel (mission 4) to Hong Kong,
+and **ends when you step out of the butcher's shop onto Wan Chai Street**, after the Harbourline
+garage. Everything after that (the market, Maggie Chow, Gordon Quick, Tracer Tong) is still being
+built: unfinished, and parts of it behave at random.
+
+To get anywhere fast, press **Home** in the game: a menu jumps to each part of the story
+([the jump menu](PLAY.md#the-jump-menu-home-key)).
 
 The [new Hong Kong arrival](docs/HONGKONG_ROOFTOP_FLOW.md) connects a small raised helipad
 to a Wan Chai service yard by freight lift. A raid targets a secured shipment;

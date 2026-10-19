@@ -7,7 +7,7 @@ class UCDbgReset extends UCDebug;
 function Run()
 {
 	ResetRoute();
-	Player.ClientMessage("[UC] Flag della route azzerati.");
+	Player.ClientMessage("[UC] The route's flags are reset.");
 	Destroy();
 }
 

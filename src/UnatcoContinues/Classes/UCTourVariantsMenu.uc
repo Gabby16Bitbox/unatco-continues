@@ -7,12 +7,12 @@ class UCTourVariantsMenu extends UCDebugMenu;
 
 defaultproperties
 {
-     ButtonNames(0)="2b. Anna morta"
+     ButtonNames(0)="2b. Anna dead"
      ButtonNames(1)="4b. Anna-Lebedev"
-     ButtonNames(2)="4c. Soldato"
+     ButtonNames(2)="4c. Soldier"
      ButtonNames(3)="6b. Majestic 12"
-     ButtonNames(4)="Indietro"
-     ButtonNames(5)="Chiudi"
+     ButtonNames(4)="Back"
+     ButtonNames(5)="Close"
      ButtonNames(6)=""
      ButtonNames(7)=""
      ButtonNames(8)=""
@@ -25,5 +25,5 @@ defaultproperties
      buttonDefaults(3)=(Y=121,Action=MA_Custom,Key="UCDbgTourVarOfficer")
      buttonDefaults(4)=(Y=169,Action=MA_Custom,Key="UCDbgTourMenu")
      buttonDefaults(5)=(Y=205,Action=MA_Previous)
-     Title="UNATCO Continues - Varianti"
+     Title="UNATCO Continues - Variants"
 }

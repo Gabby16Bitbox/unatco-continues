@@ -26,7 +26,7 @@ function PostBeginPlay()
 				@ "phys=" $ m.Physics @ "dyn=" $ m.bDynamicLightMover);
 			n++;
 		}
-		P.ClientMessage("[UC] mover vicini scritti nel log (" $ n $ ")");
+		P.ClientMessage("[UC] nearby movers written to the log (" $ n $ ")");
 	}
 	Destroy();
 }

@@ -12,13 +12,13 @@ defaultproperties
      ButtonNames(2)="3. Hotel"
      ButtonNames(3)="4. Anna - metro"
      ButtonNames(4)="5. Battery Park"
-     ButtonNames(5)="6. HK - eliporto"
-     ButtonNames(6)="7. HK - mercato"
+     ButtonNames(5)="6. HK - Helipad"
+     ButtonNames(6)="7. HK - Market"
      ButtonNames(7)="8. Max Chen"
      ButtonNames(8)="9. Tracer Tong"
-     ButtonNames(9)="Varianti"
-     ButtonNames(10)="Ferma"
-     ButtonNames(11)="Chiudi"
+     ButtonNames(9)="Variants"
+     ButtonNames(10)="Stop"
+     ButtonNames(11)="Close"
      buttonDefaults(0)=(Y=13,Action=MA_Custom,Key="UCDbgTour")
      buttonDefaults(1)=(Y=49,Action=MA_Custom,Key="UCDbgTour2")
      buttonDefaults(2)=(Y=85,Action=MA_Custom,Key="UCDbgTour3")

@@ -53,7 +53,7 @@ function Run()
 	{
 		SetF('UC_TourBusy', False);
 		SetF('UC_Tour', False);
-		Player.ClientMessage("[UC] Presentazione fermata.");
+		Player.ClientMessage("[UC] Presentation stopped.");
 		Leave();
 		return;
 	}
@@ -61,7 +61,7 @@ function Run()
 	{
 		if (!flags.GetBool('UC_Tour'))
 		{
-			Player.ClientMessage("[UC] La presentazione non e' attiva: uctour per avviarla.");
+			Player.ClientMessage("[UC] The presentation is not running: uctour starts it.");
 			Leave();
 			return;
 		}

@@ -23,17 +23,17 @@ function ProcessCustomMenuButton(string key)
 defaultproperties
 {
      ButtonNames(0)="1. NSF HQ"
-     ButtonNames(1)="1b. Trasmettitore"
+     ButtonNames(1)="1b. Transmitter"
      ButtonNames(2)="2. 'Ton - Paul"
      ButtonNames(3)="3. Hell's Kitchen"
      ButtonNames(4)="4. Battery Park"
      ButtonNames(5)="5. HK - Harbourline"
-     ButtonNames(6)="6. HK - mercato"
+     ButtonNames(6)="6. HK - Market"
      ButtonNames(7)="7. HK - Maggie"
      ButtonNames(8)="8. HK - Gordon"
      ButtonNames(9)="VIDEO"
      ButtonNames(10)="9. HK - Tong"
-     ButtonNames(11)="Chiudi"
+     ButtonNames(11)="Close"
      buttonXPos=7
      buttonWidth=245
      buttonDefaults(0)=(Y=13,Action=MA_Custom,Key="UCDbgNSF")
@@ -48,7 +48,7 @@ defaultproperties
      buttonDefaults(9)=(Y=349,Action=MA_Custom,Key="UCDbgTourMenu")
      buttonDefaults(10)=(Y=385,Action=MA_Custom,Key="UCDbgTongLab")
      buttonDefaults(11)=(Y=445,Action=MA_Previous)
-     Title="UNATCO Continues - Debug"
+     Title="UNATCO Continues - Jump to a scene"
      ClientWidth=258
      ClientHeight=496
      verticalOffset=2

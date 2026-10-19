@@ -55,8 +55,33 @@ Mission 4, New York. Paul asks you to send a distress signal from the NSF headqu
 From his answer on, you are on the new route. If you send the signal, the game continues
 exactly as the original.
 
-In a hurry? Type `unatco` in the console (or press **Home**): a menu lets you jump straight to
-each part of the new story.
+In a hurry? Press **Home** (or type `unatco` in the console): a menu lets you jump straight to
+each part of the new story (see below).
+
+## Where the story ends (for now)
+
+The finished part of the mod ends **when you step out of the butcher's shop onto Wan Chai Street**
+in Hong Kong, after the Harbourline garage. Everything after that (the market, Maggie Chow, Gordon
+Quick, Tracer Tong...) is **work in progress**: unfinished scenes, placeholders and things that can
+behave at random. You can look around, but expect it to break.
+
+## The jump menu (Home key)
+
+Press **Home** (or type `unatco` in Revision, `exec unatco.txt` in the original game) to open
+*UNATCO Continues - Jump to a scene*. Each button sets the story up as if you had played up to that
+point and takes you there:
+
+| Button | Where it takes you |
+|---|---|
+| 1. NSF HQ | the NSF headquarters, the evidence to find |
+| 1b. Transmitter | in front of the transmitter's computer (the signal you should not send) |
+| 2. 'Ton - Paul | Paul at the 'Ton hotel: the choice that starts the new route |
+| 3. Hell's Kitchen | the street outside the hotel, after the talk with Paul |
+| 4. Battery Park | Jock's helicopter at Battery Park |
+| 5. HK - Harbourline | Hong Kong, the Harbourline rooftop (a menu: the landing, the garage with Kwan, after the attack) |
+| 6. HK - Market, 7. HK - Maggie, 8. HK - Gordon, 9. HK - Tong | work in progress (see above) |
+| VIDEO | the presentation mode used for the trailer |
+
 
 ## Good to know
 
