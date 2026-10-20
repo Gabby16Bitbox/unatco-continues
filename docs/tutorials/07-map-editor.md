@@ -904,6 +904,17 @@ ready to place. Up to 30000 triangles and 8 textures (made 256 colours, as the g
 parts of a picture become see-through (masked). Your models are listed at the bottom of the Import window,
 where they can be deleted.
 
+**Animated models.** A glTF/GLB, FBX or DAE with a skeleton (or shape keys) and animations keeps them. Deus
+Ex's models have no bones: every animation of the game is a series of frames of the model's points. The
+Import window lists the file's animations: tick the ones to keep and give each a name (the game's own names,
+such as *Walk*, *Run* or *BreatheLight*, are offered), choose how many **frames a second** they are kept at
+(15 by default; more is smoother and heavier) and which one the model **loops in the map**. Each animation is
+played and recorded frame by frame into the model, as a sequence of its own. A placed model plays its loop in
+the game (*IdleAnim* in its Properties, *IdleRate* for its speed); in the editor it shows its first frame. At
+most 4000 frames, and 3 million frames x points per model: for a long animation, fewer frames a second or a
+simpler model. A clip that walks away from its place (root motion) walks away in the game too: export it "in
+place" (Mixamo has the option).
+
 ## Zones: water, rooms of their own, rain and snow, the sky
 
 Deus Ex divides a map into **zones**: closed areas, each with its own light, sound, fog, gravity, damage,
@@ -1840,7 +1851,9 @@ For developers; the details are in [`tools/mapkit/README.md`](../../tools/mapkit
   the DrawScale of the game's class that uses the mesh (`UC_CLASSES` also prints the DrawScale). Import: the
   page reads the file with three.js (glTF, FBX, OBJ, DAE loaders), turns it to Unreal's axes and units, welds
   the vertices and sends triangles with UVs on their corners; the server writes Unreal's two 3D files
-  (`_a.3d`: one frame of Deus Ex's 16-bit vertices, `_d.3d`: triangles, UVs, textures, kind) and the host
+  (`_a.3d`: the frames of Deus Ex's 16-bit vertices, one or every baked frame of an animated model, `_d.3d`:
+  triangles, UVs, textures, kind; an animated model's clips are played by three.js's AnimationMixer and read
+  with `getVertexPosition` at the chosen frame rate, kept as `frames.bin` and made `MESH SEQUENCE`s) and the host
   runs Deus Ex's own importer (`UC_MESHIMPORT` = `UEditorEngine::meshImport`, with `MESHMAP SCALE`,
   `TEXTURE IMPORT` of 8-bit PCX, `MESHMAP SETTEXTURE`) and saves the package (`UC_SAVEPKG`). The sources
   stay in `tools\mapkit\models\<name>\`; `UCModels.u` is made again from all of them.
