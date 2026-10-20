@@ -1212,7 +1212,9 @@ The panel leans, turns and bends the upper body, closes the hands (**Grip**) and
 breathing. **Save** makes it an animation of the Animation
 Studio (`Pose<name>`), puts it on the character's models and gives it to the character as what it does
 when idle, with *Stays put* (it never turns away from what it leans on); **Rebuild** puts it in the
-map. Opening Pose here again on that character goes back to the same pose. **Ctrl+Z** and **Ctrl+Y** (or
+map. Opening Pose here again on that character goes back to the same pose. **Animate in the Studio...**
+saves the pose as a new animation with the name you give it, without changing the character, and opens it
+in the Animation Studio: the pose is its first key, to go on animating from there. **Ctrl+Z** and **Ctrl+Y** (or
 the arrows in the panel) step back and forth through the changes made while posing, the character's place
 in the map included; *Reset* (standing again) is one of them, so a mistake never means starting over.
 **Esc** or *Cancel* leaves without changing anything.
