@@ -913,7 +913,12 @@ played and recorded frame by frame into the model, as a sequence of its own. A p
 the game (*IdleAnim* in its Properties, *IdleRate* for its speed); in the editor it shows its first frame. At
 most 4000 frames, and 3 million frames x points per model: for a long animation, fewer frames a second or a
 simpler model. A clip that walks away from its place (root motion) walks away in the game too: export it "in
-place" (Mixamo has the option).
+place" (Mixamo has the option). Some files cannot be used as they are: an FBX the browser's FBX reader cannot
+open (one with very many shape keys runs it out of memory) or one whose skeleton does not fit its model as
+read (a scaled armature, two skeletons: the Import window says so and leaves the animations out). Saving the
+model as glTF/GLB from Blender, with the armature's scale applied, solves both. Today's characters are often
+100 000 triangles or more: make them simpler first (Blender's *Decimate*). A flat model (a rug, a panel) takes
+the height you give as the size of its longest side.
 
 ## Zones: water, rooms of their own, rain and snow, the sky
 
