@@ -916,9 +916,17 @@ simpler model. A clip that walks away from its place (root motion) walks away in
 place" (Mixamo has the option). Some files cannot be used as they are: an FBX the browser's FBX reader cannot
 open (one with very many shape keys runs it out of memory) or one whose skeleton does not fit its model as
 read (a scaled armature, two skeletons: the Import window says so and leaves the animations out). Saving the
-model as glTF/GLB from Blender, with the armature's scale applied, solves both. Today's characters are often
-100 000 triangles or more: make them simpler first (Blender's *Decimate*). A flat model (a rug, a panel) takes
-the height you give as the size of its longest side.
+model as glTF/GLB from Blender, with the armature's scale applied, solves both. A flat model (a rug, a panel)
+takes the height you give as the size of its longest side.
+
+**Simplify.** Today's models often have 100 000 triangles or more; Deus Ex's own characters about 1000. When a
+model is too detailed for the game (more than 30000 triangles or 8191 points) the Import window says so and
+offers **Simplify**: give the triangles to keep (3000 by default; 2000-3000 suits a character, a few thousand a
+big object) and the model is made lighter where its shape changes least, its textures' layout counted too. It
+keeps a part of the model's own points, so the textures, the skeleton, the shape keys and the animations stay
+as they were. It also works on a model that is not too detailed, to make it lighter; **Original** goes back to
+it as it was read. (The simplifier is meshoptimizer, MIT licence, Arseny Kapoulkine.) A model made of
+thousands of separate small pieces, such as tufts of fur, keeps more points for its triangles.
 
 ## Zones: water, rooms of their own, rain and snow, the sky
 
